@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
@@ -27,11 +27,11 @@ export function SponsorPreviewSection() {
             key={sponsor.name}
             className="flex flex-col items-center justify-center rounded-2xl bg-gray-50 p-6 text-center ring-1 ring-gray-100 transition-shadow hover:shadow-sm"
           >
-            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-2xl">
+            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-2xl">
               🐾
             </div>
             <p className="text-xs font-semibold text-gray-700">{sponsor.name}</p>
-            <p className="mt-0.5 text-[10px] uppercase tracking-wider text-teal-500">
+            <p className="mt-0.5 text-[10px] uppercase tracking-wider text-brand-500">
               {sponsor.tier}
             </p>
           </div>
@@ -44,7 +44,7 @@ export function SponsorPreviewSection() {
         </Button>
         <p className="mt-4 text-sm text-gray-400">
           Interested in sponsoring?{" "}
-          <Link href="/contact" className="text-teal-600 underline underline-offset-2 hover:text-teal-700">
+          <Link href="/contact" className="text-brand-600 underline underline-offset-2 hover:text-brand-700">
             Get in touch
           </Link>
         </p>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 
@@ -30,15 +30,16 @@ function TimeUnit({ value, label }: { value: number; label: string }) {
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 text-3xl font-bold tabular-nums sm:h-20 sm:w-20 sm:text-4xl">
         {String(value).padStart(2, "0")}
       </div>
-      <span className="text-xs font-medium uppercase tracking-widest text-teal-100">{label}</span>
+      <span className="text-xs font-medium uppercase tracking-widest text-brand-100">{label}</span>
     </div>
   );
 }
 
 export function CountdownTimer() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(getTimeLeft());
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
+    setTimeLeft(getTimeLeft());
     const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(interval);
   }, []);

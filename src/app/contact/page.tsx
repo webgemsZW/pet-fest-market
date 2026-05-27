@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Mail, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { ContactForm } from "@/components/sections/ContactForm";
@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-50 to-teal-100 pb-16 pt-32">
+      <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">📩</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Get in Touch</h1>
@@ -30,14 +30,14 @@ export default function ContactPage() {
             <h2 className="mb-6 text-2xl font-bold text-gray-900">Contact Details</h2>
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
                   <Mail className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Email</p>
                   <a
                     href="mailto:hello@petfestmarket.com.au"
-                    className="font-medium text-teal-600 hover:text-teal-700"
+                    className="font-medium text-brand-600 hover:text-brand-700"
                   >
                     hello@petfestmarket.com.au
                   </a>
@@ -45,7 +45,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
                   <MapPin className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Follow us on Instagram"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-teal-100 text-teal-600 transition-colors hover:bg-teal-200"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Instagram className="h-5 w-5" />
                 </a>
@@ -74,7 +74,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Follow us on Facebook"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-teal-100 text-teal-600 transition-colors hover:bg-teal-200"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Facebook className="h-5 w-5" />
                 </a>
@@ -83,7 +83,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Follow us on Twitter"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-teal-100 text-teal-600 transition-colors hover:bg-teal-200"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
@@ -91,8 +91,8 @@ export default function ContactPage() {
             </div>
 
             {/* Response time note */}
-            <div className="mt-8 rounded-2xl bg-teal-50 p-5 ring-1 ring-teal-100">
-              <p className="text-sm text-teal-700">
+            <div className="mt-8 rounded-2xl bg-brand-50 p-5 ring-1 ring-brand-100">
+              <p className="text-sm text-brand-700">
                 💬 We typically respond within <strong>1–2 business days</strong>. For urgent
                 vendor or sponsorship enquiries, please mention it in your message.
               </p>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Heart, Store, Users, Star } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
@@ -39,7 +39,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-50 to-sage-100 pb-16 pt-32">
+      <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🐾</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
@@ -54,7 +54,7 @@ export default function AboutPage() {
       {/* Story */}
       <SectionWrapper>
         <div className="mx-auto max-w-3xl">
-          <div className="prose prose-lg prose-teal mx-auto text-gray-600">
+          <div className="prose prose-lg prose-orange mx-auto text-gray-600">
             <h2 className="text-2xl font-bold text-gray-900">Our Story</h2>
             <p className="mt-4">
               Pet Fest Market started with a simple idea: create a space where pet lovers could
@@ -79,7 +79,7 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Values */}
-      <SectionWrapper className="bg-teal-50">
+      <SectionWrapper className="bg-brand-50">
         <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">What We Stand For</h2>
         <div className="grid gap-6 sm:grid-cols-2">
           {values.map((value) => (
@@ -87,7 +87,7 @@ export default function AboutPage() {
               key={value.title}
               className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100"
             >
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
                 <value.icon className="h-6 w-6" aria-hidden="true" />
               </div>
               <h3 className="mb-2 font-semibold text-gray-900">{value.title}</h3>

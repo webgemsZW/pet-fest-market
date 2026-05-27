@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ export function FooterNewsletterForm() {
         type="email"
         placeholder="your@email.com.au"
         aria-label="Email address"
-        className="border-teal-700 bg-teal-800 text-white placeholder:text-teal-500 focus-visible:ring-teal-400"
+        className="border-brand-700 bg-brand-800 text-white placeholder:text-brand-500 focus-visible:ring-brand-400"
       />
       <Button type="submit" variant="secondary" className="w-full">
         Subscribe

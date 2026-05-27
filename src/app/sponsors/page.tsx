@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
@@ -64,7 +64,7 @@ export default function SponsorsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-50 to-teal-100 pb-16 pt-32">
+      <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🏆</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Our Sponsors</h1>
@@ -115,7 +115,7 @@ export default function SponsorsPage() {
       </SectionWrapper>
 
       {/* Become a sponsor */}
-      <SectionWrapper className="bg-teal-50">
+      <SectionWrapper className="bg-brand-50">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-4 text-4xl">🤝</div>
           <h2 className="text-3xl font-bold text-gray-900">Become a Sponsor</h2>

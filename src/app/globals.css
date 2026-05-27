@@ -7,6 +7,11 @@
     --radius: 0.75rem;
     --background: 240 20% 98%;
     --foreground: 222.2 84% 4.9%;
+
+    /* Brand colour tokens — change these to retheme the whole site */
+    --color-brand-light:  #fcb041; /* brand-400 */
+    --color-brand:        #f6861f; /* brand-600 */
+    --color-brand-dark:   #5a3511; /* brand-900 */
   }
 
   * {

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -64,7 +64,7 @@ export function ContactForm() {
 
   if (formState === "success") {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl bg-teal-50 p-12 text-center ring-1 ring-teal-100">
+      <div className="flex flex-col items-center justify-center rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
         <div className="text-4xl">🎉</div>
         <h3 className="mt-4 text-xl font-semibold text-gray-900">Message sent!</h3>
         <p className="mt-2 text-gray-500">
@@ -141,7 +141,7 @@ export function ContactForm() {
             name="subject"
             value={data.subject}
             onChange={handleChange}
-            className="flex h-11 w-full rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+            className="flex h-11 w-full rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           >
             <option value="">Select a topic…</option>
             {SUBJECTS.map((s) => (
@@ -162,11 +162,11 @@ export function ContactForm() {
             value={data.message}
             onChange={handleChange}
             rows={5}
-            aria-describedby={errors.message ? "message-error" : undefined}
+            aria-describedby={errors.message ? "mesbrand-error" : undefined}
             aria-invalid={!!errors.message}
           />
           {errors.message && (
-            <p id="message-error" className="text-xs text-red-500">
+            <p id="mesbrand-error" className="text-xs text-red-500">
               {errors.message}
             </p>
           )}

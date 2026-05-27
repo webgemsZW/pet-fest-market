@@ -10,29 +10,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        teal: {
-          50: "#f0fdfa",
-          100: "#ccfbf1",
-          200: "#99f6e4",
-          300: "#5eead4",
-          400: "#2dd4bf",
-          500: "#14b8a6",
-          600: "#0d9488",
-          700: "#0f766e",
-          800: "#115e59",
-          900: "#134e4a",
-        },
-        sage: {
-          50: "#f8faf7",
-          100: "#eef2eb",
-          200: "#d6e3ce",
-          300: "#b2c9a6",
-          400: "#87a978",
-          500: "#658b55",
-          600: "#4e6e40",
-          700: "#3d5631",
-          800: "#314427",
-          900: "#27381f",
+        // Brand palette anchored to the three brand hex values:
+        //   400 = #fcb041 (light amber), 600 = #f6861f (orange), 900 = #5a3511 (dark brown)
+        brand: {
+          50:  "#fff8ec",
+          100: "#ffeecb",
+          200: "#ffd98a",
+          300: "#ffbe4d",
+          400: "#fcb041",
+          500: "#f99630",
+          600: "#f6861f",
+          700: "#c4620f",
+          800: "#8f430b",
+          900: "#5a3511",
+          950: "#361e09",
         },
       },
       fontFamily: {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -104,7 +104,7 @@ export default function StallHoldersPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-50 to-teal-100 pb-16 pt-32">
+      <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🛍️</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Become a Stall Holder</h1>
@@ -131,7 +131,7 @@ export default function StallHoldersPage() {
             {benefits.map((benefit) => (
               <div key={benefit} className="flex items-start gap-3">
                 <CheckCircle2
-                  className="mt-0.5 h-5 w-5 shrink-0 text-teal-500"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-brand-500"
                   aria-hidden="true"
                 />
                 <span className="text-gray-600">{benefit}</span>
@@ -142,29 +142,29 @@ export default function StallHoldersPage() {
       </SectionWrapper>
 
       {/* Pricing */}
-      <SectionWrapper className="bg-teal-50">
+      <SectionWrapper className="bg-brand-50">
         <SectionHeading title="Stall Pricing" subtitle="Simple, transparent pricing with no surprises." />
         <div className="grid gap-6 md:grid-cols-3">
           {pricingTiers.map((tier) => (
             <Card
               key={tier.tier}
-              className={tier.featured ? "ring-2 ring-teal-500" : ""}
+              className={tier.featured ? "ring-2 ring-brand-500" : ""}
             >
               {tier.featured && (
-                <div className="rounded-t-2xl bg-teal-500 py-1.5 text-center text-xs font-semibold uppercase tracking-wider text-white">
+                <div className="rounded-t-2xl bg-brand-500 py-1.5 text-center text-xs font-semibold uppercase tracking-wider text-white">
                   Most Popular
                 </div>
               )}
               <CardHeader>
                 <CardTitle>{tier.tier}</CardTitle>
-                <div className="text-3xl font-bold text-teal-600">{tier.price}</div>
+                <div className="text-3xl font-bold text-brand-600">{tier.price}</div>
                 <CardDescription>{tier.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle2 className="h-4 w-4 text-teal-500" aria-hidden="true" />
+                      <CheckCircle2 className="h-4 w-4 text-brand-500" aria-hidden="true" />
                       {feature}
                     </li>
                   ))}
@@ -197,7 +197,7 @@ export default function StallHoldersPage() {
       </SectionWrapper>
 
       {/* Vendor FAQ */}
-      <SectionWrapper className="bg-teal-50">
+      <SectionWrapper className="bg-brand-50">
         <div className="mx-auto max-w-3xl">
           <SectionHeading title="Vendor FAQs" />
           <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">

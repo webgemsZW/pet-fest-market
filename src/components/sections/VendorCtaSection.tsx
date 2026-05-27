@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,13 +15,13 @@ const perks = [
 
 export function VendorCtaSection() {
   return (
-    <SectionWrapper className="bg-teal-50">
+    <SectionWrapper className="bg-brand-50">
       <div className="mx-auto max-w-4xl">
-        <div className="overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-teal-100">
+        <div className="overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-brand-100">
           <div className="grid md:grid-cols-2">
             {/* Left: content */}
             <div className="p-8 lg:p-12">
-              <div className="mb-4 inline-block rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-700">
+              <div className="mb-4 inline-block rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700">
                 Vendor Applications Open
               </div>
               <h2 className="text-3xl font-bold text-gray-900">
@@ -36,7 +36,7 @@ export function VendorCtaSection() {
                 {perks.map((perk) => (
                   <li key={perk} className="flex items-start gap-3 text-sm text-gray-600">
                     <CheckCircle2
-                      className="mt-0.5 h-5 w-5 shrink-0 text-teal-500"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-brand-500"
                       aria-hidden="true"
                     />
                     {perk}
@@ -55,11 +55,11 @@ export function VendorCtaSection() {
             </div>
 
             {/* Right: decorative */}
-            <div className="flex items-center justify-center bg-gradient-to-br from-teal-400 to-teal-700 p-12 text-center text-white">
+            <div className="flex items-center justify-center bg-gradient-to-br from-brand-400 to-brand-700 p-12 text-center text-white">
               <div>
                 <div className="text-7xl">🛍️</div>
                 <p className="mt-4 text-2xl font-bold">Stalls from $80</p>
-                <p className="mt-1 text-teal-200">Limited spots available</p>
+                <p className="mt-1 text-brand-200">Limited spots available</p>
                 <div className="mt-6 rounded-full bg-white/20 px-6 py-3 text-sm font-medium">
                   4 July 2026 · Box Hill, VIC
                 </div>

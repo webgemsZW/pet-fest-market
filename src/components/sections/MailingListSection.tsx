@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ export function MailingListSection() {
   return (
     <section
       id="mailing-list"
-      className="bg-gradient-to-br from-sage-100 to-teal-100 py-16 sm:py-20"
+      className="bg-gradient-to-br from-brand-100 to-brand-100 py-16 sm:py-20"
     >
       <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
         <div className="mb-4 text-4xl">📬</div>
@@ -28,7 +28,7 @@ export function MailingListSection() {
         </p>
 
         {submitted ? (
-          <div className="mt-8 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-teal-100">
+          <div className="mt-8 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-brand-100">
             <div className="text-3xl">🎉</div>
             <p className="mt-3 text-lg font-semibold text-gray-900">You&apos;re on the list!</p>
             <p className="mt-1 text-gray-500">We&apos;ll be in touch with all the good stuff.</p>

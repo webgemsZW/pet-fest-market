@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -33,10 +33,10 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 text-teal-700">
+        <Link href="/" className="flex items-center gap-2 text-brand-700">
           <PawPrint className="h-7 w-7" aria-hidden="true" />
           <span className="text-lg font-bold tracking-tight">
-            Pet Fest <span className="text-teal-500">Market</span>
+            Pet Fest <span className="text-brand-500">Market</span>
           </span>
         </Link>
 
@@ -46,7 +46,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-teal-600"
+              className="text-sm font-medium text-gray-600 transition-colors hover:text-brand-600"
             >
               {link.label}
             </Link>
@@ -58,7 +58,7 @@ export function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="rounded-lg p-2 text-gray-600 hover:bg-teal-50 hover:text-teal-700 md:hidden"
+          className="rounded-lg p-2 text-gray-600 hover:bg-brand-50 hover:text-brand-700 md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -75,7 +75,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-3 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-700"
+                className="rounded-lg px-3 py-3 text-sm font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-700"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}

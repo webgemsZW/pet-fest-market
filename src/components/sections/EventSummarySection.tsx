@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Heart, ShoppingBag, Users, Smile } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -44,7 +44,7 @@ export function EventSummarySection() {
             key={item.title}
             className="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 transition-shadow hover:shadow-md"
           >
-            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 transition-colors group-hover:bg-teal-100">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </div>
             <h3 className="mb-2 font-semibold text-gray-900">{item.title}</h3>

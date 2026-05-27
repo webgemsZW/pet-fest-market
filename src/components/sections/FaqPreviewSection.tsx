@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
@@ -34,7 +34,7 @@ const previewFaqs = [
 
 export function FaqPreviewSection() {
   return (
-    <SectionWrapper className="bg-teal-50">
+    <SectionWrapper className="bg-brand-50">
       <div className="mx-auto max-w-3xl">
         <SectionHeading title="Common Questions" subtitle="Quick answers to what people ask most." />
 

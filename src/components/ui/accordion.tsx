@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
@@ -27,7 +27,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 text-left font-medium text-gray-900 transition-all hover:text-teal-600 [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between py-4 text-left font-medium text-gray-900 transition-all hover:text-brand-600 [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       {...props}

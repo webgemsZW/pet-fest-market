@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function RefundPage() {
   return (
     <>
-      <section className="bg-gradient-to-br from-teal-50 to-teal-100 pb-12 pt-32">
+      <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-12 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <h1 className="text-4xl font-bold text-gray-900">Refund Policy</h1>
           <p className="mt-3 text-gray-500">Last updated: May 2026</p>
@@ -17,7 +17,7 @@ export default function RefundPage() {
       </section>
 
       <SectionWrapper>
-        <div className="prose prose-teal mx-auto max-w-3xl text-gray-600">
+        <div className="prose prose-orange mx-auto max-w-3xl text-gray-600">
           <h2>Visitor Tickets</h2>
           <p>
             Visitor tickets are non-refundable except in the event of cancellation or significant
