@@ -53,7 +53,7 @@ export function CountdownTimer() {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-4" aria-label="Countdown to Pet Fest Market">
+    <div className="flex flex-wrap justify-center gap-4" aria-label="Countdown to PetFest Market">
       <TimeUnit value={timeLeft.days} label="Days" />
       <TimeUnit value={timeLeft.hours} label="Hours" />
       <TimeUnit value={timeLeft.minutes} label="Mins" />

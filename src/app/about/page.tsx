@@ -5,7 +5,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Pet Fest Market — a pet-friendly community market in Box Hill, Victoria celebrating local vendors, furry friends, and family fun.",
+    "Learn about PetFest Market — a pet-friendly community market in Box Hill, Victoria celebrating local vendors, furry friends, and family fun.",
 };
 
 const values = [
@@ -25,7 +25,7 @@ const values = [
     icon: Users,
     title: "Community First",
     description:
-      "Pet Fest Market is more than a shopping event — it's a gathering. We create a welcoming atmosphere where neighbours meet, friendships form, and memories are made.",
+      "PetFest Market is more than a shopping event — it's a gathering. We create a welcoming atmosphere where neighbours meet, friendships form, and memories are made.",
   },
   {
     icon: Star,
@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🐾</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-            About Pet Fest Market
+            About PetFest Market
           </h1>
           <p className="mt-4 text-xl text-gray-600">
             A community-led market born from a simple love of pets and the people who cherish them.
@@ -57,7 +57,7 @@ export default function AboutPage() {
           <div className="prose prose-lg prose-orange mx-auto text-gray-600">
             <h2 className="text-2xl font-bold text-gray-900">Our Story</h2>
             <p className="mt-4">
-              Pet Fest Market started with a simple idea: create a space where pet lovers could
+              PetFest Market started with a simple idea: create a space where pet lovers could
               come together, support local businesses, and celebrate the joy that animals bring to
               our lives. What began as a small neighbourhood initiative has grown into one of
               Victoria&apos;s most anticipated pet community events.
@@ -66,7 +66,7 @@ export default function AboutPage() {
               Held annually in the heart of Box Hill, our market brings together dozens of local
               vendors, animal welfare organisations, and passionate community members. Whether
               you&apos;re looking for artisan pet accessories, natural treats, or simply a
-              wonderful day out with your furry companion — Pet Fest Market has something for
+              wonderful day out with your furry companion — PetFest Market has something for
               everyone.
             </p>
             <p className="mt-4">
@@ -103,7 +103,7 @@ export default function AboutPage() {
           <div className="mb-3 text-3xl">🌿</div>
           <h2 className="mb-4 text-xl font-semibold text-gray-800">Welcome to Country</h2>
           <p className="leading-relaxed text-gray-600">
-            Pet Fest Market acknowledges the{" "}
+            PetFest Market acknowledges the{" "}
             <strong>Wurundjeri Woi Wurrung People of the Kulin Nation</strong> as the Traditional
             Custodians of the land on which our event takes place in Box Hill, Victoria. We pay our
             deepest respects to Elders past, present, and emerging. We celebrate the ongoing living

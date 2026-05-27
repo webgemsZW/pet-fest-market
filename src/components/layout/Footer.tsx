@@ -27,7 +27,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 text-white">
               <PawPrint className="h-7 w-7" aria-hidden="true" />
               <span className="text-lg font-bold">
-                Pet Fest <span className="text-brand-300">Market</span>
+                PetFest <span className="text-brand-300">Market</span>
               </span>
             </Link>
             <p className="mt-3 text-sm text-brand-300">
@@ -120,7 +120,7 @@ export function Footer() {
         {/* Welcome to Country */}
         <div className="mt-12 border-t border-brand-800 pt-8">
           <p className="text-sm text-brand-400">
-            <span className="font-semibold text-brand-300">Welcome to Country —</span> Pet Fest
+            <span className="font-semibold text-brand-300">Welcome to Country —</span> PetFest
             Market acknowledges the Wurundjeri Woi Wurrung People of the Kulin Nation as the
             Traditional Custodians of the land on which our event is held. We pay our respects to
             Elders past, present, and emerging.
@@ -128,7 +128,7 @@ export function Footer() {
         </div>
 
         <div className="mt-6 text-center text-xs text-brand-600">
-          © {new Date().getFullYear()} Pet Fest Market. All rights reserved.
+          © {new Date().getFullYear()} PetFest Market. All rights reserved.
         </div>
       </div>
     </footer>

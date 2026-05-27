@@ -25,7 +25,7 @@ export function VendorCtaSection() {
                 Vendor Applications Open
               </div>
               <h2 className="text-3xl font-bold text-gray-900">
-                Grow your business at Pet Fest Market
+                Grow your business at PetFest Market
               </h2>
               <p className="mt-3 text-gray-500">
                 Join a curated group of talented local vendors at one of Victoria&apos;s most

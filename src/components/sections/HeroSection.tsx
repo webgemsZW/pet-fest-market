@@ -24,7 +24,7 @@ export function HeroSection() {
         </div>
 
         <h1 className="text-balance text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
-          Pet Fest{" "}
+          PetFest{" "}
           <span className="bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent">
             Market
           </span>

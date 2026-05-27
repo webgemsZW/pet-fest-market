@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Sponsors",
-  description: "Meet the sponsors of Pet Fest Market — local businesses supporting our pet community event.",
+  description: "Meet the sponsors of PetFest Market — local businesses supporting our pet community event.",
 };
 
 type SponsorTier = "platinum" | "gold" | "silver" | "bronze";
@@ -69,7 +69,7 @@ export default function SponsorsPage() {
           <div className="mb-4 text-5xl">🏆</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Our Sponsors</h1>
           <p className="mt-4 text-xl text-gray-600">
-            Pet Fest Market is made possible through the generous support of these wonderful local
+            PetFest Market is made possible through the generous support of these wonderful local
             businesses.
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function SponsorsPage() {
           <div className="mb-4 text-4xl">🤝</div>
           <h2 className="text-3xl font-bold text-gray-900">Become a Sponsor</h2>
           <p className="mt-3 text-lg text-gray-500">
-            Interested in supporting Pet Fest Market? We&apos;d love to have you on board. Reach out
+            Interested in supporting PetFest Market? We&apos;d love to have you on board. Reach out
             to discuss sponsorship opportunities and packages.
           </p>
           <div className="mt-8">

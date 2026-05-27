@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with the Pet Fest Market team. We'd love to hear from you.",
+  description: "Get in touch with the PetFest Market team. We'd love to hear from you.",
 };
 
 export default function ContactPage() {

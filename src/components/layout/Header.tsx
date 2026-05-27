@@ -36,7 +36,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 text-brand-700">
           <PawPrint className="h-7 w-7" aria-hidden="true" />
           <span className="text-lg font-bold tracking-tight">
-            Pet Fest <span className="text-brand-500">Market</span>
+            PetFest <span className="text-brand-500">Market</span>
           </span>
         </Link>
 

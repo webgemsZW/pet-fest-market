@@ -3,7 +3,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: "Refund policy for Pet Fest Market tickets and vendor stall fees.",
+  description: "Refund policy for PetFest Market tickets and vendor stall fees.",
 };
 
 export default function RefundPage() {
@@ -25,7 +25,7 @@ export default function RefundPage() {
           </p>
           <ul>
             <li>
-              <strong>Event cancellation:</strong> If Pet Fest Market is cancelled by the
+              <strong>Event cancellation:</strong> If PetFest Market is cancelled by the
               organisers, all ticket holders will receive a full refund.
             </li>
             <li>

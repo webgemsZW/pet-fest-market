@@ -3,7 +3,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: "Terms and conditions for attending and participating in Pet Fest Market.",
+  description: "Terms and conditions for attending and participating in PetFest Market.",
 };
 
 export default function TermsPage() {
@@ -20,14 +20,14 @@ export default function TermsPage() {
         <div className="prose prose-orange mx-auto max-w-3xl text-gray-600">
           <h2>1. Acceptance of Terms</h2>
           <p>
-            By attending or participating in Pet Fest Market (&quot;the Event&quot;), you agree to
+            By attending or participating in PetFest Market (&quot;the Event&quot;), you agree to
             be bound by these Terms &amp; Conditions. If you do not agree, please do not attend or
             participate.
           </p>
 
           <h2>2. Event Details</h2>
           <p>
-            Pet Fest Market is scheduled for 4 July 2026 in Box Hill, Victoria, Australia. The
+            PetFest Market is scheduled for 4 July 2026 in Box Hill, Victoria, Australia. The
             organisers reserve the right to alter, postpone, or cancel the event at any time due to
             circumstances beyond their control, including but not limited to extreme weather, public
             safety concerns, or government directives.
@@ -51,7 +51,7 @@ export default function TermsPage() {
           <h2>5. Vendors &amp; Stallholders</h2>
           <p>
             All stallholders are bound by the Stallholder Agreement provided upon application
-            approval. Pet Fest Market organisers accept no liability for loss, damage, or theft of
+            approval. PetFest Market organisers accept no liability for loss, damage, or theft of
             vendor property.
           </p>
 
@@ -64,7 +64,7 @@ export default function TermsPage() {
 
           <h2>7. Liability</h2>
           <p>
-            Pet Fest Market and its organisers accept no liability for personal injury, loss, or
+            PetFest Market and its organisers accept no liability for personal injury, loss, or
             damage to property sustained at the event. Attendance is entirely at your own risk.
           </p>
 

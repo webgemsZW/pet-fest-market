@@ -10,7 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export const metadata: Metadata = {
   title: "Stall Holders",
   description:
-    "Apply to be a vendor at Pet Fest Market. Learn about stall pricing, requirements, and how to apply.",
+    "Apply to be a vendor at PetFest Market. Learn about stall pricing, requirements, and how to apply.",
 };
 
 const benefits = [
@@ -123,7 +123,7 @@ export default function StallHoldersPage() {
       {/* Benefits */}
       <SectionWrapper>
         <SectionHeading
-          title="Why Sell at Pet Fest Market?"
+          title="Why Sell at PetFest Market?"
           subtitle="Join a community of passionate local vendors and connect with your ideal customers."
         />
         <div className="mx-auto max-w-3xl">

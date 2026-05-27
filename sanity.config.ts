@@ -1,4 +1,4 @@
-import { defineConfig } from "sanity";
+﻿import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./src/lib/sanity/schemas";
 
@@ -14,7 +14,7 @@ const singletons = new Set([
 
 export default defineConfig({
   name: "pet-fest-market",
-  title: "Pet Fest Market CMS",
+  title: "PetFest Market CMS",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   basePath: "/studio",

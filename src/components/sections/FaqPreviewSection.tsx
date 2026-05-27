@@ -8,9 +8,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 const previewFaqs = [
   {
     id: "q1",
-    question: "Can I bring my dog to Pet Fest Market?",
+    question: "Can I bring my dog to PetFest Market?",
     answer:
-      "Absolutely! Pet Fest Market is a pet-friendly event. Dogs must be kept on a lead at all times. We ask that all pets are up to date with their vaccinations and are comfortable in crowds.",
+      "Absolutely! PetFest Market is a pet-friendly event. Dogs must be kept on a lead at all times. We ask that all pets are up to date with their vaccinations and are comfortable in crowds.",
   },
   {
     id: "q2",

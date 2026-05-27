@@ -3,7 +3,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Pet Fest Market — how we collect, use, and protect your data.",
+  description: "Privacy policy for PetFest Market — how we collect, use, and protect your data.",
 };
 
 export default function PrivacyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         <div className="prose prose-orange mx-auto max-w-3xl text-gray-600">
           <h2>1. Introduction</h2>
           <p>
-            Pet Fest Market (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to
+            PetFest Market (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to
             protecting your privacy and handling your personal information responsibly in accordance
             with the Australian Privacy Act 1988 (Cth) and the Australian Privacy Principles.
           </p>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
 
           <h2>5. Mailing List</h2>
           <p>
-            If you subscribe to our mailing list, you will receive updates about Pet Fest Market.
+            If you subscribe to our mailing list, you will receive updates about PetFest Market.
             You can unsubscribe at any time by clicking the unsubscribe link in any email we send.
           </p>
 

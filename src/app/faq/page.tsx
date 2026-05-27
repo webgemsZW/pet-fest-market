@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Frequently asked questions about Pet Fest Market — tickets, pets, vendors, and more.",
+  description: "Frequently asked questions about PetFest Market — tickets, pets, vendors, and more.",
 };
 
 type FaqCategory = "general" | "vendors" | "pets" | "tickets";
@@ -13,15 +13,15 @@ const faqData: Record<FaqCategory, { id: string; question: string; answer: strin
   general: [
     {
       id: "g1",
-      question: "When and where is Pet Fest Market?",
+      question: "When and where is PetFest Market?",
       answer:
-        "Pet Fest Market is held on 4 July 2026 in Box Hill, Victoria. The event runs from 9:00am to 4:00pm. Full venue details will be published closer to the date.",
+        "PetFest Market is held on 4 July 2026 in Box Hill, Victoria. The event runs from 9:00am to 4:00pm. Full venue details will be published closer to the date.",
     },
     {
       id: "g2",
       question: "Is the event suitable for children?",
       answer:
-        "Absolutely! Pet Fest Market is a family-friendly event. Children under 12 enter free. We have activities and entertainment suited to all ages.",
+        "Absolutely! PetFest Market is a family-friendly event. Children under 12 enter free. We have activities and entertainment suited to all ages.",
     },
     {
       id: "g3",
@@ -73,7 +73,7 @@ const faqData: Record<FaqCategory, { id: string; question: string; answer: strin
       id: "p1",
       question: "Can I bring my dog?",
       answer:
-        "Yes! Dogs are very welcome at Pet Fest Market. They must be kept on a lead at all times and must be vaccinated. Please ensure your dog is comfortable in busy, crowded environments.",
+        "Yes! Dogs are very welcome at PetFest Market. They must be kept on a lead at all times and must be vaccinated. Please ensure your dog is comfortable in busy, crowded environments.",
     },
     {
       id: "p2",
@@ -140,7 +140,7 @@ export default function FaqPage() {
             Frequently Asked Questions
           </h1>
           <p className="mt-4 text-xl text-gray-600">
-            Everything you need to know about Pet Fest Market.
+            Everything you need to know about PetFest Market.
           </p>
         </div>
       </section>
