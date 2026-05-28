@@ -24,21 +24,21 @@ export const metadata: Metadata = {
     template: "%s | PetFest Market",
   },
   description:
-    "PetFest Market — an indoor pet-friendly community market at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.",
-  keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet friendly"],
+    "PetFest Market — an indoor community market for pet lovers at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.",
+  keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet lovers"],
   openGraph: {
     type: "website",
     locale: "en_AU",
     siteName: "PetFest Market",
     title: "PetFest Market — Box Hill, Victoria",
     description:
-      "An indoor pet-friendly community market at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
+      "An indoor community market for pet lovers at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
   },
   twitter: {
     card: "summary_large_image",
     title: "PetFest Market — Box Hill, Victoria",
     description:
-      "An indoor pet-friendly community market at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
+      "An indoor community market for pet lovers at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
   },
 };
 

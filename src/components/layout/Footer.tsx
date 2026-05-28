@@ -62,7 +62,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-3 text-sm text-brand-300">
-              A pet-friendly community market in Box Hill, Victoria.
+              An indoor community market for pet lovers in Box Hill, Victoria.
             </p>
             <p className="mt-1 text-sm text-brand-400">Sunday 26 July 2026</p>
 

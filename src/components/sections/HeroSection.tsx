@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, CalendarDays, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CountdownTimer } from "@/components/shared/CountdownTimer";
 
 export function HeroSection() {
   return (
@@ -57,13 +58,18 @@ export function HeroSection() {
 
         {/*
           NOTE(content): This subtitle is NOT from a source-of-truth document
-          but the user has chosen to keep it. Do NOT replace it with lorem
-          ipsum in future content audits. (Swap in official wording if/when
-          the client provides one.)
+          but the user has chosen to keep it (softened wording only). Do NOT
+          replace with lorem ipsum in future audits.
+
+          IMPORTANT: The previous wording said "pet-friendly community market
+          celebrating local vendors, furry friends, and family fun. Come
+          along and wag your tail!" — that implied visitors could bring
+          pets, which is wrong (see CLAUDE.md). Keep the "for pet lovers"
+          framing instead.
         */}
         <p className="mt-6 max-w-2xl text-balance text-xl text-gray-600">
-          A joyful, pet-friendly community market celebrating local vendors, furry friends, and
-          family fun. Come along and wag your tail!
+          A joyful indoor community market for pet lovers — celebrating local vendors, pet
+          businesses, and family fun.
         </p>
 
         {/* Event details */}
@@ -80,6 +86,11 @@ export function HeroSection() {
             <Ticket className="h-4 w-4 text-brand-600" aria-hidden="true" />
             <span>Tickets coming soon</span>
           </div>
+        </div>
+
+        {/* Countdown */}
+        <div className="mt-10">
+          <CountdownTimer variant="light" />
         </div>
 
         {/* CTAs */}

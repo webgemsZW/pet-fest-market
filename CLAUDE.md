@@ -8,6 +8,13 @@ Event website for **PetFest Market**, a pet-friendly community market run by **N
 - Nonconformity Productions is the **legal operating company** — it should only appear in legal/policy documents (Privacy Policy, Terms & Conditions) and official contact details, never in general site copy.
 - Contact email: petfest@nonconformity.com.au
 
+### ⚠️ Visitors CANNOT bring pets to the venue
+**Visitors cannot bring their own pets to PetFest Market at Box Hill Town Hall.** Despite the name, PetFest Market is a *market about pets* (vendors, products, demonstrations, community) — not a *pets-allowed venue*. Site copy must never imply otherwise.
+
+- ❌ Avoid: "bring your dog/cat/furry friend", "pets welcome", "pet-friendly venue", "wag your tail", "four-legged guests/members", "your furry companion".
+- ✅ Prefer: "community market for pet lovers", "celebrating pets and the people who love them", "market about pets".
+- The word **"pet-friendly"** specifically implies the venue allows pets — do not use it as a descriptor of the event or venue. Use "pet community", "pet lover", or "pet-loving" instead.
+
 ## Source-of-truth documents
 The folder `site-info/docs/` contains official documents provided by the client. These are the **authoritative source of truth** for their respective sections of the site. Always use the content from these documents when updating those sections — do not paraphrase or substitute with generic placeholder copy.
 

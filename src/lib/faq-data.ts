@@ -10,8 +10,12 @@
   accessibility answers, refund terms, and similar — none of which are
   confirmed by the client. The old "When and where" answer even said the
   WRONG date ("4 July 2026" instead of the actual Sunday 26 July 2026 per
-  CLAUDE.md + 25 May email from client). Replace each question + answer
-  with real content from the client once provided.
+  CLAUDE.md + 25 May email from client). The old "Pets" category answered
+  questions like "Can I bring my dog?" with YES — that is WRONG. Visitors
+  CANNOT bring pets to PetFest Market at Box Hill Town Hall (see
+  CLAUDE.md). When repopulating the "pets" category, do not write content
+  that implies pets are allowed at the venue. Replace each question +
+  answer with real content from the client once provided.
 */
 
 export type FaqCategory = "general" | "vendors" | "pets" | "tickets";

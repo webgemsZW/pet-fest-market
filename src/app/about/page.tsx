@@ -5,7 +5,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about PetFest Market — a pet-friendly community market in Box Hill, Victoria celebrating local vendors, furry friends, and family fun.",
+    "Learn about PetFest Market — an indoor community market for pet lovers at Box Hill Town Hall, Victoria, celebrating local vendors and the pet community.",
 };
 
 // NOTE(content): The four "What We Stand For" values below are NOT from a
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 const values = [
   {
     icon: Heart,
-    title: "Pet-Friendly at Heart",
+    title: "Pets at Heart",
     description:
-      "Every decision we make is guided by a love for animals and the people who adore them. Our market is designed to be a safe, joyful space for pets and their owners alike.",
+      "Every decision we make is guided by a love for animals and the people who adore them. Our market is designed to celebrate pets and the community of people who care for them.",
   },
   {
     icon: Store,
@@ -35,7 +35,7 @@ const values = [
     icon: Star,
     title: "Family-Friendly Always",
     description:
-      "From tiny tots to grandparents, everyone is welcome. We curate activities, entertainment, and food options that cater to the whole family, including the four-legged members.",
+      "From tiny tots to grandparents, everyone is welcome. We curate activities, entertainment, and food options that cater to the whole family.",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function AboutPage() {
               Hosted at Box Hill Town Hall in Victoria, our market brings together local vendors,
               animal welfare organisations, and passionate community members. Whether you&apos;re
               looking for artisan pet accessories, natural treats, or simply a wonderful day out
-              with your furry companion — PetFest Market has something for everyone.
+              celebrating the animals you love — PetFest Market has something for everyone.
             </p>
             <p className="mt-4">
               We believe that pets make our communities stronger. They bring people together,
@@ -108,20 +108,13 @@ export default function AboutPage() {
         </div>
       </SectionWrapper>
 
-      {/* Acknowledgement of Country — verbatim from
-          site-info/docs/Acknowledgement of country - Website Petfest.docx */}
-      <SectionWrapper className="bg-stone-100">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-3 text-3xl">🌿</div>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Acknowledgement of Country</h2>
-          <p className="leading-relaxed text-gray-600">
-            We acknowledge the Traditional Owners and Custodians of Country throughout Australia
-            and recognise their continuing connection to lands, waters and communities. We pay our
-            respect to their <strong>Elders past, present and emerging</strong> and extend that
-            respect to all Aboriginal and Torres Strait Islander peoples.
-          </p>
-        </div>
-      </SectionWrapper>
+      {/*
+        Acknowledgement of Country intentionally NOT duplicated here — it
+        lives in the global Footer (see Footer.tsx) so it already appears
+        on this page. If we ever want a more prominent in-page
+        acknowledgement on /about specifically, render
+        <WelcomeToCountrySection /> here.
+      */}
     </>
   );
 }
