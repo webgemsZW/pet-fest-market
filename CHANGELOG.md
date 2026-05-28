@@ -19,11 +19,8 @@ Site branding now uses PetFest Market in Title case. This was applied to every p
 
 ### 3. Draft logo placed across the site
 
-Your draft logo file has been placed in the header, hero (top of the home
-page), and footer. Some temporary adjustments are in place to make the
-draft (which has a white background) look intentional on light and dark
-surfaces. **When the designer delivers the final transparent logo files,
-those temporary adjustments will be removed.**
+The draft logo file has been placed in the header, hero (top of the home
+page), and footer. I'm still waiting for some files from the designer to make additional enhancements to the logo.
 
 ### 4. Client documents added (privacy, terms, code of conduct, acknowledgement)
 
@@ -92,14 +89,15 @@ applied across the whole site:
 
 ## Still to come from you
 
-To help the next round of work, the following are still needed:
+To help the pending, the following are still needed:
 
 - Real text for the home page's "What to Expect" section, the About page
   "Our Story", and the values block.
 - The full FAQ content (general, vendors, pets, tickets).
 - Stallholder pricing, requirements, vendor benefits, and the Google Form
   link.
+  - MailChimp account (or other mailing list platform).
 - The refund policy and any event-attendance terms.
-- Ticketing platform details and the ticket-purchase link.
+- Ticketing platform details and the ticket-purchase link. (If applicable)
 - Social media handles (Instagram, Facebook, Twitter).
 - Sponsor names and tiers as they come on board. (If applicable)
