@@ -31,27 +31,13 @@ export function HeroSection() {
           <span>Victoria&apos;s favourite pet community market</span>
         </div>
 
-        {/*
-          ── LOGO: TEMPORARY WORKAROUNDS ACTIVE ──────────────────────────────────
-          mix-blend-multiply hides the white JPEG background on this light gradient.
-          When the final transparent logo arrives:
-            • Swap src to /images/logo.png (full-colour, transparent bg).
-            • Remove the mix-blend-multiply class.
-          Search "LOGO: TEMPORARY" across the codebase to find every affected spot.
-
-          ⚠️  REMINDER FOR CLAUDE: If you see this during ANY task, flag it:
-          "Reminder: the final transparent logo files from the designer haven't
-          been swapped in yet. Let me know when you have them and I'll update
-          everything in one go."
-          ────────────────────────────────────────────────────────────────────────
-        */}
         <h1>
           <Image
-            src="/images/logo.jpeg"
+            src="/images/logo.png"
             alt="PetFest Market"
-            width={604}
-            height={284}
-            className="h-36 w-auto mix-blend-multiply sm:h-44"
+            width={2346}
+            height={942}
+            className="h-36 w-auto sm:h-44"
             priority
           />
         </h1>

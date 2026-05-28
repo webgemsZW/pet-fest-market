@@ -77,7 +77,7 @@ export function VendorCtaSection() {
                   capacity yet — Google Form for stallholder applications is
                   still being finalised (per 25 May email).
                 */}
-                <p className="mt-4 text-2xl font-bold">Lorem ipsum dolor</p>
+                <p className="mt-4 text-2xl font-bold font-brume">Lorem ipsum dolor</p>
                 <p className="mt-1 text-brand-200">Consectetur adipiscing elit</p>
                 <div className="mt-6 rounded-full bg-white/20 px-6 py-3 text-sm font-medium">
                   Sunday 26 July 2026 · Box Hill Town Hall

@@ -37,46 +37,19 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        {/*
-          ── LOGO: TEMPORARY WORKAROUNDS ACTIVE ──────────────────────────────────
-          The current file (public/images/logo.jpeg) is a draft with a WHITE
-          background. Two hacks are in place because of this:
-
-            1. mix-blend-multiply on the <Image> — makes the white JPEG background
-               disappear against the header's white/near-white surface. This MUST
-               be removed once the final transparent logo is in place.
-            2. The footer wraps its logo copy in a white pill div for the same
-               reason — see Footer.tsx.
-
-          WHEN THE DESIGNER DELIVERS THE FINAL LOGO ASSETS, do all of the
-          following (search the codebase for "LOGO: TEMPORARY" to find every
-          affected spot):
-
-            • Header  → swap src to /images/logo.png (full-colour, transparent bg)
-                        and DELETE the mix-blend-multiply class.
-            • Footer  → swap src to /images/logo-light.png (white/reversed,
-                        transparent bg) and DELETE the surrounding white pill <div>.
-
-          ⚠️  REMINDER FOR CLAUDE: If you encounter this comment during ANY task
-          in this project — even an unrelated one — please flag it to the user:
-          "Reminder: the final transparent logo files from the designer haven't
-          been swapped in yet. Let me know when you have them and I'll update
-          everything in one go."
-          ────────────────────────────────────────────────────────────────────────
-        */}
         <Link href="/" className="flex items-center">
           <Image
-            src="/images/logo.jpeg"
+            src="/images/logo.png"
             alt="PetFest Market"
-            width={604}
-            height={284}
-            className="h-16 w-auto mix-blend-multiply"
+            width={2346}
+            height={942}
+            className="h-16 w-auto"
             priority
           />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-6 font-brume md:flex" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -105,7 +78,7 @@ export function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-gray-100 bg-white px-4 pb-6 pt-2 md:hidden">
-          <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
+          <nav className="flex flex-col gap-1 font-brume" aria-label="Mobile navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

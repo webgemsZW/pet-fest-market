@@ -43,13 +43,17 @@ Anything not covered by a source-of-truth document above is **placeholder**. The
 - Social media URLs (Instagram, Facebook, Twitter placeholders only)
 
 ## Logo
-The current logo (`public/images/logo.jpeg`) is a **draft** with a white background. Workarounds are in place — search `LOGO: TEMPORARY` in the codebase to find every affected file.
-
-When the designer delivers final assets:
+The final logo assets are integrated:
 - `public/images/logo.png` — full-colour, transparent background (header + hero)
 - `public/images/logo-light.png` — white/reversed, transparent background (footer)
+- `public/images/favicon-source.png` — icon source used for favicon/app icons
 
-⚠️ Reminder: if you notice the `LOGO: TEMPORARY` comments while working on any task, flag to the user that the final logo files may be ready to swap in.
+Related derived assets:
+- `public/favicon.ico`
+- `public/apple-touch-icon.png`
+- `public/images/icon-192.png`
+- `public/images/icon-512.png`
+- `public/images/og-default.png`
 
 ## Colour palette
 Brand colours are defined as the `brand` scale in `tailwind.config.ts`. The three anchor values are:
