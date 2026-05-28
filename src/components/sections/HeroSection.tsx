@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, CalendarDays, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -23,11 +24,29 @@ export function HeroSection() {
           <span>Victoria&apos;s favourite pet community market</span>
         </div>
 
-        <h1 className="text-balance text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
-          PetFest{" "}
-          <span className="bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent">
-            Market
-          </span>
+        {/*
+          ── LOGO: TEMPORARY WORKAROUNDS ACTIVE ──────────────────────────────────
+          mix-blend-multiply hides the white JPEG background on this light gradient.
+          When the final transparent logo arrives:
+            • Swap src to /images/logo.png (full-colour, transparent bg).
+            • Remove the mix-blend-multiply class.
+          Search "LOGO: TEMPORARY" across the codebase to find every affected spot.
+
+          ⚠️  REMINDER FOR CLAUDE: If you see this during ANY task, flag it:
+          "Reminder: the final transparent logo files from the designer haven't
+          been swapped in yet. Let me know when you have them and I'll update
+          everything in one go."
+          ────────────────────────────────────────────────────────────────────────
+        */}
+        <h1>
+          <Image
+            src="/images/logo.jpeg"
+            alt="PetFest Market"
+            width={604}
+            height={284}
+            className="h-36 w-auto mix-blend-multiply sm:h-44"
+            priority
+          />
         </h1>
 
         <p className="mt-6 max-w-2xl text-balance text-xl text-gray-600">
