@@ -42,17 +42,14 @@ export function EventSummarySection() {
         subtitle="A full day of happy hearts and amazing community spirit."
       />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
         {highlights.map((item) => (
-          <div
-            key={item.title}
-            className="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 transition-shadow hover:shadow-md"
-          >
-            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
-              <item.icon className="h-6 w-6" aria-hidden="true" />
+          <div key={item.title} className="flex flex-col items-center text-center">
+            <div className="mb-5 inline-flex h-20 w-20 items-center justify-center rounded-full bg-brand-100 text-brand-600 ring-8 ring-brand-50">
+              <item.icon className="h-9 w-9" aria-hidden="true" />
             </div>
-            <h3 className="mb-2 font-semibold text-gray-900">{item.title}</h3>
-            <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
+            <h3 className="mb-2 text-lg font-semibold text-gray-900">{item.title}</h3>
+            <p className="max-w-xs text-sm leading-relaxed text-gray-600">{item.description}</p>
           </div>
         ))}
       </div>
