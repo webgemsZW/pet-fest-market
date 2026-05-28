@@ -76,7 +76,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-6 font-brume md:flex" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -105,7 +105,7 @@ export function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-gray-100 bg-white px-4 pb-6 pt-2 md:hidden">
-          <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
+          <nav className="flex flex-col gap-1 font-brume" aria-label="Mobile navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
