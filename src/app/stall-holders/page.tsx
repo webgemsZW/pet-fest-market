@@ -62,7 +62,6 @@ const requirements = [
   "Valid ABN or registered business (sole trader accepted)",
   "Public liability insurance ($10M minimum)",
   "Products must be pet-friendly and suitable for the event theme",
-  "Stallholders must supply their own marquee/shelter",
   "Arrival and bump-in between 7:00am – 8:30am on the day",
   "Stallholders must remain for the full duration of the event",
 ];
@@ -219,25 +218,29 @@ export default function StallHoldersPage() {
           <div className="mb-4 text-5xl">✍️</div>
           <h2 className="text-3xl font-bold text-gray-900">Ready to Apply?</h2>
           <p className="mt-3 text-lg text-gray-500">
-            Fill out our online application form. Spots are limited, so don&apos;t wait too long!
+            Our stallholder application form is almost ready. Sign up below to be notified the
+            moment applications open — spots are limited!
           </p>
+          {/*
+            TODO: Replace the disabled button below with a live link once the Google Form is ready.
+            Simply swap the <div> for:
+              <a href="YOUR_GOOGLE_FORM_URL" target="_blank" rel="noopener noreferrer">
+            and remove the "coming soon" note.
+          */}
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Button asChild size="lg">
-              <a
-                href="https://forms.google.com/placeholder"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Apply via Google Form
-                <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
-              </a>
-            </Button>
+            <div className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg bg-brand-200 px-6 py-3 text-base font-medium text-brand-500">
+              Application Form Coming Soon
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            </div>
             <Button asChild variant="secondary" size="lg">
               <Link href="/contact">Have Questions?</Link>
             </Button>
           </div>
           <p className="mt-4 text-sm text-gray-400">
-            Applications reviewed within 7–10 business days.
+            In the meantime, email us at{" "}
+            <a href="mailto:petfest@nonconformity.com.au" className="text-brand-600 hover:underline">
+              petfest@nonconformity.com.au
+            </a>
           </p>
         </div>
       </SectionWrapper>

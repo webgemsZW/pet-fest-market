@@ -36,10 +36,10 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm font-medium text-gray-500">Email</p>
                   <a
-                    href="mailto:hello@petfestmarket.com.au"
+                    href="mailto:petfest@nonconformity.com.au"
                     className="font-medium text-brand-600 hover:text-brand-700"
                   >
-                    hello@petfestmarket.com.au
+                    petfest@nonconformity.com.au
                   </a>
                 </div>
               </div>
@@ -50,7 +50,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Event Location</p>
-                  <p className="font-medium text-gray-700">Box Hill, Victoria, Australia</p>
+                  <p className="font-medium text-gray-700">Box Hill Town Hall, Victoria, Australia</p>
                   <p className="text-sm text-gray-400">Full address coming soon</p>
                 </div>
               </div>

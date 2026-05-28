@@ -18,6 +18,9 @@
 .DS_Store
 *.pem
 
+# local Claude Code settings (personal, not for the team)
+.claude/settings.local.json
+
 # internal reference assets
 /site-info
 

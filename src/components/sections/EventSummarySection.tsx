@@ -26,7 +26,7 @@ const highlights = [
     icon: Smile,
     title: "Family Fun",
     description:
-      "Activities, demonstrations, and entertainment for all ages. A perfect Saturday outing for the whole crew.",
+      "Activities, demonstrations, and entertainment for all ages. A perfect Sunday outing for the whole crew.",
   },
 ];
 

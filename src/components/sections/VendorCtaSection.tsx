@@ -61,7 +61,7 @@ export function VendorCtaSection() {
                 <p className="mt-4 text-2xl font-bold">Stalls from $80</p>
                 <p className="mt-1 text-brand-200">Limited spots available</p>
                 <div className="mt-6 rounded-full bg-white/20 px-6 py-3 text-sm font-medium">
-                  4 July 2026 · Box Hill, VIC
+                  26 July 2026 · Box Hill Town Hall
                 </div>
               </div>
             </div>

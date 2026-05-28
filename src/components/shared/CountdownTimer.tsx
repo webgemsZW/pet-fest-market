@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-const EVENT_DATE = new Date("2026-07-04T09:00:00+10:00");
+const EVENT_DATE = new Date("2026-07-26T09:00:00+10:00");
 
 interface TimeLeft {
   days: number;

@@ -58,15 +58,15 @@ export function HeroSection() {
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-700">
           <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
             <CalendarDays className="h-4 w-4 text-brand-600" aria-hidden="true" />
-            <span>4 July 2026</span>
+            <span>Sunday 26 July 2026</span>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
             <MapPin className="h-4 w-4 text-brand-600" aria-hidden="true" />
-            <span>Box Hill, Victoria</span>
+            <span>Box Hill Town Hall, VIC</span>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
             <Ticket className="h-4 w-4 text-brand-600" aria-hidden="true" />
-            <span>Entry from $5</span>
+            <span>Tickets coming soon</span>
           </div>
         </div>
 

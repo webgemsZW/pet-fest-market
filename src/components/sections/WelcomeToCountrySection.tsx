@@ -7,11 +7,10 @@ export function WelcomeToCountrySection() {
         <div className="mb-3 text-2xl">🌿</div>
         <h2 className="mb-4 text-lg font-semibold text-gray-700">Welcome to Country</h2>
         <p className="leading-relaxed text-gray-600">
-          PetFest Market acknowledges the{" "}
-          <strong>Wurundjeri Woi Wurrung People of the Kulin Nation</strong> as the Traditional
-          Custodians of the land on which our event takes place. We pay our deepest respects to
-          Elders past, present, and emerging, and celebrate the ongoing living cultures of First
-          Nations Peoples across Australia.
+          We acknowledge the Traditional Owners and Custodians of Country throughout Australia and
+          recognise their continuing connection to lands, waters and communities. We pay our respect
+          to their <strong>Elders past, present and emerging</strong> and extend that respect to all
+          Aboriginal and Torres Strait Islander peoples.
         </p>
       </div>
     </section>

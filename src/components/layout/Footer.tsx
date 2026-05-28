@@ -16,6 +16,7 @@ const policyLinks = [
   { href: "/policies/terms", label: "Terms & Conditions" },
   { href: "/policies/privacy", label: "Privacy Policy" },
   { href: "/policies/refund", label: "Refund Policy" },
+  { href: "/policies/code-of-conduct", label: "Code of Conduct" },
 ];
 
 export function Footer() {
@@ -60,7 +61,7 @@ export function Footer() {
             <p className="mt-3 text-sm text-brand-300">
               A pet-friendly community market in Box Hill, Victoria.
             </p>
-            <p className="mt-1 text-sm text-brand-400">4 July 2026</p>
+            <p className="mt-1 text-sm text-brand-400">Sunday 26 July 2026</p>
 
             {/* Social links */}
             <div className="mt-4 flex gap-3">
@@ -147,11 +148,24 @@ export function Footer() {
         {/* Welcome to Country */}
         <div className="mt-12 border-t border-brand-800 pt-8">
           <p className="text-sm text-brand-400">
-            <span className="font-semibold text-brand-300">Welcome to Country —</span> PetFest
-            Market acknowledges the Wurundjeri Woi Wurrung People of the Kulin Nation as the
-            Traditional Custodians of the land on which our event is held. We pay our respects to
-            Elders past, present, and emerging.
+            <span className="font-semibold text-brand-300">Acknowledgement of Country —</span> We
+            acknowledge the Traditional Owners and Custodians of Country throughout Australia and
+            recognise their continuing connection to lands, waters and communities. We pay our
+            respect to their Elders past, present and emerging and extend that respect to all
+            Aboriginal and Torres Strait Islander peoples.
           </p>
+        </div>
+
+        {/* Nonconformity Productions credit */}
+        <div className="mt-8 flex flex-col items-center gap-3 border-t border-brand-800 pt-6">
+          <p className="text-xs text-brand-500">PetFest Market is an event of</p>
+          <Image
+            src="/images/nonconformity-logo.png"
+            alt="Nonconformity Productions"
+            width={1080}
+            height={1080}
+            className="h-10 w-auto brightness-0 invert opacity-60"
+          />
         </div>
 
         <div className="mt-6 text-center text-xs text-brand-600">

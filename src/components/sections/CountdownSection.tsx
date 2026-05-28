@@ -9,11 +9,11 @@ export function CountdownSection() {
           Mark your calendar
         </p>
         <h2 className="mb-8 text-3xl font-bold text-white sm:text-4xl">
-          4 July 2026 — The countdown is on!
+          Sunday 26 July 2026 — The countdown is on!
         </h2>
         <CountdownTimer />
         <p className="mt-8 text-brand-200">
-          📍 Box Hill, Victoria &nbsp;·&nbsp; Entry from $5
+          📍 Box Hill Town Hall, Victoria &nbsp;·&nbsp; 🎟️ Tickets coming soon
         </p>
       </div>
     </section>
