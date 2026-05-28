@@ -18,7 +18,13 @@ export function HeroSection() {
       />
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
-        {/* Eyebrow */}
+        {/*
+          NOTE(content): This eyebrow tagline is NOT from a source-of-truth
+          document — it was written during initial scaffolding. The user has
+          explicitly chosen to keep it, so do NOT replace it with lorem ipsum
+          in future content audits. (If the client later provides an official
+          tagline, swap it in.)
+        */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-2 text-sm font-medium text-brand-700">
           <span>🐾</span>
           <span>Victoria&apos;s favourite pet community market</span>
@@ -49,6 +55,12 @@ export function HeroSection() {
           />
         </h1>
 
+        {/*
+          NOTE(content): This subtitle is NOT from a source-of-truth document
+          but the user has chosen to keep it. Do NOT replace it with lorem
+          ipsum in future content audits. (Swap in official wording if/when
+          the client provides one.)
+        */}
         <p className="mt-6 max-w-2xl text-balance text-xl text-gray-600">
           A joyful, pet-friendly community market celebrating local vendors, furry friends, and
           family fun. Come along and wag your tail!

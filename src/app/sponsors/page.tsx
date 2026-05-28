@@ -1,65 +1,26 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { sponsors, tierConfig, type SponsorTier } from "@/lib/sponsors-data";
 
 export const metadata: Metadata = {
   title: "Sponsors",
   description: "Meet the sponsors of PetFest Market — local businesses supporting our pet community event.",
 };
 
-type SponsorTier = "platinum" | "gold" | "silver" | "bronze";
-
-const sponsors: { name: string; tier: SponsorTier; tagline: string }[] = [
-  { name: "Paws & Co.", tier: "platinum", tagline: "Premium pet accessories & grooming" },
-  { name: "Happy Tails Vet Clinic", tier: "gold", tagline: "Compassionate veterinary care" },
-  { name: "Bark & Brew", tier: "gold", tagline: "Dog-friendly café and treats" },
-  { name: "FurEver Home", tier: "silver", tagline: "Pet adoption and rescue support" },
-  { name: "The Pet Pantry", tier: "silver", tagline: "Natural & organic pet food" },
-  { name: "Whiskers & Wings", tier: "silver", tagline: "Bird and small animal supplies" },
-  { name: "Pawsome Photography", tier: "bronze", tagline: "Pet portrait photography" },
-  { name: "Canine Academy", tier: "bronze", tagline: "Dog training and behaviour" },
-  { name: "Aqua Tails", tier: "bronze", tagline: "Aquarium & fish specialists" },
-  { name: "Fluffy Threads", tier: "bronze", tagline: "Handmade pet clothing & accessories" },
-];
-
-const tierConfig: Record<
-  SponsorTier,
-  { label: string; emoji: string; bgClass: string; textClass: string; badgeClass: string }
-> = {
-  platinum: {
-    label: "Platinum",
-    emoji: "⭐",
-    bgClass: "bg-gray-50",
-    textClass: "text-gray-800",
-    badgeClass: "bg-gray-200 text-gray-700",
-  },
-  gold: {
-    label: "Gold",
-    emoji: "🏅",
-    bgClass: "bg-amber-50",
-    textClass: "text-amber-900",
-    badgeClass: "bg-amber-200 text-amber-800",
-  },
-  silver: {
-    label: "Silver",
-    emoji: "🥈",
-    bgClass: "bg-slate-50",
-    textClass: "text-slate-800",
-    badgeClass: "bg-slate-200 text-slate-700",
-  },
-  bronze: {
-    label: "Bronze",
-    emoji: "🥉",
-    bgClass: "bg-orange-50",
-    textClass: "text-orange-900",
-    badgeClass: "bg-orange-200 text-orange-800",
-  },
-};
-
+/*
+  /sponsors is intentionally NOT linked from the header or footer navigation
+  while `sponsors` (in @/lib/sponsors-data) is empty. The page itself stays
+  accessible at /sponsors so direct links still resolve and so the "Become a
+  Sponsor" CTA remains discoverable. When sponsors are signed:
+    1. Populate `sponsors` in @/lib/sponsors-data.ts.
+    2. Restore the /sponsors link in Header.tsx + Footer.tsx.
+    3. Re-enable <SponsorPreviewSection /> on the homepage.
+*/
 export default function SponsorsPage() {
   const tierOrder: SponsorTier[] = ["platinum", "gold", "silver", "bronze"];
+  const hasSponsors = sponsors.length > 0;
 
   return (
     <>
@@ -69,49 +30,66 @@ export default function SponsorsPage() {
           <div className="mb-4 text-5xl">🏆</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Our Sponsors</h1>
           <p className="mt-4 text-xl text-gray-600">
-            PetFest Market is made possible through the generous support of these wonderful local
-            businesses.
+            PetFest Market is made possible through the generous support of local businesses.
           </p>
         </div>
       </section>
 
-      {/* Sponsors by tier */}
+      {/* Sponsors list or placeholder */}
       <SectionWrapper>
-        <div className="space-y-16">
-          {tierOrder.map((tier) => {
-            const tierSponsors = sponsors.filter((s) => s.tier === tier);
-            if (tierSponsors.length === 0) return null;
-            const config = tierConfig[tier];
+        {hasSponsors ? (
+          <div className="space-y-16">
+            {tierOrder.map((tier) => {
+              const tierSponsors = sponsors.filter((s) => s.tier === tier);
+              if (tierSponsors.length === 0) return null;
+              const config = tierConfig[tier];
 
-            return (
-              <div key={tier}>
-                <div className="mb-6 flex items-center gap-3">
-                  <span className="text-2xl">{config.emoji}</span>
-                  <h2 className="text-2xl font-bold text-gray-900">{config.label} Sponsors</h2>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {tierSponsors.map((sponsor) => (
-                    <div
-                      key={sponsor.name}
-                      className={`rounded-2xl ${config.bgClass} flex flex-col items-center p-8 text-center ring-1 ring-gray-100`}
-                    >
-                      <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm text-3xl">
-                        🐾
-                      </div>
-                      <p className={`font-semibold ${config.textClass}`}>{sponsor.name}</p>
-                      <p className="mt-1 text-sm text-gray-500">{sponsor.tagline}</p>
-                      <span
-                        className={`mt-3 rounded-full px-3 py-1 text-xs font-semibold ${config.badgeClass}`}
+              return (
+                <div key={tier}>
+                  <div className="mb-6 flex items-center gap-3">
+                    <span className="text-2xl">{config.emoji}</span>
+                    <h2 className="text-2xl font-bold text-gray-900">{config.label} Sponsors</h2>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {tierSponsors.map((sponsor) => (
+                      <div
+                        key={sponsor.name}
+                        className={`rounded-2xl ${config.bgClass} flex flex-col items-center p-8 text-center ring-1 ring-gray-100`}
                       >
-                        {config.label}
-                      </span>
-                    </div>
-                  ))}
+                        <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm text-3xl">
+                          🐾
+                        </div>
+                        <p className={`font-semibold ${config.textClass}`}>{sponsor.name}</p>
+                        <p className="mt-1 text-sm text-gray-500">{sponsor.tagline}</p>
+                        <span
+                          className={`mt-3 rounded-full px-3 py-1 text-xs font-semibold ${config.badgeClass}`}
+                        >
+                          {config.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          /*
+            TODO(content): Empty state shown while no sponsors are signed.
+            The previous version of this page hardcoded fake sponsors
+            ("Paws & Co.", "Happy Tails Vet", etc.) — those have been
+            removed. Populate @/lib/sponsors-data once real sponsors come
+            on board.
+          */
+          <div className="mx-auto max-w-2xl rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
+            <div className="mb-4 text-4xl">🤝</div>
+            <h2 className="text-2xl font-bold text-gray-900">Sponsors coming soon</h2>
+            <p className="mt-3 text-gray-600">
+              We&apos;re currently lining up partners for our first PetFest Market on Sunday 26
+              July 2026 at Box Hill Town Hall. Want to be the first?
+            </p>
+          </div>
+        )}
       </SectionWrapper>
 
       {/* Become a sponsor */}

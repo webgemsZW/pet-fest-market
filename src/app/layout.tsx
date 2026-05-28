@@ -14,13 +14,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// TODO(content): The marketing description below is placeholder. The only
+// client-confirmed facts are the event name, venue (Box Hill Town Hall, VIC),
+// date (Sunday 26 July 2026), and that all PetFest Markets are indoor. A real
+// tagline / SEO description has not been provided.
 export const metadata: Metadata = {
   title: {
     default: "PetFest Market — Box Hill, Victoria",
     template: "%s | PetFest Market",
   },
   description:
-    "A pet-friendly community market in Box Hill, Victoria. Join us on 4 July 2026 for a fun-filled day of stalls, activities, and furry friends.",
+    "PetFest Market — an indoor pet-friendly community market at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.",
   keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet friendly"],
   openGraph: {
     type: "website",
@@ -28,13 +32,13 @@ export const metadata: Metadata = {
     siteName: "PetFest Market",
     title: "PetFest Market — Box Hill, Victoria",
     description:
-      "A pet-friendly community market in Box Hill, Victoria. Join us on 4 July 2026.",
+      "An indoor pet-friendly community market at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
   },
   twitter: {
     card: "summary_large_image",
     title: "PetFest Market — Box Hill, Victoria",
     description:
-      "A pet-friendly community market in Box Hill, Victoria. Join us on 4 July 2026.",
+      "An indoor pet-friendly community market at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
   },
 };
 

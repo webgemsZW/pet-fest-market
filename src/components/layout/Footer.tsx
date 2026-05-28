@@ -4,11 +4,14 @@ import Image from "next/image";
 import { Instagram, Facebook, Twitter } from "lucide-react";
 import { FooterNewsletterForm } from "./FooterNewsletterForm";
 
+// TODO(content): "/sponsors" link is intentionally omitted while no
+// sponsors are signed (per @/lib/sponsors-data). Restore the entry below
+// once the client confirms the first sponsor.
+//   { href: "/sponsors", label: "Sponsors" },
 const footerNav = [
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stall Holders" },
   { href: "/faq", label: "FAQ" },
-  { href: "/sponsors", label: "Sponsors" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -63,31 +66,30 @@ export function Footer() {
             </p>
             <p className="mt-1 text-sm text-brand-400">Sunday 26 July 2026</p>
 
-            {/* Social links */}
+            {/*
+              TODO(content): Social URLs below currently point nowhere
+              (href="#"). The client has not supplied real handles yet —
+              replace each href once provided, or remove the icons
+              entirely if PetFest Market won't be on that platform.
+            */}
             <div className="mt-4 flex gap-3">
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
+                href="#"
+                aria-label="Instagram (link pending)"
                 className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
               >
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
+                href="#"
+                aria-label="Facebook (link pending)"
                 className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
               >
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter / X"
+                href="#"
+                aria-label="Twitter / X (link pending)"
                 className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
               >
                 <Twitter className="h-5 w-5" />

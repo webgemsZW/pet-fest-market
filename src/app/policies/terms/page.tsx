@@ -62,63 +62,16 @@ export default function TermsPage() {
             any way which is unlawful.
           </p>
 
-          <h2>Event Attendance</h2>
-          <p>
-            By attending or participating in PetFest Market (&ldquo;the Event&rdquo;), you agree to
-            be bound by the following additional terms. If you do not agree, please do not attend or
-            participate.
-          </p>
-
-          <h3>Event Details</h3>
-          <p>
-            PetFest Market is scheduled for Sunday 26 July 2026 at Box Hill Town Hall, Victoria, Australia. The
-            organisers reserve the right to alter, postpone, or cancel the event at any time due to
-            circumstances beyond their control, including but not limited to extreme weather, public
-            safety concerns, or government directives.
-          </p>
-
-          <h3>Tickets &amp; Entry</h3>
-          <p>
-            Entry to the event requires a valid ticket purchased via authorised channels. Tickets
-            are non-transferable unless otherwise stated. The organisers reserve the right to refuse
-            entry to any person without explanation. Children under 12 enter free when accompanied
-            by a paying adult.
-          </p>
-
-          <h3>Pets</h3>
-          <p>
-            Pet owners are fully responsible for the behaviour of their animals at all times. All
-            dogs must be kept on a lead. Owners are required to clean up after their pets. Any
-            animal deemed dangerous or causing distress may be asked to leave the event.
-          </p>
-
-          <h3>Vendors &amp; Stallholders</h3>
-          <p>
-            All stallholders are bound by the Stallholder Agreement provided upon application
-            approval. PetFest Market organisers accept no liability for loss, damage, or theft of
-            vendor property.
-          </p>
-
-          <h3>Photography &amp; Media</h3>
-          <p>
-            Photography and video recording for personal use is permitted. By attending the event,
-            you acknowledge that you may be photographed or filmed by the event organisers for
-            promotional purposes. Please notify staff if you do not wish to be included.
-          </p>
-
-          <h3>Conduct</h3>
-          <p>
-            We ask that all attendees treat others, including animals, with kindness and respect.
-            Any individual whose conduct is deemed inappropriate may be removed from the event
-            without refund. Please also refer to our{" "}
-            <a href="/policies/code-of-conduct">Code of Conduct</a>.
-          </p>
-
-          <h3>Event Liability</h3>
-          <p>
-            PetFest Market and its organisers accept no liability for personal injury, loss, or
-            damage to property sustained at the event. Attendance is entirely at your own risk.
-          </p>
+          {/*
+            TODO(content): The client-supplied Terms & Conditions document
+            (site-info/docs/Petfest Website Use Terms and Conditions.docx) covers
+            WEBSITE USE ONLY. Event-attendance terms (tickets, pets at the event,
+            stallholder agreement, photography, conduct on the day, event liability
+            waiver, etc.) have NOT been provided by the client. A previous version
+            of this page had invented sections covering those topics — they have
+            been removed. Request the additional content from the client before
+            adding any event-attendance terms here.
+          */}
 
           <h2>Contact</h2>
           <p>

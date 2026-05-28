@@ -67,8 +67,13 @@ export function ContactForm() {
       <div className="flex flex-col items-center justify-center rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
         <div className="text-4xl">🎉</div>
         <h3 className="mt-4 text-xl font-semibold text-gray-900">Message sent!</h3>
+        {/*
+          TODO(content): Success message previously promised a "1–2 business
+          days" response — removed because no client-supplied SLA exists.
+          Update once the client confirms a real response-time expectation.
+        */}
         <p className="mt-2 text-gray-500">
-          Thanks for reaching out. We&apos;ll get back to you within 1–2 business days.
+          Thanks for reaching out. We&apos;ll be in touch soon.
         </p>
         <Button
           variant="ghost"

@@ -7,12 +7,15 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+// TODO(content): "/sponsors" link is intentionally omitted while no
+// sponsors are signed (per @/lib/sponsors-data). Restore the entry below
+// once the client confirms the first sponsor.
+//   { href: "/sponsors", label: "Sponsors" },
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stall Holders" },
   { href: "/faq", label: "FAQ" },
-  { href: "/sponsors", label: "Sponsors" },
   { href: "/contact", label: "Contact" },
 ];
 

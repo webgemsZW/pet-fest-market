@@ -59,30 +59,30 @@ export default function ContactPage() {
             {/* Social links */}
             <div className="mt-8">
               <h3 className="mb-4 text-lg font-semibold text-gray-900">Follow Us</h3>
+              {/*
+                TODO(content): Social URLs below currently point nowhere
+                (href="#"). The client has not supplied real handles yet —
+                replace each href once provided, or remove the icons
+                entirely if PetFest Market won't be on that platform.
+              */}
               <div className="flex gap-3">
                 <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow us on Instagram"
+                  href="#"
+                  aria-label="Follow us on Instagram (link pending)"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow us on Facebook"
+                  href="#"
+                  aria-label="Follow us on Facebook (link pending)"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Facebook className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow us on Twitter"
+                  href="#"
+                  aria-label="Follow us on Twitter (link pending)"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
                 >
                   <Twitter className="h-5 w-5" />
@@ -90,13 +90,12 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Response time note */}
-            <div className="mt-8 rounded-2xl bg-brand-50 p-5 ring-1 ring-brand-100">
-              <p className="text-sm text-brand-700">
-                💬 We typically respond within <strong>1–2 business days</strong>. For urgent
-                vendor or sponsorship enquiries, please mention it in your message.
-              </p>
-            </div>
+            {/*
+              TODO(content): A "Response time" card used to live here
+              promising "1–2 business days" turnaround. Removed because no
+              client-supplied SLA exists. Re-add once the client confirms a
+              real response-time expectation.
+            */}
           </div>
 
           {/* Contact form */}

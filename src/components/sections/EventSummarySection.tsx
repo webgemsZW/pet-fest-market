@@ -3,6 +3,10 @@ import { Heart, ShoppingBag, Users, Smile } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
+// NOTE(content): The four "What to Expect" highlights below and the section
+// heading/subtitle are NOT from a source-of-truth document, but the user has
+// chosen to keep them. Do NOT replace with lorem ipsum on future audits.
+// (Swap in official wording if the client provides one.)
 const highlights = [
   {
     icon: ShoppingBag,

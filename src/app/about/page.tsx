@@ -8,6 +8,10 @@ export const metadata: Metadata = {
     "Learn about PetFest Market — a pet-friendly community market in Box Hill, Victoria celebrating local vendors, furry friends, and family fun.",
 };
 
+// NOTE(content): The four "What We Stand For" values below are NOT from a
+// source-of-truth document but the user has chosen to keep them. Do NOT
+// replace with lorem ipsum on future audits. (Swap in official wording if
+// the client provides a real mission / values statement.)
 const values = [
   {
     icon: Heart,
@@ -54,25 +58,32 @@ export default function AboutPage() {
       {/* Story */}
       <SectionWrapper>
         <div className="mx-auto max-w-3xl">
+          {/*
+            NOTE(content): "Our Story" copy below is NOT from a source-of-
+            truth document but the user has chosen to keep it. False claims
+            that PetFest Market is already "one of Victoria's most
+            anticipated" events and is "held annually" have been removed,
+            because the Box Hill 26 July 2026 event is the FIRST market
+            (per 25 May email from client). Do NOT replace remaining copy
+            with lorem ipsum on future audits.
+          */}
           <div className="prose prose-lg prose-orange mx-auto text-gray-600">
             <h2 className="text-2xl font-bold text-gray-900">Our Story</h2>
             <p className="mt-4">
               PetFest Market started with a simple idea: create a space where pet lovers could
               come together, support local businesses, and celebrate the joy that animals bring to
-              our lives. What began as a small neighbourhood initiative has grown into one of
-              Victoria&apos;s most anticipated pet community events.
+              our lives.
             </p>
             <p className="mt-4">
-              Held annually in the heart of Box Hill, our market brings together dozens of local
-              vendors, animal welfare organisations, and passionate community members. Whether
-              you&apos;re looking for artisan pet accessories, natural treats, or simply a
-              wonderful day out with your furry companion — PetFest Market has something for
-              everyone.
+              Hosted at Box Hill Town Hall in Victoria, our market brings together local vendors,
+              animal welfare organisations, and passionate community members. Whether you&apos;re
+              looking for artisan pet accessories, natural treats, or simply a wonderful day out
+              with your furry companion — PetFest Market has something for everyone.
             </p>
             <p className="mt-4">
               We believe that pets make our communities stronger. They bring people together,
               teach compassion, and fill our homes with unconditional love. That&apos;s the spirit
-              we aim to celebrate every single year.
+              we aim to celebrate.
             </p>
           </div>
         </div>
@@ -97,18 +108,17 @@ export default function AboutPage() {
         </div>
       </SectionWrapper>
 
-      {/* Welcome to Country */}
+      {/* Acknowledgement of Country — verbatim from
+          site-info/docs/Acknowledgement of country - Website Petfest.docx */}
       <SectionWrapper className="bg-stone-100">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-3 text-3xl">🌿</div>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Welcome to Country</h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">Acknowledgement of Country</h2>
           <p className="leading-relaxed text-gray-600">
-            PetFest Market acknowledges the{" "}
-            <strong>Wurundjeri Woi Wurrung People of the Kulin Nation</strong> as the Traditional
-            Custodians of the land on which our event takes place in Box Hill, Victoria. We pay our
-            deepest respects to Elders past, present, and emerging. We celebrate the ongoing living
-            cultures of First Nations Peoples across Australia and recognise their enduring
-            connection to Country.
+            We acknowledge the Traditional Owners and Custodians of Country throughout Australia
+            and recognise their continuing connection to lands, waters and communities. We pay our
+            respect to their <strong>Elders past, present and emerging</strong> and extend that
+            respect to all Aboriginal and Torres Strait Islander peoples.
           </p>
         </div>
       </SectionWrapper>

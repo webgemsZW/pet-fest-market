@@ -17,8 +17,23 @@ The folder `site-info/docs/` contains official documents provided by the client.
 | `Nonconformity Productions Privacy Policy.docx` | `/policies/privacy` page |
 | `Petfest Website Use Terms and Conditions.docx` | `/policies/terms` page |
 | `Petfest Code of Conduct.docx` | `/policies/code-of-conduct` page |
+| `25 May email from client.txt` | General site facts (event details, ticketing/stallholder status, contact email) |
 
 If the client provides updated versions of any of these documents, extract the new content and update the corresponding page(s) accordingly.
+
+### Copy that is NOT yet sourced
+Anything not covered by a source-of-truth document above is **placeholder**. The site is currently kept honest by using lorem ipsum + `TODO(content):` comments wherever real copy is missing. Do not invent or paraphrase replacements for these placeholders — wait for the client to provide the content, or ask the user first. Known gaps awaiting client input:
+
+- Tagline / hero subtitle / "what to expect" highlights
+- About page (story, values, mission)
+- FAQ content (general, vendors, pets, tickets)
+- Stall pricing tiers, requirements, vendor benefits
+- Sponsor list and sponsorship tiers
+- Refund policy
+- Ticketing platform details and link (per 25 May email — "details coming soon")
+- Stallholder Google Form link (per 25 May email — form being finalised)
+- Response-time promises and similar service commitments
+- Social media URLs (Instagram, Facebook, Twitter placeholders only)
 
 ## Logo
 The current logo (`public/images/logo.jpeg`) is a **draft** with a white background. Workarounds are in place — search `LOGO: TEMPORARY` in the codebase to find every affected file.

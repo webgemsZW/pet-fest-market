@@ -13,89 +13,106 @@ export const metadata: Metadata = {
     "Apply to be a vendor at PetFest Market. Learn about stall pricing, requirements, and how to apply.",
 };
 
+// TODO(content): All benefits below are placeholder lorem ipsum. The
+// previous list invented foot-traffic claims, event hours (9am–4pm), and
+// marketing perks. Replace with real vendor benefits once the client
+// confirms the stallholder package details.
 const benefits = [
-  "Access to a large, engaged pet-loving audience",
-  "Affordable stall fees with no hidden costs",
-  "Prime location in busy Box Hill",
-  "Dedicated support from our event team",
-  "Opportunity to connect with fellow local vendors",
-  "Feature in our pre-event social media and email campaigns",
-  "Simple, fast online application process",
-  "Market open from 9am to 4pm — full day of exposure",
+  "Lorem ipsum dolor sit amet",
+  "Consectetur adipiscing elit, sed do eiusmod",
+  "Tempor incididunt ut labore et dolore",
+  "Ut enim ad minim veniam, quis nostrud",
+  "Exercitation ullamco laboris nisi ut aliquip",
+  "Duis aute irure dolor in reprehenderit",
+  "In voluptate velit esse cillum dolore",
+  "Excepteur sint occaecat cupidatat non proident",
 ];
 
+// TODO(content): Pricing tiers below are placeholder. The previous version
+// invented stall sizes (3m×3m, 3m×6m, 4m×4m), prices ($80/$140/$180),
+// power add-on cost ($20), and inclusions. Per the 25 May email from the
+// client, stallholder applications are still being finalised on a Google
+// Form — request the real pricing structure (or remove tiers entirely if
+// pricing isn't tiered) before going live.
 const pricingTiers = [
   {
-    tier: "Standard Stall",
-    price: "$80",
-    description: "A 3m × 3m space. Perfect for small vendors, jewellery, accessories, and crafts.",
-    features: ["3m × 3m space", "One trestle table", "Basic signage included", "Up to 2 stallholders"],
+    tier: "Lorem Ipsum",
+    price: "$—",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    features: ["Lorem ipsum", "Dolor sit amet", "Consectetur adipiscing", "Sed do eiusmod"],
   },
   {
-    tier: "Premium Stall",
-    price: "$140",
-    description: "A 3m × 6m space with extra depth for food vendors and larger displays.",
+    tier: "Dolor Sit Amet",
+    price: "$—",
+    description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     features: [
-      "3m × 6m space",
-      "Two trestle tables",
-      "Power access available (+$20)",
-      "Priority placement",
-      "Up to 3 stallholders",
+      "Lorem ipsum dolor",
+      "Sit amet consectetur",
+      "Adipiscing elit",
+      "Sed do eiusmod tempor",
+      "Incididunt ut labore",
     ],
     featured: true,
   },
   {
-    tier: "Corner Stall",
-    price: "$180",
-    description: "High-visibility corner position with double frontage. Limited availability.",
+    tier: "Consectetur Adipiscing",
+    price: "$—",
+    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
     features: [
-      "Corner placement",
-      "4m × 4m space",
-      "Two trestle tables",
-      "Power access available (+$20)",
-      "Premium foot traffic",
+      "Lorem ipsum",
+      "Dolor sit amet",
+      "Consectetur",
+      "Adipiscing elit",
+      "Sed do eiusmod",
     ],
   },
 ];
 
+// TODO(content): Requirements below are placeholder. The previous list
+// invented ABN/insurance/timing rules — none confirmed by the client.
 const requirements = [
-  "Valid ABN or registered business (sole trader accepted)",
-  "Public liability insurance ($10M minimum)",
-  "Products must be pet-friendly and suitable for the event theme",
-  "Arrival and bump-in between 7:00am – 8:30am on the day",
-  "Stallholders must remain for the full duration of the event",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+  "Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+  "Duis aute irure dolor in reprehenderit in voluptate velit",
+  "Excepteur sint occaecat cupidatat non proident sunt in culpa",
 ];
 
+// TODO(content): Vendor FAQs below are placeholder. The previous version
+// invented application review times ("7–10 business days"), cancellation
+// terms (50% refund > 14 days), and electricity fees. NOTE: these are
+// stall-application-specific FAQs and are intentionally separate from the
+// public FAQ data in `@/lib/faq-data` (which covers visitor-facing topics).
 const vendorFaqs = [
   {
     id: "v1",
-    question: "When will I find out if my application is approved?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
-      "We review applications on a rolling basis and aim to respond within 7–10 business days. During peak application periods this may take slightly longer. You will receive an email either way.",
+      "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
   },
   {
     id: "v2",
-    question: "Can I sell food at the market?",
+    question: "Ut enim ad minim veniam?",
     answer:
-      "Yes! Food vendors are welcome. You will need to hold a current food handling certificate and comply with local council food safety requirements. Please note this in your application.",
+      "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.",
   },
   {
     id: "v3",
-    question: "What if I need to cancel after I've been accepted?",
+    question: "Duis aute irure dolor in reprehenderit?",
     answer:
-      "Cancellations made more than 14 days before the event receive a 50% refund. Cancellations within 14 days are non-refundable. Please see our Refund Policy for full details.",
+      "In voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
   },
   {
     id: "v4",
-    question: "Is electricity available at all stalls?",
+    question: "Sunt in culpa qui officia deserunt?",
     answer:
-      "Electricity is available for Premium and Corner stalls at an additional $20 fee. Standard stall holders are welcome to bring battery-powered equipment.",
+      "Mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.",
   },
   {
     id: "v5",
-    question: "Can I bring my own pet to the stall?",
+    question: "Laudantium totam rem aperiam?",
     answer:
-      "Yes — we actively encourage it! Pets must be kept calm and under control at all times. Please ensure your animal is comfortable in a busy market environment.",
+      "Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
   },
 ];
 
@@ -107,6 +124,13 @@ export default function StallHoldersPage() {
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🛍️</div>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Become a Stall Holder</h1>
+          {/*
+            NOTE(content): Hero subtitle below is NOT from a source-of-truth
+            document but the user has chosen to keep it. Do NOT replace with
+            lorem ipsum on future audits. (Heads-up: the "most loved" framing
+            implies an established event, but Box Hill 26 July 2026 is the
+            FIRST PetFest Market — leave as-is unless the user revisits.)
+          */}
           <p className="mt-4 text-xl text-gray-600">
             Showcase your products to hundreds of passionate pet lovers at one of Victoria&apos;s
             most loved community markets.

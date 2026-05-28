@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
@@ -6,67 +6,56 @@ export const metadata: Metadata = {
   description: "Refund policy for PetFest Market tickets and vendor stall fees.",
 };
 
+/*
+  TODO(content): No client-supplied refund policy exists. Everything below is
+  lorem ipsum placeholder. The 25 May email from the client confirms that
+  ticketing is being handled via a third-party platform whose terms will likely
+  feed into this page, and stallholder applications are still being finalised
+  on a Google Form. Request the actual refund policy text (covering both
+  visitor tickets and stallholder fees) from the client before going live.
+*/
 export default function RefundPage() {
   return (
     <>
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-12 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <h1 className="text-4xl font-bold text-gray-900">Refund Policy</h1>
-          <p className="mt-3 text-gray-500">Last updated: May 2026</p>
+          <p className="mt-3 text-gray-500">Last updated: [TODO: date once client provides policy]</p>
         </div>
       </section>
 
       <SectionWrapper>
         <div className="prose prose-orange mx-auto max-w-3xl text-gray-600">
-          <h2>Visitor Tickets</h2>
+          <h2>Lorem ipsum dolor sit amet</h2>
           <p>
-            Visitor tickets are non-refundable except in the event of cancellation or significant
-            changes to the event by the organiser.
-          </p>
-          <ul>
-            <li>
-              <strong>Event cancellation:</strong> If PetFest Market is cancelled by the
-              organisers, all ticket holders will receive a full refund.
-            </li>
-            <li>
-              <strong>Event postponement:</strong> If the event is postponed, tickets will
-              automatically transfer to the new date. If you cannot attend the new date, a full
-              refund will be offered.
-            </li>
-            <li>
-              <strong>Change of mind:</strong> Refunds are not available for change of mind or
-              personal circumstances, including illness or travel issues.
-            </li>
-          </ul>
-
-          <h2>Vendor Stall Fees</h2>
-          <p>Vendor stall fee refunds are subject to the following conditions:</p>
-          <ul>
-            <li>
-              <strong>Cancellation more than 14 days before the event:</strong> 50% refund of stall
-              fee paid.
-            </li>
-            <li>
-              <strong>Cancellation within 14 days of the event:</strong> No refund. Stall fees are
-              non-refundable within this period.
-            </li>
-            <li>
-              <strong>Event cancellation by organisers:</strong> Full refund of all stall fees paid.
-            </li>
-          </ul>
-
-          <h2>How to Request a Refund</h2>
-          <p>
-            To request a refund where applicable, please email{" "}
-            <a href="mailto:hello@petfestmarket.com.au">hello@petfestmarket.com.au</a> with your
-            order number and the reason for your request. We will process eligible refunds within 10
-            business days.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
 
-          <h2>Questions</h2>
+          <h2>Duis aute irure</h2>
           <p>
-            If you have any questions about this policy, please contact us at{" "}
-            <a href="mailto:hello@petfestmarket.com.au">hello@petfestmarket.com.au</a>.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </p>
+          <ul>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+            <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
+          </ul>
+
+          <h2>Sed ut perspiciatis</h2>
+          <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+            architecto beatae vitae dicta sunt explicabo.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            For questions about this policy, please contact us at{" "}
+            <a href="mailto:petfest@nonconformity.com.au">petfest@nonconformity.com.au</a>.
           </p>
         </div>
       </SectionWrapper>

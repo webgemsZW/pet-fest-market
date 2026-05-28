@@ -1,19 +1,20 @@
-﻿import React from "react";
+import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { sponsors } from "@/lib/sponsors-data";
 
-const placeholderSponsors = [
-  { name: "Paws & Co.", tier: "Platinum" },
-  { name: "Happy Tails Vet", tier: "Gold" },
-  { name: "Bark & Brew", tier: "Gold" },
-  { name: "FurEver Home", tier: "Silver" },
-  { name: "The Pet Pantry", tier: "Silver" },
-  { name: "Whiskers & Wings", tier: "Bronze" },
-];
-
+/*
+  This component is currently NOT rendered on the homepage (the import in
+  src/app/page.tsx is commented out) because the `sponsors` array in
+  @/lib/sponsors-data is empty. When the first real sponsor is added, the
+  homepage import + /sponsors nav links should be re-enabled — see the
+  comment at the top of @/lib/sponsors-data for the checklist.
+*/
 export function SponsorPreviewSection() {
+  if (sponsors.length === 0) return null;
+
   return (
     <SectionWrapper>
       <SectionHeading
@@ -22,7 +23,7 @@ export function SponsorPreviewSection() {
       />
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {placeholderSponsors.map((sponsor) => (
+        {sponsors.map((sponsor) => (
           <div
             key={sponsor.name}
             className="flex flex-col items-center justify-center rounded-2xl bg-gray-50 p-6 text-center ring-1 ring-gray-100 transition-shadow hover:shadow-sm"
