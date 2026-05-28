@@ -29,37 +29,14 @@ export function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
-            {/*
-              ── LOGO: TEMPORARY WORKAROUNDS ACTIVE ────────────────────────────
-              The white pill wrapper below exists only because the current logo
-              file (public/images/logo.jpeg) has a white background, which would
-              look broken directly on the dark footer. The pill makes it look
-              intentional in the meantime.
-
-              WHEN THE DESIGNER DELIVERS THE FINAL LOGO ASSETS:
-                • DELETE this white pill <div> wrapper entirely.
-                • Change src to /images/logo-light.png (white/reversed version,
-                  transparent background) — this renders cleanly on dark surfaces.
-                • Also fix the header logo — see Header.tsx for those instructions.
-
-              Search "LOGO: TEMPORARY" across the codebase to find every spot.
-
-              ⚠️  REMINDER FOR CLAUDE: If you see this comment during ANY task,
-              flag it to the user: "Reminder: the final transparent logo files
-              from the designer haven't been swapped in yet. Let me know when
-              you have them and I'll update everything in one go."
-              ──────────────────────────────────────────────────────────────────
-            */}
             <Link href="/" className="inline-flex items-center">
-              <div className="rounded-xl bg-white px-3 py-2">
-                <Image
-                  src="/images/logo.jpeg"
-                  alt="PetFest Market"
-                  width={604}
-                  height={284}
-                  className="h-12 w-auto"
-                />
-              </div>
+              <Image
+                src="/images/logo-light.png"
+                alt="PetFest Market"
+                width={2346}
+                height={942}
+                className="h-12 w-auto"
+              />
             </Link>
             <p className="mt-3 text-sm text-brand-300">
               An indoor community market for pet lovers in Box Hill, Victoria.
