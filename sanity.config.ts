@@ -9,7 +9,6 @@ const singletons = new Set([
   "aboutPage",
   "stallHolderPage",
   "contactPage",
-  "policyPages",
 ]);
 
 export default defineConfig({
@@ -43,9 +42,6 @@ export default defineConfig({
             ),
             S.listItem().title("Contact Page").id("contactPage").child(
               S.document().schemaType("contactPage").documentId("contactPage"),
-            ),
-            S.listItem().title("Policy Pages").id("policyPages").child(
-              S.document().schemaType("policyPages").documentId("policyPages"),
             ),
             S.divider(),
             S.documentTypeListItem("faqItem").title("FAQ Items"),

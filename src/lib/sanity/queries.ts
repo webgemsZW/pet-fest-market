@@ -68,6 +68,7 @@ export const contactPageQuery = `*[_type == "contactPage"][0]{
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   siteName,
   siteDescription,
+  acknowledgementOfCountry,
   logoText,
   socialLinks{
     facebook,
@@ -86,8 +87,3 @@ export const eventSettingsQuery = `*[_type == "eventSettings"][0]{
   applyUrl
 }`;
 
-export const policyPagesQuery = `*[_type == "policyPages"][0]{
-  termsAndConditions,
-  privacyPolicy,
-  refundPolicy
-}`;
