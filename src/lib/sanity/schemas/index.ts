@@ -6,7 +6,9 @@ import { stallHolderPage } from "./stallHolderPage";
 import { faqItem } from "./faqItem";
 import { sponsor } from "./sponsor";
 import { contactPage } from "./contactPage";
-import { policyPages } from "./policyPages";
+
+// policyPages removed — Privacy / Terms / Code of Conduct stay as code,
+// edited via PR against .docx files in site-info/docs/. See CMS_PLAN.md §3.
 
 export const schemaTypes = [
   // Singletons
@@ -16,7 +18,6 @@ export const schemaTypes = [
   aboutPage,
   stallHolderPage,
   contactPage,
-  policyPages,
   // Collections
   faqItem,
   sponsor,

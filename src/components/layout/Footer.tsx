@@ -3,6 +3,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Facebook, Twitter } from "lucide-react";
 import { FooterNewsletterForm } from "./FooterNewsletterForm";
+import { getSiteSettings } from "@/lib/sanity/get-site-settings";
+
+/**
+ * Verbatim acknowledgement from
+ * site-info/docs/Acknowledgement of country - Website Petfest.docx.
+ * Used as a safe fallback if Sanity is unreachable, env vars are unset,
+ * or no siteSettings document has been created yet.
+ */
+const FALLBACK_ACKNOWLEDGEMENT =
+  "We acknowledge the Traditional Owners and Custodians of Country throughout Australia and recognise their continuing connection to lands, waters and communities. We pay our respect to their Elders past, present and emerging and extend that respect to all Aboriginal and Torres Strait Islander peoples.";
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
 // sponsors are signed (per @/lib/sponsors-data). Restore the entry below
@@ -22,7 +32,11 @@ const policyLinks = [
   { href: "/policies/code-of-conduct", label: "Code of Conduct" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const siteSettings = await getSiteSettings();
+  const acknowledgement =
+    siteSettings?.acknowledgementOfCountry?.trim() || FALLBACK_ACKNOWLEDGEMENT;
+
   return (
     <footer className="bg-brand-900 text-brand-100">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
@@ -124,14 +138,12 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Welcome to Country */}
+        {/* Acknowledgement of Country — sourced from Sanity (siteSettings.acknowledgementOfCountry)
+            with a hardcoded fallback for safety. See src/lib/sanity/get-site-settings.ts. */}
         <div className="mt-12 border-t border-brand-800 pt-8">
           <p className="text-sm text-brand-400">
-            <span className="font-semibold text-brand-300">Acknowledgement of Country —</span> We
-            acknowledge the Traditional Owners and Custodians of Country throughout Australia and
-            recognise their continuing connection to lands, waters and communities. We pay our
-            respect to their Elders past, present and emerging and extend that respect to all
-            Aboriginal and Torres Strait Islander peoples.
+            <span className="font-semibold text-brand-300">Acknowledgement of Country —</span>{" "}
+            {acknowledgement}
           </p>
         </div>
 
