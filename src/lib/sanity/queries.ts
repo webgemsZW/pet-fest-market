@@ -1,89 +1,156 @@
-export const homepageQuery = `*[_type == "homepage"][0]{
-  heroHeadline,
-  heroSubheading,
-  heroImage,
-  eventSummary,
-  vendorCtaHeadline,
-  vendorCtaBody,
-  welcomeToCountryText
-}`;
+// GROQ queries for fetching Sanity content.
+//
+// Style notes:
+//   - Singletons fetched by their fixed documentId (e.g. "siteSettings"),
+//     not by querying all docs of the type. Faster and unambiguous.
+//   - Page-driven references (e.g. currentEvent) are projected inline so
+//     the consumer gets one round-trip instead of two.
+//   - When this file changes, also update the matching getXxx() helper
+//     so cache tags stay in sync with what's actually fetched.
 
-export const aboutPageQuery = `*[_type == "aboutPage"][0]{
-  heading,
-  subheading,
-  body,
-  image
-}`;
-
-export const stallHolderPageQuery = `*[_type == "stallHolderPage"][0]{
-  heading,
-  intro,
-  benefits,
-  pricing[]{
-    tier,
-    price,
-    description
-  },
-  requirements,
-  applyUrl,
-  faqs[]{
-    question,
-    answer
-  }
-}`;
-
-export const faqPageQuery = `*[_type == "faqPage"][0]{
-  heading,
-  intro
-}`;
-
-export const faqItemsQuery = `*[_type == "faqItem"] | order(category asc, _createdAt asc){
-  _id,
-  question,
-  answer,
-  category
-}`;
-
-export const sponsorsPageQuery = `*[_type == "sponsorsPage"][0]{
-  heading,
-  intro
-}`;
-
-export const sponsorsQuery = `*[_type == "sponsor"] | order(tier asc, name asc){
-  _id,
-  name,
-  logo,
-  website,
-  tier
-}`;
-
-export const contactPageQuery = `*[_type == "contactPage"][0]{
-  heading,
-  intro,
-  email,
-  phone,
-  address
-}`;
-
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+// ------------------------------------------------------------------
+// Site Settings (singleton) — global content + currentEvent reference
+// ------------------------------------------------------------------
+export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   siteName,
   siteDescription,
   acknowledgementOfCountry,
-  logoText,
+  contactEmail,
+  contactPhone,
+  contactAddress,
   socialLinks{
     facebook,
     instagram,
     twitter
   },
-  mailingListUrl
+  mailingListUrl,
+  nonconformityCredit{
+    text,
+    logo
+  },
+  currentEvent->{
+    _id,
+    eventName,
+    "slug": slug.current,
+    eventDate,
+    doorsOpenTime,
+    eventEndTime,
+    location,
+    ticketPrice,
+    ticketUrl,
+    applyUrl
+  }
 }`;
 
-export const eventSettingsQuery = `*[_type == "eventSettings"][0]{
+// ------------------------------------------------------------------
+// Single event by id — used when you need the event directly, e.g.
+// for cache-tagging by event id. The "currentEvent" projection inside
+// siteSettingsQuery already returns the same shape.
+// ------------------------------------------------------------------
+export const eventByIdQuery = `*[_type == "event" && _id == $id][0]{
+  _id,
   eventName,
+  "slug": slug.current,
   eventDate,
+  doorsOpenTime,
+  eventEndTime,
   location,
   ticketPrice,
   ticketUrl,
   applyUrl
 }`;
 
+// ------------------------------------------------------------------
+// Page singletons — not wired up yet, will be consumed in Phase 4.
+// Kept here so the GROQ stays alongside the schemas they describe.
+// ------------------------------------------------------------------
+export const homepageQuery = `*[_id == "homepage"][0]{
+  heroEyebrow,
+  heroSubheading,
+  heroImage,
+  whatToExpectHeading,
+  whatToExpectSubtitle,
+  whatToExpectCards[]{
+    icon,
+    title,
+    description
+  },
+  vendorCtaBadge,
+  vendorCtaHeadline,
+  vendorCtaBody,
+  vendorCtaPerks,
+  vendorCtaPricingPill{
+    headline,
+    subline
+  },
+  faqPreviewHeading,
+  faqPreviewSubtitle,
+  mailingListHeading,
+  mailingListBody
+}`;
+
+export const aboutPageQuery = `*[_id == "aboutPage"][0]{
+  heading,
+  subheading,
+  story,
+  image,
+  values[]{
+    icon,
+    title,
+    description
+  }
+}`;
+
+export const stallHolderPageQuery = `*[_id == "stallHolderPage"][0]{
+  heading,
+  intro,
+  benefitsHeading,
+  benefitsSubtitle,
+  benefits,
+  pricingHeading,
+  pricingSubtitle,
+  pricing[]{
+    tier,
+    price,
+    description,
+    features,
+    featured
+  },
+  requirementsHeading,
+  requirementsSubtitle,
+  requirements,
+  vendorFaqsHeading,
+  vendorFaqs[]{
+    question,
+    answer
+  },
+  applyHeading,
+  applyBody,
+  applyComingSoonLabel
+}`;
+
+export const contactPageQuery = `*[_id == "contactPage"][0]{
+  heading,
+  intro
+}`;
+
+// ------------------------------------------------------------------
+// Collections — FAQ items and sponsors. Phase 3 wires these to pages.
+// ------------------------------------------------------------------
+export const faqItemsQuery = `*[_type == "faqItem"] | order(category asc, order asc, _createdAt asc){
+  _id,
+  question,
+  answer,
+  category,
+  order
+}`;
+
+export const sponsorsQuery = `*[_type == "sponsor"] | order(tier asc, order asc, name asc){
+  _id,
+  name,
+  logo,
+  website,
+  tier,
+  tagline,
+  order
+}`;

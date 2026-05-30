@@ -1,8 +1,6 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,6 +65,13 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Root layout. Intentionally MINIMAL — just the html/body wrapper and
+ * font setup. The site-wide Header/Footer chrome lives in the
+ * `(site)` route group's layout (src/app/(site)/layout.tsx) so that
+ * the embedded Sanity Studio at /studio renders full-screen without
+ * the public-site navbar covering its toolbar.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -74,11 +79,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-AU">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>{children}</body>
     </html>
   );
 }

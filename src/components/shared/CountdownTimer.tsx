@@ -1,8 +1,6 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
-
-const EVENT_DATE = new Date("2026-07-26T09:00:00+10:00");
 
 interface TimeLeft {
   days: number;
@@ -11,9 +9,9 @@ interface TimeLeft {
   seconds: number;
 }
 
-function getTimeLeft(): TimeLeft | null {
+function getTimeLeft(target: Date): TimeLeft | null {
   const now = new Date();
-  const diff = EVENT_DATE.getTime() - now.getTime();
+  const diff = target.getTime() - now.getTime();
   if (diff <= 0) return null;
 
   return {
@@ -56,15 +54,32 @@ function TimeUnit({ value, label, variant }: { value: number; label: string; var
   );
 }
 
-export function CountdownTimer({ variant = "dark" }: { variant?: Variant } = {}) {
+interface CountdownTimerProps {
+  /**
+   * Target date as an ISO string (e.g. "2026-07-26T09:00:00+10:00").
+   * Sourced from the current event in Site Settings.
+   */
+  eventDate: string;
+  variant?: Variant;
+}
+
+export function CountdownTimer({ eventDate, variant = "dark" }: CountdownTimerProps) {
+  const target = new Date(eventDate);
+  const targetValid = !Number.isNaN(target.getTime());
+
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const styles = variantStyles[variant];
 
   useEffect(() => {
-    setTimeLeft(getTimeLeft());
-    const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    if (!targetValid) return;
+    setTimeLeft(getTimeLeft(target));
+    const interval = setInterval(() => setTimeLeft(getTimeLeft(target)), 1000);
     return () => clearInterval(interval);
-  }, []);
+    // target is derived from `eventDate` — re-run when the date string changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventDate]);
+
+  if (!targetValid) return null;
 
   if (!timeLeft) {
     return (

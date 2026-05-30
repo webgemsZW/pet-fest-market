@@ -1,16 +1,24 @@
-﻿import React from "react";
+import React from "react";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
+import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
+import { getHomepage } from "@/lib/sanity/get-homepage";
 
-// TODO(content): Vendor perks below are placeholder lorem ipsum. The $80
-// stall fee, foot-traffic claims, audience description, etc. were all
-// invented during initial scaffolding. The 25 May email from the client
-// confirms stallholder applications will be collected via a Google Form
-// (link still to come) — request real perks/pricing copy from the client
-// before going live.
-const perks = [
+/* ──────────────────────────────────────────────────────────────────
+   Fallback content. NOTE(content): the user chose to keep the marketing
+   headline + body framing — leave as-is on audits. The perks list and
+   pricing pill are intentionally lorem ipsum because the client hasn't
+   confirmed stallholder pricing/benefits yet.
+   ──────────────────────────────────────────────────────────────── */
+
+const FALLBACK_BADGE = "Vendor Applications Open";
+const FALLBACK_HEADLINE = "Grow your business at PetFest Market";
+const FALLBACK_BODY =
+  "Join a curated group of talented local vendors at one of Victoria's most loved pet community events. Applications are now open for our first market —";
+
+const FALLBACK_PERKS: string[] = [
   "Lorem ipsum dolor sit amet",
   "Consectetur adipiscing elit, sed do eiusmod",
   "Tempor incididunt ut labore et dolore",
@@ -19,7 +27,39 @@ const perks = [
   "Duis aute irure dolor in reprehenderit",
 ];
 
-export function VendorCtaSection() {
+const FALLBACK_PRICING_HEADLINE = "Lorem ipsum dolor";
+const FALLBACK_PRICING_SUBLINE = "Consectetur adipiscing elit";
+
+const FALLBACK_DATE_LABEL = "Sunday 26 July 2026";
+const FALLBACK_LOCATION = "Box Hill Town Hall";
+
+function formatDateLabel(iso: string | null | undefined): string {
+  if (!iso) return FALLBACK_DATE_LABEL;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return FALLBACK_DATE_LABEL;
+  return d.toLocaleDateString("en-AU", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export async function VendorCtaSection() {
+  const [event, homepage] = await Promise.all([getCurrentEvent(), getHomepage()]);
+  const dateLabel = formatDateLabel(event?.eventDate);
+  const location = event?.location?.trim() || FALLBACK_LOCATION;
+  const applyUrl = event?.applyUrl?.trim() || null;
+
+  const badge = homepage?.vendorCtaBadge?.trim() || FALLBACK_BADGE;
+  const headline = homepage?.vendorCtaHeadline?.trim() || FALLBACK_HEADLINE;
+  const body = homepage?.vendorCtaBody?.trim() || FALLBACK_BODY;
+  const perks = homepage?.vendorCtaPerks?.length ? homepage.vendorCtaPerks : FALLBACK_PERKS;
+  const pricingHeadline =
+    homepage?.vendorCtaPricingPill?.headline?.trim() || FALLBACK_PRICING_HEADLINE;
+  const pricingSubline =
+    homepage?.vendorCtaPricingPill?.subline?.trim() || FALLBACK_PRICING_SUBLINE;
+
   return (
     <SectionWrapper className="bg-brand-50">
       <div className="mx-auto max-w-4xl">
@@ -28,26 +68,19 @@ export function VendorCtaSection() {
             {/* Left: content */}
             <div className="p-8 lg:p-12">
               <div className="mb-4 inline-block rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700">
-                Vendor Applications Open
+                {badge}
               </div>
-              {/*
-                NOTE(content): Heading + intro paragraph below are NOT from a
-                source-of-truth document but the user has chosen to keep them.
-                The date/venue specifics ARE factual (per CLAUDE.md + 25 May
-                email). Do NOT replace with lorem ipsum on future audits.
-              */}
-              <h2 className="text-3xl font-bold text-gray-900">
-                Grow your business at PetFest Market
-              </h2>
+              <h2 className="text-3xl font-bold text-gray-900">{headline}</h2>
               <p className="mt-3 text-gray-500">
-                Join a curated group of talented local vendors at one of Victoria&apos;s most
-                loved pet community events. Applications are now open for our first market —
-                Sunday 26 July 2026 at Box Hill Town Hall.
+                {body} {dateLabel} at {location}.
               </p>
 
               <ul className="mt-6 space-y-3">
-                {perks.map((perk) => (
-                  <li key={perk} className="flex items-start gap-3 text-sm text-gray-600">
+                {perks.map((perk, i) => (
+                  <li
+                    key={`${perk}-${i}`}
+                    className="flex items-start gap-3 text-sm text-gray-600"
+                  >
                     <CheckCircle2
                       className="mt-0.5 h-5 w-5 shrink-0 text-brand-500"
                       aria-hidden="true"
@@ -59,7 +92,13 @@ export function VendorCtaSection() {
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild>
-                  <Link href="/stall-holders#apply">Apply Now</Link>
+                  {applyUrl ? (
+                    <a href={applyUrl} target="_blank" rel="noopener noreferrer">
+                      Apply Now
+                    </a>
+                  ) : (
+                    <Link href="/stall-holders#apply">Apply Now</Link>
+                  )}
                 </Button>
                 <Button asChild variant="ghost">
                   <Link href="/stall-holders">Learn More</Link>
@@ -71,16 +110,10 @@ export function VendorCtaSection() {
             <div className="flex items-center justify-center bg-gradient-to-br from-brand-400 to-brand-700 p-12 text-center text-white">
               <div>
                 <div className="text-7xl">🛍️</div>
-                {/*
-                  TODO(content): "Stalls from $80" and "Limited spots available"
-                  are placeholder. Client has not confirmed stall pricing or
-                  capacity yet — Google Form for stallholder applications is
-                  still being finalised (per 25 May email).
-                */}
-                <p className="mt-4 text-2xl font-bold font-brume">Lorem ipsum dolor</p>
-                <p className="mt-1 text-brand-200">Consectetur adipiscing elit</p>
+                <p className="mt-4 text-2xl font-bold font-brume">{pricingHeadline}</p>
+                <p className="mt-1 text-brand-200">{pricingSubline}</p>
                 <div className="mt-6 rounded-full bg-white/20 px-6 py-3 text-sm font-medium">
-                  Sunday 26 July 2026 · Box Hill Town Hall
+                  {dateLabel} · {location}
                 </div>
               </div>
             </div>

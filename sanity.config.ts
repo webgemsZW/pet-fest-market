@@ -1,10 +1,13 @@
-﻿import { defineConfig } from "sanity";
+import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./src/lib/sanity/schemas";
 
+// Document types that should appear as fixed singletons in the Studio
+// Desk. The structure below shows each one as a single document; the
+// document template + actions are filtered so editors can't create
+// duplicates or accidentally delete them.
 const singletons = new Set([
   "siteSettings",
-  "eventSettings",
   "homepage",
   "aboutPage",
   "stallHolderPage",
@@ -19,18 +22,19 @@ export default defineConfig({
   basePath: "/studio",
   plugins: [
     structureTool({
-      // Sanity Studio structure
       structure: (S) =>
         S.list()
           .title("Content")
           .items([
+            // Global settings ----------------------------------------
             S.listItem().title("Site Settings").id("siteSettings").child(
               S.document().schemaType("siteSettings").documentId("siteSettings"),
             ),
-            S.listItem().title("Event Settings").id("eventSettings").child(
-              S.document().schemaType("eventSettings").documentId("eventSettings"),
-            ),
             S.divider(),
+            // Events (collection — pick "Current Event" in Site Settings)
+            S.documentTypeListItem("event").title("Events"),
+            S.divider(),
+            // Page-specific singletons -------------------------------
             S.listItem().title("Homepage").id("homepage").child(
               S.document().schemaType("homepage").documentId("homepage"),
             ),
@@ -44,6 +48,7 @@ export default defineConfig({
               S.document().schemaType("contactPage").documentId("contactPage"),
             ),
             S.divider(),
+            // Collections --------------------------------------------
             S.documentTypeListItem("faqItem").title("FAQ Items"),
             S.documentTypeListItem("sponsor").title("Sponsors"),
           ]),
