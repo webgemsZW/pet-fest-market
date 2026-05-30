@@ -159,8 +159,11 @@ export async function Footer() {
           />
         </div>
 
+        {/* Copyright year is hardcoded — Cache Components mode forbids `new Date()`
+            in server components. Update once a year, or refactor to a tiny
+            Client Component if we want it to roll over automatically. */}
         <div className="mt-6 text-center text-xs text-brand-600">
-          © {new Date().getFullYear()} PetFest Market. All rights reserved.
+          © 2026 PetFest Market. All rights reserved.
         </div>
       </div>
     </footer>
