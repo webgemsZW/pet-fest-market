@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { sponsors, tierConfig, type SponsorTier } from "@/lib/sponsors-data";
+import { tierConfig } from "@/lib/sponsors-data";
+import { getSponsors, type SponsorTier } from "@/lib/sanity/get-sponsors";
+import { urlFor } from "@/lib/sanity/image";
 
 export const metadata: Metadata = {
   title: "Sponsors",
@@ -11,14 +14,18 @@ export const metadata: Metadata = {
 
 /*
   /sponsors is intentionally NOT linked from the header or footer navigation
-  while `sponsors` (in @/lib/sponsors-data) is empty. The page itself stays
-  accessible at /sponsors so direct links still resolve and so the "Become a
-  Sponsor" CTA remains discoverable. When sponsors are signed:
-    1. Populate `sponsors` in @/lib/sponsors-data.ts.
+  while there are no published sponsors. The page itself stays accessible so
+  direct links still resolve and so the "Become a Sponsor" CTA remains
+  discoverable. When sponsors are signed:
+    1. Add a Sponsor document in Studio.
     2. Restore the /sponsors link in Header.tsx + Footer.tsx.
     3. Re-enable <SponsorPreviewSection /> on the homepage.
+
+  Source-of-truth is now Sanity (via @/lib/sanity/get-sponsors). The legacy
+  src/lib/sponsors-data.ts is kept only for its `tierConfig` styling map.
 */
-export default function SponsorsPage() {
+export default async function SponsorsPage() {
+  const sponsors = await getSponsors();
   const tierOrder: SponsorTier[] = ["platinum", "gold", "silver", "bronze"];
   const hasSponsors = sponsors.length > 0;
 
@@ -51,23 +58,58 @@ export default function SponsorsPage() {
                     <h2 className="text-2xl font-bold text-gray-900">{config.label} Sponsors</h2>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {tierSponsors.map((sponsor) => (
-                      <div
-                        key={sponsor.name}
-                        className={`rounded-2xl ${config.bgClass} flex flex-col items-center p-8 text-center ring-1 ring-gray-100`}
-                      >
-                        <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm text-3xl">
-                          🐾
-                        </div>
-                        <p className={`font-semibold ${config.textClass}`}>{sponsor.name}</p>
-                        <p className="mt-1 text-sm text-gray-500">{sponsor.tagline}</p>
-                        <span
-                          className={`mt-3 rounded-full px-3 py-1 text-xs font-semibold ${config.badgeClass}`}
+                    {tierSponsors.map((sponsor) => {
+                      const logoUrl = sponsor.logo?.asset?._ref
+                        ? urlFor(sponsor.logo as Parameters<typeof urlFor>[0])
+                            .width(200)
+                            .height(200)
+                            .fit("crop")
+                            .url()
+                        : null;
+
+                      const card = (
+                        <div
+                          className={`rounded-2xl ${config.bgClass} flex flex-col items-center p-8 text-center ring-1 ring-gray-100`}
                         >
-                          {config.label}
-                        </span>
-                      </div>
-                    ))}
+                          <div className="mb-3 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-sm">
+                            {logoUrl ? (
+                              <Image
+                                src={logoUrl}
+                                alt={sponsor.logo?.alt || sponsor.name}
+                                width={64}
+                                height={64}
+                                className="h-full w-full object-contain"
+                              />
+                            ) : (
+                              <span className="text-3xl">🐾</span>
+                            )}
+                          </div>
+                          <p className={`font-semibold ${config.textClass}`}>{sponsor.name}</p>
+                          {sponsor.tagline && (
+                            <p className="mt-1 text-sm text-gray-500">{sponsor.tagline}</p>
+                          )}
+                          <span
+                            className={`mt-3 rounded-full px-3 py-1 text-xs font-semibold ${config.badgeClass}`}
+                          >
+                            {config.label}
+                          </span>
+                        </div>
+                      );
+
+                      return sponsor.website ? (
+                        <a
+                          key={sponsor._id}
+                          href={sponsor.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-transform hover:-translate-y-0.5"
+                        >
+                          {card}
+                        </a>
+                      ) : (
+                        <div key={sponsor._id}>{card}</div>
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -75,11 +117,9 @@ export default function SponsorsPage() {
           </div>
         ) : (
           /*
-            TODO(content): Empty state shown while no sponsors are signed.
-            The previous version of this page hardcoded fake sponsors
-            ("Paws & Co.", "Happy Tails Vet", etc.) — those have been
-            removed. Populate @/lib/sponsors-data once real sponsors come
-            on board.
+            Empty state shown while no sponsors are signed. Editors can
+            add Sponsors in Studio whenever a partner is confirmed —
+            this page will automatically switch to the populated view.
           */
           <div className="mx-auto max-w-2xl rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
             <div className="mb-4 text-4xl">🤝</div>

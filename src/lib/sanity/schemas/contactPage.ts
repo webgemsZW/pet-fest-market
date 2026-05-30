@@ -1,14 +1,27 @@
 import { defineType, defineField } from "sanity";
 
+/**
+ * Page-specific copy for /contact. Email, phone, and address are global
+ * and live on `siteSettings` instead (so they only need editing in one
+ * place even though they appear on multiple pages).
+ */
 export const contactPage = defineType({
   name: "contactPage",
   title: "Contact Page",
   type: "document",
   fields: [
-    defineField({ name: "heading", title: "Page Heading", type: "string" }),
-    defineField({ name: "intro", title: "Intro Text", type: "text", rows: 2 }),
-    defineField({ name: "email", title: "Contact Email", type: "string" }),
-    defineField({ name: "phone", title: "Phone Number", type: "string" }),
-    defineField({ name: "address", title: "Address", type: "text", rows: 2 }),
+    defineField({
+      name: "heading",
+      title: "Page Heading",
+      type: "string",
+      description: "Main H1, e.g. 'Get in Touch'.",
+    }),
+    defineField({
+      name: "intro",
+      title: "Intro Text",
+      type: "text",
+      rows: 3,
+      description: "Short paragraph shown under the heading.",
+    }),
   ],
 });

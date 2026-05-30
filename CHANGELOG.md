@@ -5,6 +5,132 @@ cross-check what's been done.
 
 ---
 
+## Saturday, 30 May 2026 (later)
+
+### 1. Almost the whole site is now editable from the back-office
+
+Building on yesterday's Acknowledgement-of-Country vertical slice, I
+wired the rest of the site through to Sanity. You and Carolyn can now
+edit, from the back-office at `/studio`, all of the following:
+
+**Global settings (Site Settings):**
+
+- Contact email, phone, postal address (edit once, updates the footer
+  AND the Contact page)
+- Social media URLs — when blank, the relevant icon hides automatically
+- Nonconformity Productions credit (text + logo)
+- Acknowledgement of Country
+- Mailing-list sign-up URL (waiting on the MailChimp account)
+- **Current Event** pointer — see #2
+
+**Events (now a collection — see #3):**
+
+- Event name, slug, date + start time, doors-open time, end time
+- Venue / location
+- Ticket price, ticket purchase URL, stallholder application URL
+
+**Homepage:**
+
+- Hero eyebrow + subtitle
+- "What to Expect" cards (three by default, fully customisable — icon,
+  title, description)
+- Vendor CTA section — badge, headline, body, perks list, pricing pill
+- FAQ preview heading + subtitle
+- Mailing list heading + body
+
+**About Page:**
+
+- Heading + subtitle
+- "Our Story" rich-text content
+- "What We Stand For" values cards (icon + title + description per card)
+
+**Stall Holder Page:**
+
+- Heading + intro
+- Benefits list (with editable section heading + subtitle)
+- Pricing tiers (name, price, description, inclusions list, "Most
+  Popular" highlight flag)
+- Requirements list
+- Vendor-specific FAQs
+- Apply section copy
+
+**Contact Page:**
+
+- Heading + intro
+
+**Collections:**
+
+- **FAQ Items** — each question is its own editable card. Categories:
+  General / Vendors / Pets / Tickets. Drag-style order field controls
+  display order within each category.
+- **Sponsors** — name, tagline, logo upload, website URL, tier
+  (Platinum/Gold/Silver/Bronze), display order.
+
+Everything reads from Sanity at build/render time, falls back to
+sensible hardcoded copy if any field is left blank, and updates on the
+live site within ~3 seconds of clicking Publish (no developer
+involvement).
+
+### 2. The "Current Event" pointer
+
+Site Settings now has a **Current Event** picker that points at one of
+your event documents. Every page that displays the event date, venue,
+ticket link, or stallholder application URL reads from whatever event
+this pointer is pointing at. When the second PetFest Market happens
+later this year or next, you just create the new event document, fill
+in its details, and change this one pointer — the whole site flips
+over.
+
+### 3. Events are now multi-event-ready
+
+Behind the scenes, what used to be a single "Event Settings" page is
+now a list — you can create as many events as you want. The current
+site UI still focuses on one event at a time (via the Current Event
+pointer above), but the foundation for future event listings, archive
+pages, etc. is in place. Adding event #2 now is a few minutes of
+typing, not a website rebuild.
+
+### 4. Smarter buttons and links
+
+A handful of buttons now respond to what's in the back-office:
+
+- **Tickets pill in the hero** — shows "Tickets coming soon" until you
+  fill in a Ticket URL on the event; then automatically becomes a
+  "Buy Tickets" button.
+- **Apply as Vendor buttons** (hero, vendor CTA, stall-holders page) —
+  link to the in-page section while the Google Form URL is blank.
+  Once you set it on the event, every Apply button across the site
+  automatically links straight to the form.
+- **Sponsor cards** — when a sponsor has a website URL set, their
+  card becomes clickable.
+- **Footer social icons** — only render the icons whose URLs are
+  filled in. Blank URLs = no icon shown.
+
+### 5. Editor guide written
+
+A friendly how-to-edit-the-site guide is now at **EDITOR_GUIDE.md**
+in the project folder. It covers logging in, what each section in the
+back-office controls, how to add an FAQ or a sponsor, image upload
+hints, and the rules of the road (especially the "no pets at the
+venue" wording rule). When your Sanity account is set up, this is the
+first thing to read.
+
+### 6. What's still hardcoded
+
+Three categories deliberately stay as code (not editable from the
+back-office):
+
+- **Legal pages** (Privacy, Terms, Code of Conduct, Refund Policy) —
+  these come from the `.docx` files you supplied and change rarely.
+- **Top + footer navigation menu items** — adding/removing nav links
+  is a developer change for now.
+- **Logos, brand colours, fonts** — visual identity changes go through
+  a developer.
+
+If you want any of these changed, just ask Charles.
+
+---
+
 ## Friday–Saturday, 29–30 May 2026
 
 ### 1. Planned the content editor dashboard (CMS)
