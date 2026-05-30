@@ -5,6 +5,64 @@ cross-check what's been done.
 
 ---
 
+## Friday–Saturday, 29–30 May 2026
+
+### 1. Planned the content editor dashboard (CMS)
+
+You and Carolyn will soon be able to log in to a simple back-office and
+edit the website's content yourselves, without needing a developer in the
+loop. The full plan — including how it works, who logs in how, and what
+becomes editable in what order — lives in **CMS_PLAN.md** in the project
+folder if you'd like to read it.
+
+Key decisions:
+
+- The editor tool is **Sanity** — free for our scale, friendly UI, three
+  editor seats (you, Carolyn, me) included at no cost.
+- Sign-in is **Google** (with email magic-link as a fallback if either of
+  you would rather not use a Google account).
+- Images you upload go to Sanity's image hosting, which auto-resizes and
+  crops them — you just drop a file in and the website handles the rest.
+- The **legal pages** (Privacy, Terms, Code of Conduct, Refund Policy)
+  stay as code, since they need to match the source `.docx` documents you
+  provide and change rarely.
+- The data model is built to be **multi-event ready** from day one — when
+  PetFest Market eventually runs a second market, adding it is a few
+  minutes of typing, not a website rebuild. The user-facing pages for
+  multiple events (event listing, calendar, archive of past events,
+  etc.) are deferred until you confirm event #2 is happening.
+
+### 2. First editable field is live — Acknowledgement of Country
+
+As proof that the whole pipeline works end-to-end, the Acknowledgement of
+Country in the footer is now editable through the back-office. Changes
+appear on the live site within ~3 seconds of clicking Publish — no
+developer involvement needed. Over the next sessions I'll move the rest
+of the editable content in the same way: site contact details, event
+details (date, venue, etc.), FAQs, sponsors, and then page-by-page copy.
+
+**Next step from your side:** create a Sanity account (it's free) and
+let me know once you have. I'll then walk you through inviting Carolyn
+and giving me access so I can finish wiring everything to your account
+rather than my development sandbox. The site will keep working normally
+in the meantime — there's a safe fallback that uses the hardcoded text
+if anything's ever unreachable.
+
+### 3. "What to Expect" cards on the home page restyled
+
+The three cards under "What to Expect" on the home page were given a
+cleaner, less boxy look — circular icons in a soft brand tint, no card
+backgrounds, more breathing room between items.
+
+### 4. Duplicate Acknowledgement of Country removed
+
+The Acknowledgement of Country previously appeared in the footer, at the
+bottom of the home page, and on the About page. It now appears only in
+the footer (which is shown on every page, so it's still visible
+everywhere).
+
+---
+
 ## Thursday, 28 May 2026
 
 ### 1. New brand colours
