@@ -1,3 +1,4 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { siteSettingsQuery } from "./queries";
 
@@ -21,6 +22,12 @@ export interface SiteSettings {
 /**
  * Fetch the global Site Settings document.
  *
+ * The `"use cache"` directive caches the whole function output under the
+ * `max` cacheLife profile, tagged `sanity:siteSettings` and
+ * `sanity:type:siteSettings`. The publish webhook at /api/revalidate
+ * calls `revalidateTag(tag, "max")` to bust both tags whenever an editor
+ * publishes a change.
+ *
  * Returns `null` if:
  *   - the Sanity env vars are unset (e.g. during early dev before the
  *     project exists)
@@ -29,21 +36,16 @@ export interface SiteSettings {
  *
  * Callers are expected to fall back to hardcoded defaults on `null` so
  * the public site keeps rendering safely.
- *
- * The fetch is tagged `sanity:siteSettings`; the publish webhook at
- * /api/revalidate calls `revalidateTag("sanity:siteSettings")` whenever
- * an editor publishes a change to this document, so updates appear
- * within seconds without a rebuild.
  */
 export async function getSiteSettings(): Promise<SiteSettings | null> {
+  "use cache";
+  cacheTag("sanity:siteSettings", "sanity:type:siteSettings");
+  cacheLife("max");
+
   if (!isSanityConfigured()) return null;
 
   try {
-    return await sanityClient.fetch<SiteSettings | null>(
-      siteSettingsQuery,
-      {},
-      { next: { tags: ["sanity:siteSettings"] } },
-    );
+    return await sanityClient.fetch<SiteSettings | null>(siteSettingsQuery);
   } catch (error) {
     console.error("[sanity] siteSettings fetch failed", error);
     return null;
