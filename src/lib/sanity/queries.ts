@@ -21,6 +21,7 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   socialLinks{
     facebook,
     instagram,
+    tiktok,
     twitter
   },
   mailingListUrl,
@@ -75,58 +76,20 @@ export const homepageQuery = `*[_id == "homepage"][0]{
     title,
     description
   },
-  vendorCtaBadge,
-  vendorCtaHeadline,
-  vendorCtaBody,
-  vendorCtaPerks,
-  vendorCtaPricingPill{
-    headline,
-    subline
-  },
   faqPreviewHeading,
   faqPreviewSubtitle,
-  mailingListHeading,
-  mailingListBody
+  mailingListHeading
 }`;
 
 export const aboutPageQuery = `*[_id == "aboutPage"][0]{
   heading,
-  subheading,
-  story,
-  image,
-  values[]{
-    icon,
-    title,
-    description
-  }
+  body,
+  image
 }`;
 
 export const stallHolderPageQuery = `*[_id == "stallHolderPage"][0]{
   heading,
-  intro,
-  benefitsHeading,
-  benefitsSubtitle,
-  benefits,
-  pricingHeading,
-  pricingSubtitle,
-  pricing[]{
-    tier,
-    price,
-    description,
-    features,
-    featured
-  },
-  requirementsHeading,
-  requirementsSubtitle,
-  requirements,
-  vendorFaqsHeading,
-  vendorFaqs[]{
-    question,
-    answer
-  },
-  applyHeading,
-  applyBody,
-  applyComingSoonLabel
+  intro
 }`;
 
 export const contactPageQuery = `*[_id == "contactPage"][0]{
@@ -137,11 +100,10 @@ export const contactPageQuery = `*[_id == "contactPage"][0]{
 // ------------------------------------------------------------------
 // Collections — FAQ items and sponsors. Phase 3 wires these to pages.
 // ------------------------------------------------------------------
-export const faqItemsQuery = `*[_type == "faqItem"] | order(category asc, order asc, _createdAt asc){
+export const faqItemsQuery = `*[_type == "faqItem"] | order(order asc, _createdAt asc){
   _id,
   question,
   answer,
-  category,
   order
 }`;
 

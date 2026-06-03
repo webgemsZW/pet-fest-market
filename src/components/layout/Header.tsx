@@ -6,6 +6,15 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
+
+/*
+  Apply URL note: the Header is a Client Component (it needs useState
+  for the mobile menu + scroll behaviour), so we can't fetch the
+  per-event applyUrl from Sanity here without extra plumbing. Using
+  the hardcoded default keeps the button live everywhere. The Hero
+  and Stallholder page still honour the per-event Sanity override.
+*/
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
 // sponsors are signed (per @/lib/sponsors-data). Restore the entry below
@@ -14,7 +23,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/stall-holders", label: "Stall Holders" },
+  { href: "/stall-holders", label: "Stallholders" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
@@ -60,7 +69,9 @@ export function Header() {
             </Link>
           ))}
           <Button asChild size="sm">
-            <Link href="/stall-holders#apply">Apply as Vendor</Link>
+            <a href={DEFAULT_APPLY_URL} target="_blank" rel="noopener noreferrer">
+              Apply as Stallholder
+            </a>
           </Button>
         </nav>
 
@@ -91,9 +102,14 @@ export function Header() {
             ))}
             <div className="mt-3">
               <Button asChild className="w-full">
-                <Link href="/stall-holders#apply" onClick={() => setMenuOpen(false)}>
-                  Apply as Vendor
-                </Link>
+                <a
+                  href={DEFAULT_APPLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Apply as Stallholder
+                </a>
               </Button>
             </div>
           </nav>

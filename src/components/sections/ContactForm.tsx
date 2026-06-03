@@ -17,7 +17,7 @@ interface FormData {
 
 const SUBJECTS = [
   "General Enquiry",
-  "Vendor / Stall Application",
+  "Stallholder Application",
   "Sponsorship",
   "Media / Press",
   "Feedback",

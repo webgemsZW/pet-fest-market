@@ -3,7 +3,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: "Refund policy for PetFest Market tickets and vendor stall fees.",
+  description: "Refund policy for PetFest Market tickets and Stallholder fees.",
 };
 
 /*

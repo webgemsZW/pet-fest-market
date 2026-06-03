@@ -3,39 +3,28 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Facebook, Twitter } from "lucide-react";
 import { FooterNewsletterForm } from "./FooterNewsletterForm";
+import { TiktokIcon } from "@/components/shared/TiktokIcon";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import { urlFor } from "@/lib/sanity/image";
+import { DEFAULT_SOCIAL_LINKS } from "@/lib/site-defaults";
 
 /* ──────────────────────────────────────────────────────────────────
    Fallbacks used when Sanity is unreachable, env vars unset, or the
-   matching field is blank in Site Settings. These keep the footer
-   rendering safely even before any content has been entered.
+   matching field is blank in Site Settings.
    ──────────────────────────────────────────────────────────────── */
 
 const FALLBACK_ACKNOWLEDGEMENT =
   "We acknowledge the Traditional Owners and Custodians of Country throughout Australia and recognise their continuing connection to lands, waters and communities. We pay our respect to their Elders past, present and emerging and extend that respect to all Aboriginal and Torres Strait Islander peoples.";
 
-const FALLBACK_TAGLINE = "An indoor community market for pet lovers in Box Hill, Victoria.";
-const FALLBACK_EVENT_DATE_DISPLAY = "Sunday 26 July 2026";
+// Generic tagline per the 2 June 2026 client revision — explicitly NOT
+// tied to a specific city or date so the footer doesn't need updating
+// between markets (Box Hill VIC, then Disterrly Rd QLD, then Morris
+// Moore VIC).
+const FALLBACK_TAGLINE = "An indoor market for Pet Lovers!";
 const FALLBACK_NP_CREDIT_TEXT = "PetFest Market is an event of";
 const FALLBACK_NP_LOGO_SRC = "/images/nonconformity-logo.png";
 
-/**
- * Format an event ISO datetime as "Sunday 26 July 2026" for the
- * Australian audience. Defensive: returns the fallback if the input
- * isn't a valid date string.
- */
-function formatEventDate(iso: string | null | undefined): string {
-  if (!iso) return FALLBACK_EVENT_DATE_DISPLAY;
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return FALLBACK_EVENT_DATE_DISPLAY;
-  return d.toLocaleDateString("en-AU", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
+const FALLBACK_MAILING_HEADING = "Get Updates on PetFest news and events";
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
 // sponsors are signed. Restore the entry below once the client confirms
@@ -43,7 +32,7 @@ function formatEventDate(iso: string | null | undefined): string {
 //   { href: "/sponsors", label: "Sponsors" },
 const footerNav = [
   { href: "/about", label: "About" },
-  { href: "/stall-holders", label: "Stall Holders" },
+  { href: "/stall-holders", label: "Stallholders" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
@@ -60,10 +49,21 @@ export async function Footer() {
 
   const acknowledgement =
     siteSettings?.acknowledgementOfCountry?.trim() || FALLBACK_ACKNOWLEDGEMENT;
-  const tagline = siteSettings?.siteDescription?.trim() || FALLBACK_TAGLINE;
-  const eventDateDisplay = formatEventDate(siteSettings?.currentEvent?.eventDate);
+  // Use the generic tagline by default — even if siteSettings.siteDescription
+  // is filled in, the footer wants the short generic line, not the SEO
+  // description. We deliberately do NOT use siteDescription here.
+  const tagline = FALLBACK_TAGLINE;
 
-  const social = siteSettings?.socialLinks ?? {};
+  // Resolve each social link: prefer the Sanity-supplied URL, fall
+  // back to the hardcoded default (see src/lib/site-defaults.ts).
+  // Twitter has no default — only shows when explicitly set in Sanity.
+  const sanitySocial = siteSettings?.socialLinks ?? {};
+  const social = {
+    facebook: sanitySocial.facebook?.trim() || DEFAULT_SOCIAL_LINKS.facebook,
+    instagram: sanitySocial.instagram?.trim() || DEFAULT_SOCIAL_LINKS.instagram,
+    tiktok: sanitySocial.tiktok?.trim() || DEFAULT_SOCIAL_LINKS.tiktok,
+    twitter: sanitySocial.twitter?.trim() || null,
+  };
   const npText = siteSettings?.nonconformityCredit?.text?.trim() || FALLBACK_NP_CREDIT_TEXT;
   const npLogoFromSanity = siteSettings?.nonconformityCredit?.logo?.asset?._ref
     ? urlFor(siteSettings.nonconformityCredit.logo as Parameters<typeof urlFor>[0])
@@ -89,32 +89,39 @@ export async function Footer() {
               />
             </Link>
             <p className="mt-3 text-sm text-brand-300">{tagline}</p>
-            <p className="mt-1 text-sm text-brand-400">{eventDateDisplay}</p>
 
-            {/* Social — only render an icon if Site Settings has a URL for it. */}
+            {/* Social — Facebook / Instagram / TikTok have hardcoded
+                defaults (see src/lib/site-defaults.ts), so these icons
+                always render. Twitter is shown only when its URL is
+                explicitly set in Site Settings. */}
             <div className="mt-4 flex gap-3">
-              {social.instagram && (
-                <a
-                  href={social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow us on Instagram"
-                  className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
-                >
-                  <Instagram className="h-5 w-5" />
-                </a>
-              )}
-              {social.facebook && (
-                <a
-                  href={social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow us on Facebook"
-                  className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
-                >
-                  <Facebook className="h-5 w-5" />
-                </a>
-              )}
+              <a
+                href={social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on Facebook"
+                className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href={social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on Instagram"
+                className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href={social.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on TikTok"
+                className="rounded-full p-2 text-brand-300 transition-colors hover:bg-brand-800 hover:text-white"
+              >
+                <TiktokIcon className="h-5 w-5" />
+              </a>
               {social.twitter && (
                 <a
                   href={social.twitter}
@@ -169,12 +176,9 @@ export async function Footer() {
 
           {/* Mailing list */}
           <div>
-            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-400">
-              Stay in the loop
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-brand-400">
+              {FALLBACK_MAILING_HEADING}
             </h3>
-            <p className="mb-4 text-sm text-brand-300">
-              Get updates on vendors, activities, and event news.
-            </p>
             <FooterNewsletterForm />
           </div>
         </div>
@@ -188,8 +192,7 @@ export async function Footer() {
           </p>
         </div>
 
-        {/* Nonconformity Productions credit — text + logo from Site Settings,
-            with hardcoded fallback so the block always renders cleanly. */}
+        {/* Nonconformity Productions credit. */}
         <div className="mt-8 flex flex-col items-center gap-3 border-t border-brand-800 pt-6">
           <p className="text-xs text-brand-500">{npText}</p>
           <Image

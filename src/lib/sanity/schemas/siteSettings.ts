@@ -79,10 +79,11 @@ export const siteSettings = defineType({
       type: "object",
       group: "social",
       description:
-        "Full URLs (including https://). Leave any field blank to hide the matching icon in the footer and Contact page.",
+        "Full URLs (including https://). Facebook, Instagram, and TikTok all have hardcoded defaults pointing at @petfestaustralia / @petfestau (see src/lib/site-defaults.ts), so the icons appear on the live site even if these fields are blank. Filling a field in here overrides the default. Twitter / X has no default — leave blank to hide that icon.",
       fields: [
         defineField({ name: "facebook", title: "Facebook URL", type: "url" }),
         defineField({ name: "instagram", title: "Instagram URL", type: "url" }),
+        defineField({ name: "tiktok", title: "TikTok URL", type: "url" }),
         defineField({ name: "twitter", title: "Twitter / X URL", type: "url" }),
       ],
     }),

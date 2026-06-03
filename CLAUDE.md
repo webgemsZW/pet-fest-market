@@ -8,6 +8,20 @@ Event website for **PetFest Market**, a pet-friendly community market run by **N
 - Nonconformity Productions is the **legal operating company** — it should only appear in legal/policy documents (Privacy Policy, Terms & Conditions) and official contact details, never in general site copy.
 - Contact email: petfest@nonconformity.com.au
 
+### ⚠️ Terminology: "Stallholder" — one word
+The client uses **"Stallholder"** (one word, capital S when at the start of a sentence or as a noun referring to the role). Never write "Stall Holder", "stall-holder", or "vendor" in user-facing copy. "Vendor" is reserved for internal/dev jargon only. Existing variable names and schema fields that say `vendor*` (e.g. `vendorCta*`, `vendorFaqs`) can stay — they're not user-visible — but any UI text must say "Stallholder".
+
+### Upcoming events (per 2 June 2026 client email)
+The client has confirmed two further events after Box Hill:
+- **Disterrly Road Market**, QLD — Sunday 1 November 2026
+- **Morris Moore (Kingston / Cheltenham)**, VIC — Sunday 15 November 2026
+
+These reinforce the multi-event-ready data model (see CMS_PLAN.md §9.2). For now the site still focuses on one event at a time via `siteSettings.currentEvent`; the second and third events get added to Studio when the dates approach.
+
+### Event times (Box Hill)
+- **Doors open:** 10 am
+- **Event ends:** 3 pm
+
 ### ⚠️ Visitors CANNOT bring pets to the venue
 **Visitors cannot bring their own pets to PetFest Market at Box Hill Town Hall.** Despite the name, PetFest Market is a *market about pets* (vendors, products, demonstrations, community) — not a *pets-allowed venue*. Site copy must never imply otherwise.
 
@@ -24,23 +38,28 @@ The folder `site-info/docs/` contains official documents provided by the client.
 | `Nonconformity Productions Privacy Policy.docx` | `/policies/privacy` page |
 | `Petfest Website Use Terms and Conditions.docx` | `/policies/terms` page |
 | `Petfest Code of Conduct.docx` | `/policies/code-of-conduct` page |
-| `25 May email from client.txt` | General site facts (event details, ticketing/stallholder status, contact email) |
+| `25 May email from client.txt` | General site facts (initial event details, contact email) |
+| `About.docx` | `/about` page body |
+| `Website FAQs - PetFest.docx` | `/faq` page content (single unified list — no categories) |
+| `email_2_June.docx` | Revision request — site simplification, terminology, future event dates, social handles |
 
 If the client provides updated versions of any of these documents, extract the new content and update the corresponding page(s) accordingly.
 
 ### Copy that is NOT yet sourced
 Anything not covered by a source-of-truth document above is **placeholder**. The site is currently kept honest by using lorem ipsum + `TODO(content):` comments wherever real copy is missing. Do not invent or paraphrase replacements for these placeholders — wait for the client to provide the content, or ask the user first. Known gaps awaiting client input:
 
-- Tagline / hero subtitle / "what to expect" highlights
-- About page (story, values, mission)
-- FAQ content (general, vendors, pets, tickets)
-- Stall pricing tiers, requirements, vendor benefits
-- Sponsor list and sponsorship tiers
-- Refund policy
-- Ticketing platform details and link (per 25 May email — "details coming soon")
-- Stallholder Google Form link (per 25 May email — form being finalised)
-- Response-time promises and similar service commitments
-- Social media URLs (Instagram, Facebook, Twitter placeholders only)
+- Hero eyebrow / hero subtitle (kept from initial scaffold with user approval)
+- "What to Expect" highlights (kept from initial scaffold with user approval)
+- Stallholder Google Form link — provided in 2 June email but per-event so lives on the `event` document
+- Ticketing platform details and ticket-purchase link (per 2 June email — "tickets won't be released until mid July, sold through a ticketing company")
+- Refund Policy (per 2 June email — refund policy will be handled by the ticketing company)
+- Sponsor list and sponsorship tiers (no sponsors yet — `/sponsors` shows a "coming soon" state)
+
+### Hardcoded defaults (always render, Sanity overrides)
+A few values are hardcoded in `src/lib/site-defaults.ts` so the live site always shows them even if Sanity is unset. Sanity values still take precedence when populated. Current defaults:
+- **Social URLs:** Facebook `@petfestaustralia`, Instagram `@petfestaustralia`, TikTok `@petfestau`
+- **Event trading times (Box Hill):** doors open `10am`, event ends `3pm`
+- **Stallholder application URL:** the Box Hill Google Form (per 3 June 2026 email). Per-event `applyUrl` on the `event` document overrides — set it when running additional markets.
 
 ## Logo
 The final logo assets are integrated:

@@ -46,13 +46,14 @@ export const event = defineType({
       title: "Doors Open Time",
       type: "string",
       description:
-        "Human-readable opening time, e.g. '9:00 am'. Optional. Use this when you want to display the public opening time separately from the start time in `eventDate`.",
+        "Human-readable opening time, e.g. '10am'. Optional — defaults to '10am' (the Box Hill trading time) if left blank.",
     }),
     defineField({
       name: "eventEndTime",
       title: "Event End Time",
       type: "string",
-      description: "Human-readable closing time, e.g. '4:00 pm'. Optional.",
+      description:
+        "Human-readable closing time, e.g. '3pm'. Optional — defaults to '3pm' (the Box Hill trading time) if left blank.",
     }),
     defineField({
       name: "location",
@@ -79,7 +80,7 @@ export const event = defineType({
       title: "Stallholder Application URL",
       type: "url",
       description:
-        "Google Form URL for stallholder applications. When set, all 'Apply as Vendor' buttons link here directly.",
+        "Google Form URL for Stallholder applications. When set, all 'Apply as Stallholder' buttons link here directly.",
     }),
   ],
   preview: {

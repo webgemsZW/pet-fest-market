@@ -5,6 +5,154 @@ cross-check what's been done.
 
 ---
 
+## Wednesday, 3 June 2026 (afternoon) — Small UX tweaks
+
+A few quick follow-ups to make the site easier to use.
+
+### Home page FAQ — now shows the full list
+
+The home page used to show only the first four FAQs with a "View All
+FAQs" button. The full list is now on the home page itself — no
+clicking around required.
+
+### Stallholders page — single tidy call-to-action
+
+The page is now just one block: a heading and two buttons side by side
+— **Apply Here** (opens the Google Form in a new tab) and **Have
+Questions?** (opens an email to you). The "Apply" section at the
+bottom that used to repeat the Apply Here button has been removed.
+
+The Google Form URL you sent
+(`https://docs.google.com/forms/d/e/1FAIpQLSd6OnpOkcU9eoFm02Zs6XpNoJuOtUMCH9g3iR77yXlpMgjoJQ/viewform?usp=sharing&ouid=102085881350428569314`)
+is now wired in as a hardcoded default — every "Apply" button across
+the site (hero, header, Stallholders page) opens it directly. When
+you eventually run a second market with a different form, you'll
+override the URL on the new event document in Sanity.
+
+### FAQ — "Can't find what you're looking for?" button
+
+Both the home page FAQ block and the dedicated `/faq` page now end
+with a friendly prompt:
+
+> Can't find what you're looking for?
+>
+> **[ Get in Touch ]**
+
+The button links straight to the Contact page.
+
+---
+
+## Wednesday, 3 June 2026 — Revisions from your 2 June email
+
+I worked through the revision list you sent over and made the following
+changes. The two new documents you provided (About statement and the
+unified FAQ list) are now treated as official source-of-truth.
+
+### Home page
+
+- **Hero subtitle** — dropped "joyful" per your note. Now reads "An
+  indoor community market for pet lovers — celebrating local
+  Stallholders, pet businesses, and family fun."
+- **What to Expect → Family Fun card** — tightened to just "A perfect
+  Sunday outing for the whole crew." You can flesh it out in Studio
+  when the market grows.
+- **"Grow your business" section** — removed from the home page. The
+  component is kept in the codebase so we can switch it back on later;
+  it's not visible to visitors today.
+- **Subscribe area** — the "Be the first to hear about vendor
+  announcements…" body line was removed. The form will hook straight
+  into MailChimp once you've got that account set up.
+
+### Footer
+
+- **Tagline under the logo** — changed to the generic "An indoor market
+  for Pet Lovers!" so it doesn't need updating between markets (Box
+  Hill, then Disterrly Rd QLD, then Morris Moore).
+- **Date line under the tagline** ("Sunday 26 July 2026") — removed for
+  the same reason; event-specific dates still appear in the hero pills
+  on the home page, where they belong.
+- **"Stay in the loop" heading** — renamed to "Get Updates on PetFest
+  news and events".
+- **Nav links** — "Stall Holders" is now "Stallholders" (one word, per
+  your note).
+
+### About page
+
+- Replaced the longer "Our Story" + "What We Stand For" layout with the
+  short About statement from your **About.docx**:
+  > PetFest Market is a fun community indoor market bringing together
+  > makers, creators and small businesses showcasing all kinds of pet
+  > products, goods and services. From treats and toys, to accessories,
+  > handmade products and gifts. It is the perfect event for pet lovers
+  > to shop, discover and support local businesses.
+- The "What We Stand For" values cards have been removed for now. We
+  can bring them back as the market grows.
+
+### Stallholder page
+
+- Renamed throughout (page heading + nav label + Studio panel) to
+  **Stallholder** — one word, per your note. The "Apply as Vendor"
+  button on the hero / header is now **Apply as Stallholder**.
+- Hero subtitle ("Showcase your products to hundreds of passionate pet
+  lovers…") removed.
+- **Apply Now button** — now reads **Apply Here** and links to the
+  Google Form URL you sent
+  (`https://docs.google.com/forms/d/e/1FAIpQLSd6OnpOkcU9eoFm02Zs6XpNoJuOtUMCH9g3iR77yXlpMgjoJQ/viewform`).
+  This URL is stored on the **event** document so each market can have
+  its own form.
+- **Why Sell at PetFest Market** section — removed.
+- **Stall Pricing** section — removed.
+- **Requirements** section — removed.
+- **Vendor FAQ** section — removed (covered by the Stallholder
+  application form and the T&Cs PDF you'll email applicants).
+- **"Ready to Apply?"** — kept the heading and the Apply Here button.
+  The introductory line ("Our stallholder application form is almost
+  ready…") was removed. The **Have Questions?** button now opens an
+  email to `petfest@nonconformity.com.au`.
+
+### FAQ page
+
+- Switched from four tabbed categories (General / Vendors / Pets /
+  Tickets) to a **single unified list**, matching your **Website
+  FAQs - PetFest.docx**. All eleven of your supplied Q&As are now
+  seeded as the page's default content.
+- The Sanity CMS has been updated to match — the **Category** field on
+  FAQ Items was removed. Sorting is by the **Display Order** number
+  only (lower numbers first). You can now also drag-and-drop in Studio
+  to reorder.
+
+### Tickets
+
+- The hero already has a "Tickets coming soon" pill that automatically
+  switches to a **Buy Tickets** button when you set the **Ticket
+  Purchase URL** on the current event in Sanity. You can drop the
+  link in there as soon as the ticketing company sends it through.
+
+### Social media
+
+- Added a **TikTok** icon to the footer and the Contact page (in
+  addition to Facebook and Instagram). All three URL fields are
+  editable in Site Settings; the icons only show when the matching
+  URL is filled in.
+- Your handles, per the email — `@petfestaustralia` on Facebook,
+  Instagram, and TikTok. Set the full URLs in Site Settings → Social
+  Links when you're next in Studio.
+
+### Behind-the-scenes notes
+
+- The Sanity CMS schema was tightened to match the new simpler site —
+  the Vendor CTA, About values, Stall Holder Page benefits/pricing/
+  requirements/vendor-FAQs, and FAQ Category fields are all gone. Old
+  data in those fields stays safe in Sanity but won't show up on the
+  site or in Studio.
+- Multi-event readiness is now genuinely useful — the data model knew
+  about future events in the abstract; with the QLD and Morris Moore
+  dates confirmed in your email, the system is ready for them as soon
+  as we want to add the documents.
+- The Editor Guide has been updated to reflect all of the above.
+
+---
+
 ## Saturday, 30 May 2026 (later)
 
 ### 1. Almost the whole site is now editable from the back-office

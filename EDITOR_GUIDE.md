@@ -132,45 +132,46 @@ place:
 | Contact Email | Footer, Contact page, Stall Holders page CTA |
 | Contact Phone | Contact page (only if filled in) |
 | Contact Address | Contact page |
-| Social media URLs (FB / IG / X) | Footer + Contact page (icons only show when URL is set) |
+| Social media URLs (FB / IG / TikTok / X) | Footer + Contact page. Facebook, Instagram, and TikTok have hardcoded defaults that always show; filling these fields in overrides the default. Twitter / X has no default — leave blank to hide that icon. |
 | Mailing list URL | Newsletter sign-up forms (still being wired up) |
 | Nonconformity credit text + logo | Footer credit block |
-| **Current Event** pointer | Date pill in hero, venue pill in hero, countdown timer, vendor CTA pricing pill, stall holder Apply button, ticket link in hero |
+| **Current Event** pointer | Date pill in hero, venue pill in hero, countdown timer, Stallholder Apply button, ticket link in hero |
 
 ---
 
 ## 8. Fields that drive the homepage
 
-Open **Homepage** in the sidebar. Five tabs at the top of the form:
+Open **Homepage** in the sidebar. Four tabs at the top of the form:
 
 1. **Hero** — the eyebrow pill, subtitle, optional feature image.
 2. **What to Expect** — the three (or more) cards under "What to
    Expect". Each has an icon, title, and description.
-3. **Vendor CTA** — the orange "Grow your business" block: badge, headline,
-   body text, perks bullet list, and the right-hand pricing pill.
-4. **FAQ Preview** — the heading + subtitle for the FAQ section on the
+3. **FAQ Preview** — the heading + subtitle for the FAQ section on the
    home page. (The actual questions come from **FAQ Items**.)
-5. **Mailing List** — heading + body for the newsletter sign-up section.
+4. **Mailing List** — heading for the newsletter sign-up section.
+
+> The old "Vendor CTA" block was removed at the client's request — the
+> market is intentionally simple while it establishes itself. We can
+> bring it back when the market grows.
 
 ---
 
 ## 9. FAQ Items
 
-Each FAQ is its own document under **FAQ Items**. To add a question:
+Each FAQ is its own document under **FAQ Items**. The FAQs are a single
+unified list — no categories. To add a question:
 
 1. Click **+ Create** at the top of the FAQ Items list.
-2. Type the question (phrased *as* a question), the answer, and pick
-   a category.
-3. Set a **Display Order** — lower numbers appear first within the
-   category. Use 10, 20, 30, 40 so you can slot new questions between
-   existing ones without renumbering everything.
+2. Type the question (phrased *as* a question), the answer, and a
+   **Display Order**.
+3. Use display order 10, 20, 30, 40 so you can slot new questions
+   between existing ones without renumbering everything.
 4. Publish.
 
-The four categories are **General**, **Vendors**, **Pets**, and
-**Tickets**.
-
-> ⚠️ The **"Pets"** category is for questions about pet products / vendors
-> at the market — NOT about whether visitors can bring pets to the venue.
+> ⚠️ Per the client's note (2 June 2026): visitors can't bring their
+> own pets to most market venues (specifically Box Hill). When writing
+> FAQs about animals, follow the client's wording — see the seeded
+> "Can I bring my animals?" answer for the right framing.
 
 ---
 
@@ -206,14 +207,44 @@ A few things still live in code and require Charles to change:
 - Privacy Policy, Terms & Conditions, Code of Conduct, Refund Policy
   — these are legal documents and stay as code so they always match
   the source `.docx` files you provided.
-- Navigation menu items (Home / About / Stall Holders / FAQ / Contact)
+- Navigation menu items (Home / About / Stallholders / FAQ / Contact)
 - Footer policy links
 
 If you want any of these changed, send Charles a message.
 
 ---
 
-## 12. Common questions
+## 12. Seeding the Box Hill event
+
+The first event document to create under **Events** is the Box Hill
+2026 market. Suggested values:
+
+| Field | Value |
+|---|---|
+| Event Name | `Box Hill Town Hall 2026` |
+| Slug | (auto-generates as `box-hill-town-hall-2026`) |
+| Event Date & Start Time | `2026-07-26T10:00:00+10:00` (Sun 26 Jul 2026, 10 am AEST) |
+| Doors Open Time | `10am` (default if left blank) |
+| Event End Time | `3pm` (default if left blank) |
+| Location | `Box Hill Town Hall, VIC` |
+| Ticket Price | Leave blank (tickets via third-party platform — mid July) |
+| Ticket Purchase URL | Leave blank until the ticketing company sends the link |
+| Stallholder Application URL | `https://docs.google.com/forms/d/e/1FAIpQLSd6OnpOkcU9eoFm02Zs6XpNoJuOtUMCH9g3iR77yXlpMgjoJQ/viewform?usp=sharing&ouid=102085881350428569314` (default if left blank) |
+
+Then in **Site Settings**, set **Current Event** to point at this
+event. The hero pills, countdown timer, and Stallholder Apply button
+all read from this.
+
+Future events (per the 2 June email):
+- **Disterrly Road Market**, QLD — Sunday 1 November 2026
+- **Morris Moore (Kingston / Cheltenham)**, VIC — Sunday 15 November 2026
+
+When those approach, add them as new event documents and update
+**Current Event** to swap the site over.
+
+---
+
+## 13. Common questions
 
 **"I published a change but I don't see it on the site."**
 Hard-refresh your browser (Ctrl+Shift+R / Cmd+Shift+R). If still
@@ -240,7 +271,7 @@ he can update.
 
 ---
 
-## 13. Who to ask
+## 14. Who to ask
 
 - **Anything content-related** — Andrea or Carolyn can answer each
   other.
