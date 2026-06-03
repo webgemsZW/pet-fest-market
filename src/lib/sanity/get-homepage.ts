@@ -8,11 +8,6 @@ export interface WhatToExpectCard {
   description: string;
 }
 
-export interface VendorCtaPricingPill {
-  headline?: string | null;
-  subline?: string | null;
-}
-
 export interface Homepage {
   heroEyebrow?: string | null;
   heroSubheading?: string | null;
@@ -23,15 +18,9 @@ export interface Homepage {
   whatToExpectHeading?: string | null;
   whatToExpectSubtitle?: string | null;
   whatToExpectCards?: WhatToExpectCard[] | null;
-  vendorCtaBadge?: string | null;
-  vendorCtaHeadline?: string | null;
-  vendorCtaBody?: string | null;
-  vendorCtaPerks?: string[] | null;
-  vendorCtaPricingPill?: VendorCtaPricingPill | null;
   faqPreviewHeading?: string | null;
   faqPreviewSubtitle?: string | null;
   mailingListHeading?: string | null;
-  mailingListBody?: string | null;
 }
 
 export async function getHomepage(): Promise<Homepage | null> {

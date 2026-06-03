@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Mail, MapPin, Phone, Instagram, Facebook, Twitter } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { TiktokIcon } from "@/components/shared/TiktokIcon";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import { getContactPage } from "@/lib/sanity/get-contact-page";
+import { DEFAULT_SOCIAL_LINKS } from "@/lib/site-defaults";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -23,7 +25,16 @@ export default async function ContactPage() {
   const phone = siteSettings?.contactPhone?.trim() || null;
   const address = siteSettings?.contactAddress?.trim() || null;
   const location = address || siteSettings?.currentEvent?.location || FALLBACK_LOCATION;
-  const social = siteSettings?.socialLinks ?? {};
+  // Resolve each social link: prefer the Sanity-supplied URL, fall
+  // back to the hardcoded default (see src/lib/site-defaults.ts).
+  // Twitter has no default — only shows when explicitly set in Sanity.
+  const sanitySocial = siteSettings?.socialLinks ?? {};
+  const social = {
+    facebook: sanitySocial.facebook?.trim() || DEFAULT_SOCIAL_LINKS.facebook,
+    instagram: sanitySocial.instagram?.trim() || DEFAULT_SOCIAL_LINKS.instagram,
+    tiktok: sanitySocial.tiktok?.trim() || DEFAULT_SOCIAL_LINKS.tiktok,
+    twitter: sanitySocial.twitter?.trim() || null,
+  };
   const heading = contactPage?.heading?.trim() || FALLBACK_HEADING;
   const intro = contactPage?.intro?.trim() || FALLBACK_INTRO;
 
@@ -93,47 +104,53 @@ export default async function ContactPage() {
               </div>
             </div>
 
-            {/* Social links — only render icons whose URLs are set in Site Settings */}
-            {(social.instagram || social.facebook || social.twitter) && (
-              <div className="mt-8">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">Follow Us</h3>
-                <div className="flex gap-3">
-                  {social.instagram && (
-                    <a
-                      href={social.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Follow us on Instagram"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
-                    >
-                      <Instagram className="h-5 w-5" />
-                    </a>
-                  )}
-                  {social.facebook && (
-                    <a
-                      href={social.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Follow us on Facebook"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
-                    >
-                      <Facebook className="h-5 w-5" />
-                    </a>
-                  )}
-                  {social.twitter && (
-                    <a
-                      href={social.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Follow us on Twitter / X"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
-                    >
-                      <Twitter className="h-5 w-5" />
-                    </a>
-                  )}
-                </div>
+            {/* Social links — Facebook / Instagram / TikTok have hardcoded
+                defaults (see src/lib/site-defaults.ts), so these icons
+                always render. Twitter is shown only when its URL is
+                explicitly set in Site Settings. */}
+            <div className="mt-8">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Follow Us</h3>
+              <div className="flex gap-3">
+                <a
+                  href={social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on Facebook"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
+                >
+                  <Facebook className="h-5 w-5" />
+                </a>
+                <a
+                  href={social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on Instagram"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+                <a
+                  href={social.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow us on TikTok"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
+                >
+                  <TiktokIcon className="h-5 w-5" />
+                </a>
+                {social.twitter && (
+                  <a
+                    href={social.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Follow us on Twitter / X"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-600 transition-colors hover:bg-brand-200"
+                  >
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
           {/* Contact form */}

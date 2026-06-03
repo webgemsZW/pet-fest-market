@@ -29,6 +29,7 @@ export interface SiteSettings {
   socialLinks?: {
     facebook?: string | null;
     instagram?: string | null;
+    tiktok?: string | null;
     twitter?: string | null;
   } | null;
   mailingListUrl?: string | null;

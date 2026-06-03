@@ -4,31 +4,36 @@ import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
-import { getHomepage } from "@/lib/sanity/get-homepage";
+import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /* ──────────────────────────────────────────────────────────────────
-   Fallback content. NOTE(content): the user chose to keep the marketing
-   headline + body framing — leave as-is on audits. The perks list and
-   pricing pill are intentionally lorem ipsum because the client hasn't
-   confirmed stallholder pricing/benefits yet.
+   ⚠️ NOT CURRENTLY RENDERED ON THE LIVE SITE.
+
+   The "Grow your business at PetFest Market" CTA was removed from the
+   homepage per the 2 June 2026 client revision (the market is
+   deliberately simple at launch). This component is retained in the
+   codebase so it can be re-introduced when the market scales — the
+   matching Homepage schema fields will need to be re-added at that
+   point. For now the component runs entirely on hardcoded fallback
+   content and a fetch of the current event for date/venue specifics.
    ──────────────────────────────────────────────────────────────── */
 
-const FALLBACK_BADGE = "Vendor Applications Open";
+const FALLBACK_BADGE = "Stallholder Applications Open";
 const FALLBACK_HEADLINE = "Grow your business at PetFest Market";
 const FALLBACK_BODY =
-  "Join a curated group of talented local vendors at one of Victoria's most loved pet community events. Applications are now open for our first market —";
+  "Join a curated group of talented local Stallholders at one of Victoria's most loved pet community events. Applications are now open for our first market —";
 
 const FALLBACK_PERKS: string[] = [
-  "Lorem ipsum dolor sit amet",
-  "Consectetur adipiscing elit, sed do eiusmod",
-  "Tempor incididunt ut labore et dolore",
-  "Ut enim ad minim veniam quis nostrud",
-  "Exercitation ullamco laboris nisi ut aliquip",
-  "Duis aute irure dolor in reprehenderit",
+  "High foot-traffic indoor venue",
+  "Targeted pet-lover audience",
+  "Friendly, supportive event team",
+  "Curated stall mix to maximise variety",
+  "Marketing across socials + mailing list",
+  "Simple Google Form application",
 ];
 
-const FALLBACK_PRICING_HEADLINE = "Lorem ipsum dolor";
-const FALLBACK_PRICING_SUBLINE = "Consectetur adipiscing elit";
+const FALLBACK_PRICING_HEADLINE = "Stalls coming soon";
+const FALLBACK_PRICING_SUBLINE = "Pricing to be confirmed";
 
 const FALLBACK_DATE_LABEL = "Sunday 26 July 2026";
 const FALLBACK_LOCATION = "Box Hill Town Hall";
@@ -46,19 +51,17 @@ function formatDateLabel(iso: string | null | undefined): string {
 }
 
 export async function VendorCtaSection() {
-  const [event, homepage] = await Promise.all([getCurrentEvent(), getHomepage()]);
+  const event = await getCurrentEvent();
   const dateLabel = formatDateLabel(event?.eventDate);
   const location = event?.location?.trim() || FALLBACK_LOCATION;
-  const applyUrl = event?.applyUrl?.trim() || null;
+  const applyUrl = event?.applyUrl?.trim() || DEFAULT_APPLY_URL;
 
-  const badge = homepage?.vendorCtaBadge?.trim() || FALLBACK_BADGE;
-  const headline = homepage?.vendorCtaHeadline?.trim() || FALLBACK_HEADLINE;
-  const body = homepage?.vendorCtaBody?.trim() || FALLBACK_BODY;
-  const perks = homepage?.vendorCtaPerks?.length ? homepage.vendorCtaPerks : FALLBACK_PERKS;
-  const pricingHeadline =
-    homepage?.vendorCtaPricingPill?.headline?.trim() || FALLBACK_PRICING_HEADLINE;
-  const pricingSubline =
-    homepage?.vendorCtaPricingPill?.subline?.trim() || FALLBACK_PRICING_SUBLINE;
+  const badge = FALLBACK_BADGE;
+  const headline = FALLBACK_HEADLINE;
+  const body = FALLBACK_BODY;
+  const perks = FALLBACK_PERKS;
+  const pricingHeadline = FALLBACK_PRICING_HEADLINE;
+  const pricingSubline = FALLBACK_PRICING_SUBLINE;
 
   return (
     <SectionWrapper className="bg-brand-50">
@@ -92,13 +95,9 @@ export async function VendorCtaSection() {
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild>
-                  {applyUrl ? (
-                    <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-                      Apply Now
-                    </a>
-                  ) : (
-                    <Link href="/stall-holders#apply">Apply Now</Link>
-                  )}
+                  <a href={applyUrl} target="_blank" rel="noopener noreferrer">
+                    Apply Now
+                  </a>
                 </Button>
                 <Button asChild variant="ghost">
                   <Link href="/stall-holders">Learn More</Link>

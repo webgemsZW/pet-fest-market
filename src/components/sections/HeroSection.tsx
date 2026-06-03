@@ -1,11 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, CalendarDays, Ticket } from "lucide-react";
+import { MapPin, CalendarDays, Clock, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
 import { getHomepage } from "@/lib/sanity/get-homepage";
+import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
 // Fallbacks — used when no `event` document is configured as the
 // `siteSettings.currentEvent`, or when the homepage doc hasn't been
@@ -17,7 +18,7 @@ const FALLBACK_DATE_LABEL = "Sunday 26 July 2026";
 const FALLBACK_LOCATION = "Box Hill Town Hall, VIC";
 const FALLBACK_EYEBROW = "Victoria's favourite pet community market";
 const FALLBACK_SUBHEADING =
-  "A joyful indoor community market for pet lovers — celebrating local vendors, pet businesses, and family fun.";
+  "An indoor community market for pet lovers — celebrating local Stallholders, pet businesses, and family fun.";
 
 function formatDatePill(iso: string | null | undefined): string {
   if (!iso) return FALLBACK_DATE_LABEL;
@@ -36,10 +37,19 @@ export async function HeroSection() {
   const dateLabel = formatDatePill(event?.eventDate);
   const location = event?.location?.trim() || FALLBACK_LOCATION;
   const ticketUrl = event?.ticketUrl?.trim() || null;
-  const applyUrl = event?.applyUrl?.trim() || null;
+  // Apply URL: prefer the per-event URL from Sanity; fall back to the
+  // hardcoded default in src/lib/site-defaults.ts so this button
+  // always works even before Sanity is populated.
+  const applyUrl = event?.applyUrl?.trim() || DEFAULT_APPLY_URL;
   const countdownIso = event?.eventDate ?? FALLBACK_EVENT_DATE_ISO;
   const eyebrow = homepage?.heroEyebrow?.trim() || FALLBACK_EYEBROW;
   const subheading = homepage?.heroSubheading?.trim() || FALLBACK_SUBHEADING;
+
+  // Trading times — Sanity per-event values override the hardcoded
+  // defaults (see src/lib/site-defaults.ts).
+  const doorsOpen = event?.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
+  const endTime = event?.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
+  const timeLabel = `${doorsOpen} – ${endTime}`;
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-brand-50 via-brand-100 to-brand-100 pt-20">
@@ -76,13 +86,17 @@ export async function HeroSection() {
             Must not imply visitors can bring pets to the venue. */}
         <p className="mt-6 max-w-2xl text-balance text-xl text-gray-600">{subheading}</p>
 
-        {/* Event details — all three pills read from siteSettings.currentEvent
-            with fallbacks. The tickets pill upgrades from "coming soon" to a
-            real buy link when an editor populates `ticketUrl` on the event. */}
+        {/* Event details — date, time, venue, and tickets pills. Date / venue /
+            tickets read from siteSettings.currentEvent. Time uses per-event
+            Sanity values when set, else the hardcoded 10am – 3pm default. */}
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-700">
           <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
             <CalendarDays className="h-4 w-4 text-brand-600" aria-hidden="true" />
             <span>{dateLabel}</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
+            <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
+            <span>{timeLabel}</span>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
             <MapPin className="h-4 w-4 text-brand-600" aria-hidden="true" />
@@ -111,18 +125,13 @@ export async function HeroSection() {
           <CountdownTimer variant="light" eventDate={countdownIso} />
         </div>
 
-        {/* CTAs — primary CTA jumps to the in-page apply section by default,
-            but if the editor sets an external applyUrl on the event we link
-            straight to the Google Form. */}
+        {/* CTAs — primary opens the Stallholder application form (uses the
+            per-event URL from Sanity, or the hardcoded default). */}
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">
-            {applyUrl ? (
-              <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-                Apply as Vendor
-              </a>
-            ) : (
-              <Link href="/stall-holders#apply">Apply as Vendor</Link>
-            )}
+            <a href={applyUrl} target="_blank" rel="noopener noreferrer">
+              Apply as Stallholder
+            </a>
           </Button>
           <Button asChild size="lg" variant="secondary">
             <Link href="#mailing-list">Get Event Updates</Link>

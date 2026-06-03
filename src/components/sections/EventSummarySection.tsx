@@ -28,9 +28,9 @@ type FallbackCard = {
 const FALLBACK_CARDS: FallbackCard[] = [
   {
     icon: ShoppingBag,
-    title: "Local Vendors",
+    title: "Local Stallholders",
     description:
-      "Shop handmade goods, pet accessories, artisan treats, and more from passionate local stallholders.",
+      "Shop handmade goods, pet accessories, artisan treats, and more from passionate local Stallholders.",
   },
   {
     icon: Users,
@@ -38,11 +38,14 @@ const FALLBACK_CARDS: FallbackCard[] = [
     description:
       "Connect with fellow pet lovers, discover local businesses, and enjoy a relaxed family-friendly atmosphere.",
   },
+  // Family Fun: shortened per the 2 June 2026 client revision —
+  // Box Hill is the first market, so no specific activities are
+  // promised; just the framing line. As the market grows the
+  // editor can flesh this out via Studio.
   {
     icon: Smile,
     title: "Family Fun",
-    description:
-      "Activities, demonstrations, and entertainment for all ages. A perfect Sunday outing for the whole crew.",
+    description: "A perfect Sunday outing for the whole crew.",
   },
 ];
 

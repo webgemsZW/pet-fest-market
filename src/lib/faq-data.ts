@@ -1,24 +1,20 @@
 /*
-  Single source of truth for FAQ content.
+  Hardcoded fallback FAQ content used when Sanity is unreachable, env
+  vars are unset, or no FAQ Items have been published yet.
 
-  Both the homepage preview (`FaqPreviewSection`) and the full `/faq` page
-  read from this file so they cannot drift apart.
+  Source of truth: site-info/docs/Website FAQs - PetFest.docx
+  (provided by the client on 2 June 2026). The earlier lorem-ipsum
+  placeholder list has been replaced with the actual copy so the
+  deployed site shows something real even before any Sanity content
+  exists.
 
-  TODO(content): Every FAQ entry below is placeholder lorem ipsum. The
-  previous hand-written versions invented event hours (9am–4pm), entry
-  pricing ($5 adult / free under-12), bump-in times, pet rules, parking,
-  accessibility answers, refund terms, and similar — none of which are
-  confirmed by the client. The old "When and where" answer even said the
-  WRONG date ("4 July 2026" instead of the actual Sunday 26 July 2026 per
-  CLAUDE.md + 25 May email from client). The old "Pets" category answered
-  questions like "Can I bring my dog?" with YES — that is WRONG. Visitors
-  CANNOT bring pets to PetFest Market at Box Hill Town Hall (see
-  CLAUDE.md). When repopulating the "pets" category, do not write content
-  that implies pets are allowed at the venue. Replace each question +
-  answer with real content from the client once provided.
+  When an editor publishes their first FAQ Item in Studio, the
+  fallback drops out and the Sanity-driven list takes over.
+
+  IMPORTANT: visitors CANNOT bring pets to the Box Hill venue. The
+  "Can I bring my animals?" entry below reflects that — do not edit
+  it to imply otherwise (see CLAUDE.md).
 */
-
-export type FaqCategory = "general" | "vendors" | "pets" | "tickets";
 
 export interface FaqItem {
   id: string;
@@ -26,132 +22,75 @@ export interface FaqItem {
   answer: string;
 }
 
-export const faqData: Record<FaqCategory, FaqItem[]> = {
-  general: [
-    {
-      id: "g1",
-      question: "Lorem ipsum dolor sit amet?",
-      answer:
-        "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    },
-    {
-      id: "g2",
-      question: "Ut enim ad minim veniam?",
-      answer:
-        "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
-    },
-    {
-      id: "g3",
-      question: "Duis aute irure dolor?",
-      answer:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    },
-    {
-      id: "g4",
-      question: "Sed ut perspiciatis unde omnis?",
-      answer:
-        "Iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
-    },
-    {
-      id: "g5",
-      question: "Nemo enim ipsam voluptatem?",
-      answer:
-        "Quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-    },
-  ],
-  vendors: [
-    {
-      id: "v1",
-      question: "Lorem ipsum dolor sit amet?",
-      answer:
-        "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt.",
-    },
-    {
-      id: "v2",
-      question: "Ut labore et dolore magnam aliquam?",
-      answer:
-        "Quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.",
-    },
-    {
-      id: "v3",
-      question: "Quis autem vel eum iure?",
-      answer:
-        "Reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.",
-    },
-    {
-      id: "v4",
-      question: "At vero eos et accusamus?",
-      answer:
-        "Et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint.",
-    },
-  ],
-  pets: [
-    {
-      id: "p1",
-      question: "Lorem ipsum dolor sit amet?",
-      answer:
-        "Occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
-    },
-    {
-      id: "p2",
-      question: "Et harum quidem rerum facilis?",
-      answer:
-        "Est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat.",
-    },
-    {
-      id: "p3",
-      question: "Temporibus autem quibusdam et aut?",
-      answer:
-        "Officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
-    },
-    {
-      id: "p4",
-      question: "Itaque earum rerum hic tenetur?",
-      answer:
-        "A sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
-    },
-  ],
-  tickets: [
-    {
-      id: "t1",
-      question: "Lorem ipsum dolor sit amet?",
-      answer:
-        "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ticketing details still to be confirmed by the client (per 25 May email).",
-    },
-    {
-      id: "t2",
-      question: "Ut enim ad minim veniam?",
-      answer:
-        "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    },
-    {
-      id: "t3",
-      question: "Duis aute irure dolor?",
-      answer:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    },
-    {
-      id: "t4",
-      question: "Sed ut perspiciatis unde omnis?",
-      answer:
-        "Iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
-    },
-  ],
-};
+export const faqData: FaqItem[] = [
+  {
+    id: "what-is",
+    question: "What is PetFest Market?",
+    answer: "PetFest Market is a local regional Pet Market.",
+  },
+  {
+    id: "real-animals",
+    question: "Will there be real animals at the PetFest Markets?",
+    answer:
+      "Yes! There will be animal displays at PetFest Markets as we are hoping to showcase rescues and where possible if venues allow have some breed displays.",
+  },
+  {
+    id: "animal-safety",
+    question: "Is it safe for these animals to be at PetFest Market days?",
+    answer:
+      "All animals are checked upon entry and are only allowed to enter if they are in good health. Animals will be closely monitored by their owners or handlers to ensure they are comfortable at all times.",
+  },
+  {
+    id: "bring-animals",
+    question: "Can I bring my animals?",
+    answer:
+      "Unfortunately, no, not at some market venues. All PetFest Markets are held indoors. (However, some venues may allow you to bring your dog with you. Please see individual Market venue information prior to coming.)",
+  },
+  {
+    id: "kids-infants",
+    question: "Are kids and infants welcome?",
+    answer:
+      "Yes! Children under 16 are free to enter the PetFest Markets! Parent or guardian supervision is required at all times and young persons ages 16 and under are unable to enter the event without an accompanying adult.",
+  },
+  {
+    id: "tickets-cost",
+    question: "How much are PetFest Tickets?",
+    answer:
+      "PetFest entry tickets are $8 and concession tickets are $5. All children 16 and under are free.",
+  },
+  {
+    id: "concession-seniors",
+    question: "Will the PetFest Markets accept my Concession or Seniors Card?",
+    answer:
+      "Yes! At all PetFest Markets Concession Cards and Seniors Cards can be used to purchase tickets.",
+  },
+  {
+    id: "companion-card",
+    question: "Will the PetFest Markets accept my Companion Card?",
+    answer:
+      "Yes. State approved Companions Cards will allow the companion of the card holder free entry into the event.",
+  },
+  {
+    id: "other-costs",
+    question: "Will there be other costs for me, once I am inside the PetFest Market?",
+    answer:
+      "Your ticket is entry into the PetFest Market — any additional expenses once inside are up to you! Food and drinks will be available for sale and our Stallholders will be stocked full of goodies available to purchase should you choose to do so.",
+  },
+  {
+    id: "adopt-pets",
+    question: "Will I be able to adopt pets from the PetFest Markets?",
+    answer:
+      "No. No pets will be available for adoption from the event, however you will be able to see pets and you may be able to get information on registered breeders and rescue organisations where you can adopt your new pet after the market.",
+  },
+  {
+    id: "photos-video",
+    question: "Can I bring my own camera and take photographs or video at the PetFest Markets?",
+    answer:
+      "Yes you can however please ensure you get expressed verbal consent from all individuals that you feature in photographs.",
+  },
+];
 
-export const categoryLabels: Record<FaqCategory, { label: string; emoji: string }> = {
-  general: { label: "General", emoji: "💬" },
-  vendors: { label: "Vendors", emoji: "🛍️" },
-  pets: { label: "Pets", emoji: "🐾" },
-  tickets: { label: "Tickets", emoji: "🎟️" },
-};
-
-/**
- * The first item from each category — used as the homepage FAQ preview so
- * the preview always stays consistent with the full FAQ page. If you want
- * a different curation strategy (e.g. hand-picked highlights), change this
- * derivation rather than re-hardcoding the questions elsewhere.
- */
-export const previewFaqs: FaqItem[] = (Object.keys(faqData) as FaqCategory[])
-  .map((cat) => faqData[cat][0])
-  .filter((item): item is FaqItem => Boolean(item));
+// `previewFaqs` was removed when the home page switched from a 4-item
+// FAQ preview to showing the full list (3 June 2026 client revision —
+// see CHANGELOG.md). The full `faqData` array above is the only
+// fallback consumers need now.

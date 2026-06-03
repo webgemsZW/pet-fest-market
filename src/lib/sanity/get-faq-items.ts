@@ -2,26 +2,25 @@ import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { faqItemsQuery } from "./queries";
 
-export type FaqCategory = "general" | "vendors" | "pets" | "tickets";
-
+/**
+ * Per the 2 June 2026 client revision, FAQs are a single unified list
+ * — no general/vendors/pets/tickets categories. The old `FaqCategory`
+ * type was removed.
+ */
 export interface FaqItem {
   _id: string;
   question: string;
   answer: string;
-  category: FaqCategory;
   order?: number | null;
 }
 
 /**
- * Fetch all FAQ items, ordered by category then `order` (asc), then
- * insertion order. The whole collection is cached under
- * `sanity:type:faqItem`; the webhook in /api/revalidate fires that tag
- * whenever ANY FAQ doc changes, so add/edit/delete in Studio shows up
- * within seconds.
+ * Fetch all FAQ items, ordered by the editor-supplied `order` field
+ * (ascending), then insertion order. Cached under
+ * `sanity:type:faqItem` and invalidated by the publish webhook.
  *
- * Returns an empty array if Sanity is unreachable or env vars are unset.
- * Callers fall back to placeholder lorem ipsum data when this returns
- * an empty array.
+ * Returns an empty array on any failure so callers fall back to the
+ * hardcoded list in src/lib/faq-data.ts.
  */
 export async function getFaqItems(): Promise<FaqItem[]> {
   "use cache";
@@ -36,23 +35,4 @@ export async function getFaqItems(): Promise<FaqItem[]> {
     console.error("[sanity] faqItems fetch failed", error);
     return [];
   }
-}
-
-/**
- * Group an array of FAQ items by category. Order within each category
- * is preserved (the GROQ query already sorts).
- */
-export function groupFaqsByCategory(items: FaqItem[]): Record<FaqCategory, FaqItem[]> {
-  const groups: Record<FaqCategory, FaqItem[]> = {
-    general: [],
-    vendors: [],
-    pets: [],
-    tickets: [],
-  };
-  for (const item of items) {
-    if (groups[item.category]) {
-      groups[item.category].push(item);
-    }
-  }
-  return groups;
 }

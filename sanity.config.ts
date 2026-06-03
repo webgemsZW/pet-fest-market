@@ -41,7 +41,7 @@ export default defineConfig({
             S.listItem().title("About Page").id("aboutPage").child(
               S.document().schemaType("aboutPage").documentId("aboutPage"),
             ),
-            S.listItem().title("Stall Holder Page").id("stallHolderPage").child(
+            S.listItem().title("Stallholder Page").id("stallHolderPage").child(
               S.document().schemaType("stallHolderPage").documentId("stallHolderPage"),
             ),
             S.listItem().title("Contact Page").id("contactPage").child(
