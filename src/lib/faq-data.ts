@@ -32,7 +32,7 @@ export const faqData: FaqItem[] = [
     id: "real-animals",
     question: "Will there be real animals at the PetFest Markets?",
     answer:
-      "Yes! There will be animal displays at PetFest Markets as we are hoping to showcase rescues and where possible if venues allow have some breed displays.",
+      "There may be animal displays at PetFest Markets as we are hoping to showcase Rescues organisations and, where possible, if venues allow have some breed displays.",
   },
   {
     id: "animal-safety",
@@ -44,7 +44,7 @@ export const faqData: FaqItem[] = [
     id: "bring-animals",
     question: "Can I bring my animals?",
     answer:
-      "Unfortunately, no, not at some market venues. All PetFest Markets are held indoors. (However, some venues may allow you to bring your dog with you. Please see individual Market venue information prior to coming.)",
+      "All PetFest Markets are held indoors. Some venues may allow you to bring your dog. Please check individual Market venues information prior to attending for details.",
   },
   {
     id: "kids-infants",

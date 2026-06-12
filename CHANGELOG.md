@@ -5,6 +5,54 @@ cross-check what's been done.
 
 ---
 
+## Friday, 12 June 2026 — Revisions from your follow-up note
+
+A few small refinements based on your feedback after going through the
+site.
+
+### FAQ wording updates
+
+Two answers reworded as you supplied:
+
+- **"Will there be real animals at the PetFest Markets?"** — now
+  reads:
+  > There may be animal displays at PetFest Markets as we are hoping
+  > to showcase Rescues organisations and, where possible, if venues
+  > allow have some breed displays.
+- **"Can I bring my animals?"** — now reads:
+  > All PetFest Markets are held indoors. Some venues may allow you
+  > to bring your dog. Please check individual Market venues
+  > information prior to attending for details.
+
+These show up immediately in both the home page FAQ block and on
+`/faq`. Once you publish your own FAQ Items in Sanity, those override
+the seeded copy.
+
+### Footer policies
+
+- **Refund Policy link removed.** Refund details will live in the
+  Stallholder Guidelines (emailed to successful Stallholders) and the
+  ticketing company's own T&Cs (linked back to the site when ready).
+- **Terms & Conditions / Privacy Policy / Code of Conduct** in the
+  footer now link directly to PDF versions of the documents you
+  provided. Clicking each link opens the PDF in a new browser tab.
+  The files live at `/policies/terms-and-conditions.pdf`,
+  `/policies/privacy-policy.pdf`, and `/policies/code-of-conduct.pdf`.
+  The original `.docx` source files are also kept on the site (same
+  paths, `.docx` extension) for reference. The rendered in-site pages
+  at `/policies/terms`, `/policies/privacy` and `/policies/code-of-conduct`
+  are still there as a backup but aren't linked from the footer any
+  more.
+
+### Stallholder page
+
+- **"Have Questions?" button removed** — the page is now just a
+  heading and a single **Apply Here** button. Visitors with questions
+  can reach you via the Contact page (linked in the header / footer)
+  or the email in the footer.
+
+---
+
 ## Wednesday, 3 June 2026 (afternoon) — Small UX tweaks
 
 A few quick follow-ups to make the site easier to use.

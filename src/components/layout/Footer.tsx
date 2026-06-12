@@ -37,11 +37,23 @@ const footerNav = [
   { href: "/contact", label: "Contact" },
 ];
 
+/*
+  Footer policy links — per Andrea's 3 June 2026 note, these point
+  directly to the PDF documents served from /public/policies/ (rather
+  than the in-site rendered pages at /policies/*). PDFs open in-tab in
+  most browsers for a cleaner viewer experience than the original
+  .docx files. The Refund Policy was removed — refund details will
+  live in the Stallholder Guidelines (emailed to successful applicants)
+  and the ticketing company's own T&Cs once set up.
+
+  The in-site rendered pages at /policies/{terms,privacy,code-of-conduct}
+  are still available as a backup — they're just not linked from the
+  footer any more.
+*/
 const policyLinks = [
-  { href: "/policies/terms", label: "Terms & Conditions" },
-  { href: "/policies/privacy", label: "Privacy Policy" },
-  { href: "/policies/refund", label: "Refund Policy" },
-  { href: "/policies/code-of-conduct", label: "Code of Conduct" },
+  { href: "/policies/terms-and-conditions.pdf", label: "Terms & Conditions" },
+  { href: "/policies/privacy-policy.pdf", label: "Privacy Policy" },
+  { href: "/policies/code-of-conduct.pdf", label: "Code of Conduct" },
 ];
 
 export async function Footer() {
@@ -155,7 +167,10 @@ export async function Footer() {
             </ul>
           </div>
 
-          {/* Policies */}
+          {/* Policies — plain <a> rather than next/link since these
+              point to static .docx files in /public/policies/.
+              target="_blank" so the document opens without losing the
+              current page. */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-brand-400">
               Policies
@@ -163,12 +178,14 @@ export async function Footer() {
             <ul className="space-y-2">
               {policyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <a
                     href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm text-brand-200 transition-colors hover:text-white"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
