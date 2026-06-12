@@ -12,16 +12,18 @@ export const metadata: Metadata = {
 };
 
 /* ──────────────────────────────────────────────────────────────────
-   Per the 3 June 2026 client revision, the Stallholder page is now
-   just a single hero with two buttons: Apply Here (opens the Google
-   Form) and Have Questions? (mailto). The old "Apply" section at the
-   bottom of the page has been removed — it was a duplicate of the
-   hero button.
+   The Stallholder page is intentionally minimal: a single hero with
+   the heading, an optional intro line, and the Apply Here button.
+
+   - 2 June 2026: stripped out benefits / pricing / requirements /
+     vendor FAQs / standalone apply section.
+   - 3 June 2026 (afternoon): "Have Questions?" button removed per
+     Andrea's request — visitors who have questions can use the
+     Contact page or the email in the footer.
    ──────────────────────────────────────────────────────────────── */
 
 const FALLBACK_HEADING = "Become a Stallholder";
 const FALLBACK_INTRO: string | null = null;
-const FALLBACK_CONTACT_EMAIL = "petfest@nonconformity.com.au";
 
 export default async function StallHoldersPage() {
   const [page, siteSettings] = await Promise.all([getStallHolderPage(), getSiteSettings()]);
@@ -33,7 +35,6 @@ export default async function StallHoldersPage() {
   // hardcoded default in src/lib/site-defaults.ts so this button
   // always works even before Sanity is populated.
   const applyUrl = siteSettings?.currentEvent?.applyUrl?.trim() || DEFAULT_APPLY_URL;
-  const contactEmail = siteSettings?.contactEmail?.trim() || FALLBACK_CONTACT_EMAIL;
 
   return (
     <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
@@ -42,15 +43,12 @@ export default async function StallHoldersPage() {
         <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">{heading}</h1>
         {intro && <p className="mt-4 text-xl text-gray-600">{intro}</p>}
 
-        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <div className="mt-10 flex justify-center">
           <Button asChild size="lg">
             <a href={applyUrl} target="_blank" rel="noopener noreferrer">
               Apply Here
               <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
             </a>
-          </Button>
-          <Button asChild variant="secondary" size="lg">
-            <a href={`mailto:${contactEmail}`}>Have Questions?</a>
           </Button>
         </div>
       </div>
