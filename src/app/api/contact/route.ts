@@ -22,18 +22,21 @@ import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 const FROM_ADDRESS = "PetFest Market <noreply@petfest.com.au>";
 const FALLBACK_TO_ADDRESS = "petfest@nonconformity.com.au";
 
+// All contact-form submissions share the same subject line. The form
+// no longer exposes a subject picker — the visitor's message body is
+// the only free-form context the editor needs in their inbox.
+const EMAIL_SUBJECT = "Contact Form Enquiry";
+
 // Defensive length caps — protect against runaway form submissions or
 // abuse. These are generous; the form's textarea allows much less in
 // practice.
 const MAX_NAME_LENGTH = 200;
 const MAX_EMAIL_LENGTH = 200;
-const MAX_SUBJECT_LENGTH = 200;
 const MAX_MESSAGE_LENGTH = 5000;
 
 interface ContactPayload {
   name?: string;
   email?: string;
-  subject?: string;
   message?: string;
   /** Bot trap — humans never see / fill this field. */
   honeypot?: string;
@@ -55,7 +58,6 @@ export async function POST(req: Request) {
 
   const name = (body.name ?? "").trim();
   const email = (body.email ?? "").trim();
-  const subject = (body.subject ?? "").trim();
   const message = (body.message ?? "").trim();
 
   const fieldErrors: Record<string, string> = {};
@@ -65,8 +67,6 @@ export async function POST(req: Request) {
   if (!email) fieldErrors.email = "Required";
   else if (email.length > MAX_EMAIL_LENGTH) fieldErrors.email = "Too long";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fieldErrors.email = "Invalid email";
-
-  if (subject.length > MAX_SUBJECT_LENGTH) fieldErrors.subject = "Too long";
 
   if (!message) fieldErrors.message = "Required";
   else if (message.length > MAX_MESSAGE_LENGTH) fieldErrors.message = "Too long";
@@ -96,28 +96,20 @@ export async function POST(req: Request) {
 
   const resend = new Resend(apiKey);
 
-  const subjectLine = subject
-    ? `[Website] ${subject} — from ${name}`
-    : `[Website] Contact form — from ${name}`;
-
   // Plain-text body (for email clients that prefer it).
   const textBody = [
     `From: ${name} <${email}>`,
-    subject ? `Subject: ${subject}` : null,
     "",
     message,
     "",
     "—",
     "Sent via the PetFest Market website contact form.",
     `Hit Reply to respond directly to ${name}.`,
-  ]
-    .filter((line): line is string => line !== null)
-    .join("\n");
+  ].join("\n");
 
   // HTML body — same content, nicer formatting.
   const htmlBody = `
     <p><strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>
-    ${subject ? `<p><strong>Subject:</strong> ${escapeHtml(subject)}</p>` : ""}
     <hr/>
     <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
     <hr/>
@@ -132,7 +124,7 @@ export async function POST(req: Request) {
       from: FROM_ADDRESS,
       to: [to],
       replyTo: email,
-      subject: subjectLine,
+      subject: EMAIL_SUBJECT,
       text: textBody,
       html: htmlBody,
     });
