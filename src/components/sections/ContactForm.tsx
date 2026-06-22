@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,11 @@ interface FormData {
   email: string;
   subject: string;
   message: string;
+  /** Bot honeypot — hidden field humans don't see. */
+  honeypot: string;
 }
+
+type FieldErrors = Partial<Omit<FormData, "honeypot">>;
 
 const SUBJECTS = [
   "General Enquiry",
@@ -24,18 +28,24 @@ const SUBJECTS = [
   "Other",
 ];
 
+// Fallback email shown to visitors when the form's API call fails — gives
+// them a way to still reach Andrea even if the email service is down.
+const FALLBACK_CONTACT_EMAIL = "petfest@nonconformity.com.au";
+
 export function ContactForm() {
   const [formState, setFormState] = useState<FormState>("idle");
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [serverError, setServerError] = useState<string | null>(null);
   const [data, setData] = useState<FormData>({
     name: "",
     email: "",
     subject: "",
     message: "",
+    honeypot: "",
   });
 
   function validate(): boolean {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: FieldErrors = {};
     if (!data.name.trim()) newErrors.name = "Please enter your name.";
     if (!data.email.trim()) newErrors.email = "Please enter your email address.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
@@ -45,21 +55,52 @@ export function ContactForm() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormData]) {
+    if (name in errors && errors[name as keyof FieldErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+    if (serverError) setServerError(null);
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
     setFormState("submitting");
-    // Simulate async submit (no backend yet)
-    await new Promise((r) => setTimeout(r, 800));
-    setFormState("success");
+    setServerError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        // Read the error body if we can — server may have returned
+        // field-level validation errors as { fields: {...} }.
+        const json = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          fields?: FieldErrors;
+        };
+        if (json.fields) {
+          setErrors(json.fields);
+        }
+        setServerError(json.error || "Send failed");
+        setFormState("error");
+        return;
+      }
+
+      setFormState("success");
+    } catch (err) {
+      // Network-level failure (offline, DNS, etc.) — fetch itself rejected.
+      console.error("[contact] submit failed", err);
+      setServerError("Network error — please try again, or email us directly.");
+      setFormState("error");
+    }
   }
 
   if (formState === "success") {
@@ -67,11 +108,6 @@ export function ContactForm() {
       <div className="flex flex-col items-center justify-center rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
         <div className="text-4xl">🎉</div>
         <h3 className="mt-4 text-xl font-semibold text-gray-900">Message sent!</h3>
-        {/*
-          TODO(content): Success message previously promised a "1–2 business
-          days" response — removed because no client-supplied SLA exists.
-          Update once the client confirms a real response-time expectation.
-        */}
         <p className="mt-2 text-gray-500">
           Thanks for reaching out. We&apos;ll be in touch soon.
         </p>
@@ -80,7 +116,9 @@ export function ContactForm() {
           className="mt-6"
           onClick={() => {
             setFormState("idle");
-            setData({ name: "", email: "", subject: "", message: "" });
+            setData({ name: "", email: "", subject: "", message: "", honeypot: "" });
+            setErrors({});
+            setServerError(null);
           }}
         >
           Send another message
@@ -96,6 +134,36 @@ export function ContactForm() {
       noValidate
     >
       <div className="space-y-5">
+        {/*
+          Honeypot field — bots auto-fill any visible input named like
+          a contact field; humans never see this one because it's hidden
+          off-screen AND from screen readers + the tab order. The API
+          treats any non-empty value as a bot and silently swallows the
+          submission.
+        */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            top: "auto",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+          }}
+        >
+          <label htmlFor="contact-website">Website (leave blank)</label>
+          <input
+            type="text"
+            id="contact-website"
+            name="honeypot"
+            tabIndex={-1}
+            autoComplete="off"
+            value={data.honeypot}
+            onChange={handleChange}
+          />
+        </div>
+
         {/* Name */}
         <div className="space-y-1.5">
           <Label htmlFor="name">Full Name</Label>
@@ -167,21 +235,35 @@ export function ContactForm() {
             value={data.message}
             onChange={handleChange}
             rows={5}
-            aria-describedby={errors.message ? "mesbrand-error" : undefined}
+            aria-describedby={errors.message ? "message-error" : undefined}
             aria-invalid={!!errors.message}
           />
           {errors.message && (
-            <p id="mesbrand-error" className="text-xs text-red-500">
+            <p id="message-error" className="text-xs text-red-500">
               {errors.message}
             </p>
           )}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={formState === "submitting"}
-        >
+        {/* Server error — shown only when the API call failed. Provides
+            a mailto fallback so the visitor isn't stuck. */}
+        {formState === "error" && serverError && (
+          <div className="rounded-xl bg-red-50 p-4 text-sm text-red-700 ring-1 ring-red-100">
+            <p className="font-medium">Something went wrong sending your message.</p>
+            <p className="mt-1">
+              Please try again, or email us directly at{" "}
+              <a
+                className="underline underline-offset-2 hover:text-red-800"
+                href={`mailto:${FALLBACK_CONTACT_EMAIL}`}
+              >
+                {FALLBACK_CONTACT_EMAIL}
+              </a>
+              .
+            </p>
+          </div>
+        )}
+
+        <Button type="submit" className="w-full" disabled={formState === "submitting"}>
           {formState === "submitting" ? "Sending…" : "Send Message"}
         </Button>
       </div>

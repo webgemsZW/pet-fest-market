@@ -5,6 +5,54 @@ cross-check what's been done.
 
 ---
 
+## Monday, 22 June 2026 — Contact form now actually sends emails
+
+Up until today, the contact form on `/contact` was cosmetic — it
+validated the fields, showed a "Message sent!" success screen, but
+silently discarded the visitor's message. Embarrassing if a real
+visitor used it. That's now fixed.
+
+### What it does now
+
+When someone submits the form on the Contact page:
+
+1. The site sends the message to **`petfest@nonconformity.com.au`** via
+   a free email service called **Resend**.
+2. The visitor's email address goes into the **Reply-To** header — so
+   when you hit Reply in Gmail, your reply goes straight back to them.
+   No need to copy their address out of the body.
+3. The email subject line is prefixed `[Website]` so it's easy to spot
+   among your other inbox traffic, e.g. `[Website] Stallholder
+   Application — from Jane Smith`.
+4. If anything goes wrong on our end, the visitor sees a friendly
+   error suggesting they email you directly at
+   `petfest@nonconformity.com.au` — they're never left silently
+   abandoned.
+
+### A small bot-prevention measure
+
+The form now has a hidden field that human visitors can't see but
+automated bots will try to fill in. If anything ends up in that field,
+the submission is silently ignored — no email reaches your inbox, no
+"you've been blocked" message reaches the bot (which would just teach
+it to try harder).
+
+This handles the most common form-spam pattern. If we ever get hit by
+something more sophisticated we can add a CAPTCHA-style check later.
+
+### Behind the scenes
+
+- A Resend account has been set up under your name (free tier — 100
+  emails per day, way more than the form will ever produce).
+- The `petfest.com.au` domain has been verified with Resend via DNS
+  records added in GoDaddy.
+- The API key is stored in Vercel as `RESEND_API_KEY` (server-only,
+  not exposed to visitors).
+- All form submissions get logged in Resend's dashboard so you can
+  audit deliveries if anything seems off.
+
+---
+
 ## Friday, 12 June 2026 — Revisions from your follow-up note
 
 A few small refinements based on your feedback after going through the
