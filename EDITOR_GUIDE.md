@@ -129,7 +129,7 @@ place:
 | Field | Where it shows up |
 |---|---|
 | Acknowledgement of Country | Footer (every page) |
-| Contact Email | Footer, Contact page, Stall Holders page CTA |
+| Contact Email | Footer, Contact page, Stall Holders page CTA — AND the destination for contact-form submissions (visitor messages get emailed here) |
 | Contact Phone | Contact page (only if filled in) |
 | Contact Address | Contact page |
 | Social media URLs (FB / IG / TikTok / X) | Footer + Contact page. Facebook, Instagram, and TikTok have hardcoded defaults that always show; filling these fields in overrides the default. Twitter / X has no default — leave blank to hide that icon. |
