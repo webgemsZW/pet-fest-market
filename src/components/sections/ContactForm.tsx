@@ -11,22 +11,12 @@ type FormState = "idle" | "submitting" | "success" | "error";
 interface FormData {
   name: string;
   email: string;
-  subject: string;
   message: string;
   /** Bot honeypot — hidden field humans don't see. */
   honeypot: string;
 }
 
 type FieldErrors = Partial<Omit<FormData, "honeypot">>;
-
-const SUBJECTS = [
-  "General Enquiry",
-  "Stallholder Application",
-  "Sponsorship",
-  "Media / Press",
-  "Feedback",
-  "Other",
-];
 
 // Fallback email shown to visitors when the form's API call fails — gives
 // them a way to still reach Andrea even if the email service is down.
@@ -39,7 +29,6 @@ export function ContactForm() {
   const [data, setData] = useState<FormData>({
     name: "",
     email: "",
-    subject: "",
     message: "",
     honeypot: "",
   });
@@ -55,9 +44,7 @@ export function ContactForm() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
     if (name in errors && errors[name as keyof FieldErrors]) {
@@ -116,7 +103,7 @@ export function ContactForm() {
           className="mt-6"
           onClick={() => {
             setFormState("idle");
-            setData({ name: "", email: "", subject: "", message: "", honeypot: "" });
+            setData({ name: "", email: "", message: "", honeypot: "" });
             setErrors({});
             setServerError(null);
           }}
@@ -204,25 +191,6 @@ export function ContactForm() {
               {errors.email}
             </p>
           )}
-        </div>
-
-        {/* Subject */}
-        <div className="space-y-1.5">
-          <Label htmlFor="subject">Subject</Label>
-          <select
-            id="subject"
-            name="subject"
-            value={data.subject}
-            onChange={handleChange}
-            className="flex h-11 w-full rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-          >
-            <option value="">Select a topic…</option>
-            {SUBJECTS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Message */}

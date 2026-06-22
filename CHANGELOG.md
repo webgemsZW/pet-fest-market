@@ -12,6 +12,10 @@ validated the fields, showed a "Message sent!" success screen, but
 silently discarded the visitor's message. Embarrassing if a real
 visitor used it. That's now fixed.
 
+The form has also been simplified — the **Subject** dropdown is gone.
+Every submission now arrives in your inbox with the subject line
+**"Contact Form Enquiry"**, so they're easy to filter / tag in Gmail.
+
 ### What it does now
 
 When someone submits the form on the Contact page:
@@ -21,9 +25,9 @@ When someone submits the form on the Contact page:
 2. The visitor's email address goes into the **Reply-To** header — so
    when you hit Reply in Gmail, your reply goes straight back to them.
    No need to copy their address out of the body.
-3. The email subject line is prefixed `[Website]` so it's easy to spot
-   among your other inbox traffic, e.g. `[Website] Stallholder
-   Application — from Jane Smith`.
+3. Every email arrives with the subject **"Contact Form Enquiry"**.
+   The visitor's name and email are in the email body so you know who
+   it's from at a glance.
 4. If anything goes wrong on our end, the visitor sees a friendly
    error suggesting they email you directly at
    `petfest@nonconformity.com.au` — they're never left silently
