@@ -5,6 +5,50 @@ cross-check what's been done.
 
 ---
 
+## Thursday, 25 June 2026 — Subscribe forms now go to MailChimp
+
+The "Subscribe" forms on the home page and in the footer now actually
+add people to your MailChimp audience. Previously they validated the
+email field and showed a thank-you screen, but nothing was saved
+anywhere.
+
+### How it works
+
+1. A visitor types their email into either Subscribe form (home page
+   or footer) and clicks **Subscribe**.
+2. Their email is sent straight to MailChimp — no email addresses are
+   stored on the PetFest site.
+3. MailChimp opens its own confirmation page in a new browser tab.
+4. The original PetFest tab flips to a brief message:
+   > 🎉 Almost there! Check your inbox to confirm your subscription.
+5. The visitor receives a confirmation email from MailChimp (double
+   opt-in) and clicks the link inside to be added to your audience.
+
+After confirmation the new subscriber appears in your MailChimp
+**Audience → All contacts** list.
+
+### Spam protection
+
+MailChimp's own honeypot field is included in every submission, so
+their spam filter automatically rejects bot signups. You shouldn't
+see junk email pile up in your audience.
+
+### Where to manage subscribers
+
+Everything lives in MailChimp:
+
+- **MailChimp → Audience → All contacts** — see who's subscribed
+- **MailChimp → Campaigns → Create** — send a newsletter to all subscribers
+- **MailChimp → Audience → Signup forms** — customise the appearance of
+  the confirmation page subscribers see
+
+If you ever change MailChimp accounts or audiences, the new account's
+embedded-form code will need to be pasted into the website's
+configuration — a small developer change, not something you'd do in
+Studio.
+
+---
+
 ## Monday, 22 June 2026 — Contact form now actually sends emails
 
 Up until today, the contact form on `/contact` was cosmetic — it
