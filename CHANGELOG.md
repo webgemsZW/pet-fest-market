@@ -7,6 +7,22 @@ cross-check what's been done.
 
 ## Thursday, 25 June 2026 — Subscribe forms now go to MailChimp
 
+Update later in the day: First name and last name fields have been added
+to both subscribe forms (home page and footer). Both are **optional** —
+visitors can still subscribe with just their email, but if they fill in
+their name, you'll see it on the contact entry in MailChimp and can use
+it to personalise newsletters (e.g. "Hi Jane,").
+
+On the home page the layout is:
+
+```
+[First name]  [Last name]
+[       Email address       ]
+[          Subscribe         ]
+```
+
+In the footer they stack vertically because the column is narrow.
+
 The "Subscribe" forms on the home page and in the footer now actually
 add people to your MailChimp audience. Previously they validated the
 email field and showed a thank-you screen, but nothing was saved
