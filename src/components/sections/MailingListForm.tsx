@@ -9,9 +9,15 @@ import { MAILCHIMP } from "@/lib/site-defaults";
  * Inline email-capture form used by the home page mailing-list section.
  *
  * Submissions POST directly to MailChimp's hosted signup endpoint with
- * target="_blank" — MailChimp opens its confirmation page in a new
- * tab. A small "Almost there!" message appears beneath the form so the
- * visitor has an in-page confirmation that their click registered.
+ * target="_blank". MailChimp opens its hosted confirmation page in a
+ * new tab; the original tab shows a thank-you message below the form.
+ *
+ * Fields:
+ *   - EMAIL (required) — MailChimp's required merge field
+ *   - FNAME, LNAME (optional) — first / last name merge fields. MailChimp
+ *     audiences ship with these by default; if the editor ever removes
+ *     them from the audience schema in MailChimp, the submission still
+ *     succeeds (MailChimp ignores unknown merge fields).
  *
  * Important — the form stays mounted after submission. Earlier we
  * tried to replace the form with the thank-you message, but doing so
@@ -30,15 +36,30 @@ export function MailingListForm() {
         method="POST"
         target="_blank"
         onSubmit={() => setSubmitted(true)}
-        className="mt-8 flex flex-col gap-3 sm:flex-row"
+        className="mt-8 grid gap-3 sm:grid-cols-2"
       >
+        <Input
+          type="text"
+          name="FNAME"
+          placeholder="First name"
+          aria-label="First name"
+          autoComplete="given-name"
+        />
+        <Input
+          type="text"
+          name="LNAME"
+          placeholder="Last name"
+          aria-label="Last name"
+          autoComplete="family-name"
+        />
         <Input
           type="email"
           name="EMAIL"
           placeholder="your@email.com.au"
           required
           aria-label="Email address"
-          className="flex-1"
+          autoComplete="email"
+          className="sm:col-span-2"
         />
         {/*
           MailChimp's honeypot — the input must exist in the submission
@@ -58,7 +79,7 @@ export function MailingListForm() {
             defaultValue=""
           />
         </div>
-        <Button type="submit" size="default" className="sm:w-auto">
+        <Button type="submit" size="default" className="sm:col-span-2">
           Subscribe
         </Button>
       </form>
