@@ -44,3 +44,25 @@ export const DEFAULT_EVENT_TIME_RANGE = `${DEFAULT_EVENT_TIMES.doorsOpen} – ${
  */
 export const DEFAULT_APPLY_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSd6OnpOkcU9eoFm02Zs6XpNoJuOtUMCH9g3iR77yXlpMgjoJQ/viewform?usp=sharing&ouid=102085881350428569314";
+
+/**
+ * MailChimp signup form configuration. The subscribe forms on the home
+ * page and in the footer POST directly to this URL with target="_blank",
+ * so visitors see MailChimp's hosted confirmation page in a new tab
+ * while the original PetFest tab shows a local "check your inbox"
+ * acknowledgement.
+ *
+ * Values were lifted from the embedded-form HTML MailChimp generates
+ * (Audience → Signup forms → Embedded forms). The honeypot field name
+ * is MailChimp's own bot-trap — its presence in the POST body is
+ * required by their spam filter; humans never see it because the input
+ * is positioned off-screen.
+ *
+ * If Andrea ever switches MailChimp accounts or audience, update both
+ * fields here from the new embedded-form code.
+ */
+export const MAILCHIMP = {
+  actionUrl:
+    "https://petfest.us3.list-manage.com/subscribe/post?u=f017fe5ec12d4b88a77747717&id=35bd3b20e5&f_id=005cc3e0f0",
+  honeypotName: "b_f017fe5ec12d4b88a77747717_35bd3b20e5",
+} as const;
