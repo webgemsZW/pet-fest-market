@@ -79,7 +79,7 @@ export const siteSettings = defineType({
       type: "object",
       group: "social",
       description:
-        "Full URLs (including https://). Facebook, Instagram, and TikTok all have hardcoded defaults pointing at @petfestaustralia / @petfestau (see src/lib/site-defaults.ts), so the icons appear on the live site even if these fields are blank. Filling a field in here overrides the default. Twitter / X has no default — leave blank to hide that icon.",
+        "Full URLs (including https://). Facebook, Instagram, and TikTok all have hardcoded defaults pointing at @petfestaustralia (see src/lib/site-defaults.ts), so the icons appear on the live site even if these fields are blank. Filling a field in here overrides the default. Twitter / X has no default — leave blank to hide that icon.",
       fields: [
         defineField({ name: "facebook", title: "Facebook URL", type: "url" }),
         defineField({ name: "instagram", title: "Instagram URL", type: "url" }),

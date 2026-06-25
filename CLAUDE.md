@@ -57,7 +57,7 @@ Anything not covered by a source-of-truth document above is **placeholder**. The
 
 ### Hardcoded defaults (always render, Sanity overrides)
 A few values are hardcoded in `src/lib/site-defaults.ts` so the live site always shows them even if Sanity is unset. Sanity values still take precedence when populated. Current defaults:
-- **Social URLs:** Facebook `@petfestaustralia`, Instagram `@petfestaustralia`, TikTok `@petfestau`
+- **Social URLs:** Facebook `@petfestaustralia`, Instagram `@petfestaustralia`, TikTok `@petfestaustralia`
 - **Event trading times (Box Hill):** doors open `10am`, event ends `3pm`
 - **Stallholder application URL:** the Box Hill Google Form (per 3 June 2026 email). Per-event `applyUrl` on the `event` document overrides — set it when running additional markets.
 
