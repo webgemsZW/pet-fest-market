@@ -5,6 +5,34 @@ cross-check what's been done.
 
 ---
 
+## Saturday, 27 June 2026 — SEO basics: sitemap, robots, event structured data
+
+Three search-engine improvements landed. **None of these change anything visitors see** — they only affect how Google + other search engines understand the site.
+
+### 1. Sitemap
+
+The site now exposes `petfest.com.au/sitemap.xml`, a standard listing of the public pages search engines should crawl: Home, About, FAQ, Stallholders, Contact. Excluded deliberately: `/studio` (admin), `/api/*` (internal), the in-site policy pages (duplicate of the PDFs the footer links to), and `/sponsors` (placeholder while no sponsors are signed).
+
+### 2. Robots file
+
+Standard `petfest.com.au/robots.txt` for crawlers, with explicit "don't index this" rules for `/studio`, `/api/*` and the rendered policy pages. The PDFs in `/policies/*.pdf` are still allowed — having legal docs searchable is normal practice.
+
+### 3. Event structured data
+
+The home page now emits hidden JSON-LD that describes the Box Hill 2026 event in a format Google understands. This makes the event eligible to appear as a **rich result** in Google search — the kind of search snippet that shows the date, venue, and (eventually) a "Buy Tickets" link directly in Google.
+
+The data is pulled automatically from the current event in Sanity, so:
+- Editing the event date/venue/ticket URL in Studio also updates what Google sees
+- Flipping `Site Settings → Current Event` to a future event (Disterrly Rd, Morris Moore) auto-updates the structured data without any code change
+
+### What to do next on this
+
+Once the deploy is live, paste `https://petfest.com.au` into [Google's Rich Results Test](https://search.google.com/test/rich-results) to confirm the event data is being parsed correctly. If it shows green, we're done.
+
+Optionally, submit the sitemap to **Google Search Console** so Google indexes the site faster (without it, Google will still discover the site eventually — just slower). Setting up Search Console is a separate ~10-minute task, mostly clicking through their verification flow.
+
+---
+
 ## Friday, 26 June 2026 — Vercel Web Analytics enabled
 
 The site now collects basic visitor statistics — total visits, top
