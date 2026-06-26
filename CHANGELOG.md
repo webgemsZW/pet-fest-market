@@ -5,6 +5,39 @@ cross-check what's been done.
 
 ---
 
+## Friday, 26 June 2026 — Vercel Web Analytics enabled
+
+The site now collects basic visitor statistics — total visits, top
+pages, country / device breakdown, traffic sources — via Vercel's
+built-in Web Analytics. **No cookies, no personal data collected**, no
+banner needed; the metrics are aggregate only.
+
+### Where to see the numbers
+
+In your Vercel dashboard:
+
+1. Open the **pet-fest-market** project
+2. Click the **Analytics** tab in the top nav
+3. You'll see visits over time, top pages, top referrers, etc.
+
+Data starts collecting from the moment Analytics is enabled in the
+dashboard — there'll be a small lag before the first numbers appear
+(usually a few minutes for the first real-time data and 24 hours for
+the daily aggregates).
+
+### What you can do with the data
+
+A few examples:
+
+- **After posting on Instagram**: check whether traffic spiked that day → did the post drive clicks?
+- **Once tickets go on sale**: see how many visitors viewed the home page vs actually clicked through to the ticketing platform.
+- **In the run-up to the event**: watch traffic ramp as the date approaches.
+- **Mobile vs desktop**: confirm most visitors are on phones (likely!) so design decisions favour mobile.
+
+The free tier covers around 2,500 visits per month, which is comfortably above what a market website will see.
+
+---
+
 ## Thursday, 25 June 2026 — Subscribe forms now go to MailChimp
 
 Update later in the day: First name and last name fields have been added
