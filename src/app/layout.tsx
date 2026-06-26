@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -79,7 +80,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-AU">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        {children}
+        {/*
+          Vercel Web Analytics — cookieless visitor / page-view counts.
+          Only emits beacons in production deploys on Vercel; in local
+          development the component is a no-op. Toggle the collection
+          itself on/off via Vercel dashboard → Project → Analytics.
+        */}
+        <Analytics />
+      </body>
     </html>
   );
 }

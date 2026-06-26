@@ -19,7 +19,7 @@
 export const DEFAULT_SOCIAL_LINKS = {
   facebook: "https://www.facebook.com/petfestaustralia",
   instagram: "https://www.instagram.com/petfestaustralia/",
-  tiktok: "https://www.tiktok.com/@petfestau",
+  tiktok: "https://www.tiktok.com/@petfestaustralia",
 } as const;
 
 /**
