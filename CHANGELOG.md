@@ -5,6 +5,25 @@ cross-check what's been done.
 
 ---
 
+## Saturday, 27 June 2026 — Custom 404 page
+
+If a visitor hits a broken URL (typo, expired link, dead bookmark), they
+no longer see the bare Next.js "404 | This page could not be found"
+default — they now land on a branded PetFest Market 404 page that
+matches the rest of the site.
+
+The page shows:
+
+- The site header + footer (so navigation still works)
+- A friendly "🐾 404 — Page Not Found" pill
+- A heading explaining what's happened
+- Buttons linking to the most likely destinations: Home, About, FAQ,
+  Stallholders, Contact
+
+Search engines are told not to index 404 pages (standard practice).
+
+---
+
 ## Saturday, 27 June 2026 — SEO basics: sitemap, robots, event structured data
 
 Three search-engine improvements landed. **None of these change anything visitors see** — they only affect how Google + other search engines understand the site.
