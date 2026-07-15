@@ -49,6 +49,11 @@ export interface SiteSettings {
       alt?: string | null;
     } | null;
   } | null;
+  policyDocuments?: {
+    termsPdf?: { asset?: { url?: string | null } | null } | null;
+    privacyPdf?: { asset?: { url?: string | null } | null } | null;
+    codeOfConductPdf?: { asset?: { url?: string | null } | null } | null;
+  } | null;
   currentEvent?: CurrentEvent | null;
 }
 

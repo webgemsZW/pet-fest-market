@@ -17,6 +17,7 @@ export const siteSettings = defineType({
     { name: "contact", title: "Contact" },
     { name: "social", title: "Social & Mailing list" },
     { name: "branding", title: "Branding" },
+    { name: "policies", title: "Policy Documents" },
     { name: "event", title: "Current Event" },
   ],
   fields: [
@@ -124,6 +125,37 @@ export const siteSettings = defineType({
           type: "image",
           options: { hotspot: true },
           fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
+        }),
+      ],
+    }),
+
+    // Policy documents -------------------------------------------------
+    defineField({
+      name: "policyDocuments",
+      title: "Policy Documents (PDFs)",
+      type: "object",
+      group: "policies",
+      description:
+        "Upload the PDF for each legal policy — these are exactly what the footer links to. Upload a new file here any time to update the live document; no developer or deploy needed. Leave a slot empty to keep using the built-in default PDF that ships with the site.",
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        defineField({
+          name: "termsPdf",
+          title: "Terms & Conditions PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
+        }),
+        defineField({
+          name: "privacyPdf",
+          title: "Privacy Policy PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
+        }),
+        defineField({
+          name: "codeOfConductPdf",
+          title: "Code of Conduct PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
         }),
       ],
     }),

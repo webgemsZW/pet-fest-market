@@ -51,6 +51,11 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
     text,
     logo
   },
+  policyDocuments{
+    termsPdf{ asset->{ url } },
+    privacyPdf{ asset->{ url } },
+    codeOfConductPdf{ asset->{ url } }
+  },
   currentEvent->{${EVENT_PROJECTION}}
 }`;
 
