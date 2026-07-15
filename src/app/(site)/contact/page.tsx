@@ -6,11 +6,16 @@ import { TiktokIcon } from "@/components/shared/TiktokIcon";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import { getContactPage } from "@/lib/sanity/get-contact-page";
 import { DEFAULT_SOCIAL_LINKS } from "@/lib/site-defaults";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get in touch with the PetFest Market team. We'd love to hear from you.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getContactPage();
+  return pageMetadata({
+    seo: page?.seo,
+    fallbackTitle: "Contact",
+    fallbackDescription: "Get in touch with the PetFest Market team. We'd love to hear from you.",
+  });
+}
 
 // Fallback values if siteSettings is unreachable or fields are blank.
 const FALLBACK_EMAIL = "petfest@nonconformity.com.au";
@@ -37,6 +42,9 @@ export default async function ContactPage() {
   };
   const heading = contactPage?.heading?.trim() || FALLBACK_HEADING;
   const intro = contactPage?.intro?.trim() || FALLBACK_INTRO;
+  const detailsHeading = contactPage?.detailsHeading?.trim() || "Contact Details";
+  const followHeading = contactPage?.followHeading?.trim() || "Follow Us";
+  const formHeading = contactPage?.formHeading?.trim() || "Send a Message";
 
   return (
     <>
@@ -53,7 +61,7 @@ export default async function ContactPage() {
         <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-2">
           {/* Contact details */}
           <div>
-            <h2 className="mb-6 text-2xl font-bold text-gray-900">Contact Details</h2>
+            <h2 className="mb-6 text-2xl font-bold text-gray-900">{detailsHeading}</h2>
             <div className="space-y-4">
               {/* Email */}
               <div className="flex items-start gap-4">
@@ -109,7 +117,7 @@ export default async function ContactPage() {
                 always render. Twitter is shown only when its URL is
                 explicitly set in Site Settings. */}
             <div className="mt-8">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Follow Us</h3>
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">{followHeading}</h3>
               <div className="flex gap-3">
                 <a
                   href={social.facebook}
@@ -155,7 +163,7 @@ export default async function ContactPage() {
 
           {/* Contact form */}
           <div>
-            <h2 className="mb-6 text-2xl font-bold text-gray-900">Send a Message</h2>
+            <h2 className="mb-6 text-2xl font-bold text-gray-900">{formHeading}</h2>
             <ContactForm />
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { HeroSection } from "@/components/sections/HeroSection";
+import { Suspense } from "react";
+import { HeroSection, HeroFallback } from "@/components/sections/HeroSection";
 import { EventSummarySection } from "@/components/sections/EventSummarySection";
 // CountdownSection has been folded into HeroSection — the timer now lives
 // in the hero itself (see <CountdownTimer variant="light" /> inside
@@ -27,12 +28,18 @@ export default function HomePage() {
   return (
     <>
       {/* Invisible to humans — emits a JSON-LD script tag that lets
-          Google show this event as a rich result in search. Reads from
-          the Sanity current-event document, so updates flow through
-          automatically when Andrea changes it. */}
-      <EventStructuredData />
+          Google show this event as a rich result in search. Reads the
+          self-healing featured event at request time, so it's wrapped in
+          Suspense (Cache Components requires dynamic reads to be). */}
+      <Suspense fallback={null}>
+        <EventStructuredData />
+      </Suspense>
 
-      <HeroSection />
+      {/* The hero resolves the featured event at request time (self-healing),
+          so it streams in behind a matching static fallback. */}
+      <Suspense fallback={<HeroFallback />}>
+        <HeroSection />
+      </Suspense>
       <EventSummarySection />
       {/* TODO(content): <VendorCtaSection /> hidden until the market grows. */}
       {/* TODO(content): <SponsorPreviewSection /> hidden until we have real sponsors. */}

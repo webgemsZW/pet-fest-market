@@ -4,7 +4,9 @@ import { homepage } from "./homepage";
 import { aboutPage } from "./aboutPage";
 import { stallHolderPage } from "./stallHolderPage";
 import { faqItem } from "./faqItem";
+import { faqPage } from "./faqPage";
 import { sponsor } from "./sponsor";
+import { sponsorsPage } from "./sponsorsPage";
 import { contactPage } from "./contactPage";
 
 // policyPages removed — Privacy / Terms / Code of Conduct stay as code,
@@ -20,6 +22,8 @@ export const schemaTypes = [
   aboutPage,
   stallHolderPage,
   contactPage,
+  faqPage,
+  sponsorsPage,
   // Collections
   event,
   faqItem,

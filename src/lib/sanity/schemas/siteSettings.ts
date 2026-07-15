@@ -45,6 +45,14 @@ export const siteSettings = defineType({
       description: "Shown in the site footer on every page.",
       validation: (r) => r.required().min(20),
     }),
+    defineField({
+      name: "footerTagline",
+      title: "Footer Tagline",
+      type: "string",
+      group: "general",
+      description:
+        "Short line shown under the logo in the footer. Defaults to 'An indoor market for Pet Lovers!'. Keep it generic (no specific city or date) so it works across every market.",
+    }),
 
     // Contact -----------------------------------------------------------
     defineField({
@@ -123,13 +131,12 @@ export const siteSettings = defineType({
     // Current event ----------------------------------------------------
     defineField({
       name: "currentEvent",
-      title: "Current Event",
+      title: "Featured Event (optional override)",
       type: "reference",
       group: "event",
       description:
-        "The event the site is currently promoting. Pick from the list of events. To flip the site over to a new event, change this reference.",
+        "Optional. Pin a specific event as the prominent one across the site. Leave this blank and the site automatically features the soonest upcoming market (and rolls forward on its own once an event passes). Only set this if you want to spotlight an event out of date order — and note it is ignored once the event it points at is in the past.",
       to: [{ type: "event" }],
-      validation: (r) => r.required(),
     }),
   ],
 });

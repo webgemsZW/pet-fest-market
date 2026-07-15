@@ -4,12 +4,22 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getFaqItems, type FaqItem } from "@/lib/sanity/get-faq-items";
+import { getFaqPage } from "@/lib/sanity/get-faq-page";
 import { faqData as fallbackFaqData } from "@/lib/faq-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Frequently asked questions about PetFest Market — tickets, animals, accessibility, and more.",
-};
+const FALLBACK_HEADING = "Frequently Asked Questions";
+const FALLBACK_SUBTITLE = "Everything you need to know about PetFest Market.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getFaqPage();
+  return pageMetadata({
+    seo: page?.seo,
+    fallbackTitle: "FAQ",
+    fallbackDescription:
+      "Frequently asked questions about PetFest Market — tickets, animals, accessibility, and more.",
+  });
+}
 
 /**
  * Resolve the FAQ list — prefer Sanity-published items, fall back to
@@ -24,8 +34,12 @@ function resolveList(items: FaqItem[]): Array<{ id: string; question: string; an
 }
 
 export default async function FaqPage() {
-  const items = await getFaqItems();
+  const [items, page] = await Promise.all([getFaqItems(), getFaqPage()]);
   const list = resolveList(items);
+  const heading = page?.heading?.trim() || FALLBACK_HEADING;
+  const subtitle = page?.subtitle?.trim() || FALLBACK_SUBTITLE;
+  const ctaPrompt = page?.ctaPrompt?.trim() || "Can't find what you're looking for?";
+  const ctaLabel = page?.ctaLabel?.trim() || "Get in Touch";
 
   return (
     <>
@@ -33,12 +47,8 @@ export default async function FaqPage() {
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">❓</div>
-          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-            Frequently Asked Questions
-          </h1>
-          <p className="mt-4 text-xl text-gray-600">
-            Everything you need to know about PetFest Market.
-          </p>
+          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">{heading}</h1>
+          <p className="mt-4 text-xl text-gray-600">{subtitle}</p>
         </div>
       </section>
 
@@ -59,11 +69,9 @@ export default async function FaqPage() {
 
           {/* Catch-all CTA for visitors whose question isn't covered above. */}
           <div className="mt-10 text-center">
-            <p className="mb-4 text-sm text-gray-600">
-              Can&apos;t find what you&apos;re looking for?
-            </p>
+            <p className="mb-4 text-sm text-gray-600">{ctaPrompt}</p>
             <Button asChild variant="secondary">
-              <Link href="/contact">Get in Touch</Link>
+              <Link href="/contact">{ctaLabel}</Link>
             </Button>
           </div>
         </div>

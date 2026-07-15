@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
+import { getAllEvents } from "@/lib/sanity/get-events";
 
 /**
  * Sitemap for search engines. Generated automatically at /sitemap.xml.
  *
- * Only includes the canonical user-facing pages. Deliberately excluded:
+ * Includes the canonical user-facing pages plus one entry per event
+ * detail page (/events/<slug>), pulled from Sanity. Deliberately excluded:
  *   - /studio                 — admin interface, no public benefit
  *   - /api/*                  — endpoint URLs, no human content
  *   - /policies/*             — in-site rendered fallbacks of the legal
@@ -19,12 +21,26 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const events = await getAllEvents();
+  const eventRoutes: MetadataRoute.Sitemap = events
+    .filter((e) => e.slug)
+    .map((e) => ({
+      url: `${SITE_URL}/events/${e.slug}`,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    }));
+
   return [
     {
       url: `${SITE_URL}/`,
       changeFrequency: "weekly",
       priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/events`,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
       url: `${SITE_URL}/about`,
@@ -46,5 +62,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    ...eventRoutes,
   ];
 }

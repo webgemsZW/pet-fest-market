@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /*
-  Apply URL note: the Header is a Client Component (it needs useState
-  for the mobile menu + scroll behaviour), so we can't fetch the
-  per-event applyUrl from Sanity here without extra plumbing. Using
-  the hardcoded default keeps the button live everywhere. The Hero
-  and Stallholder page still honour the per-event Sanity override.
+  Apply URL: the Header is a Client Component (it needs useState for the
+  mobile menu + scroll behaviour), so it can't fetch from Sanity itself.
+  The server layout passes `applyUrl` in as a prop (resolved from the
+  featured event, falling back to DEFAULT_APPLY_URL) so the nav button
+  points at the right form.
 */
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
@@ -22,13 +22,14 @@ import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 //   { href: "/sponsors", label: "Sponsors" },
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stallholders" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
 
-export function Header() {
+export function Header({ applyUrl = DEFAULT_APPLY_URL }: { applyUrl?: string }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -69,7 +70,7 @@ export function Header() {
             </Link>
           ))}
           <Button asChild size="sm">
-            <a href={DEFAULT_APPLY_URL} target="_blank" rel="noopener noreferrer">
+            <a href={applyUrl} target="_blank" rel="noopener noreferrer">
               Apply as Stallholder
             </a>
           </Button>
@@ -103,7 +104,7 @@ export function Header() {
             <div className="mt-3">
               <Button asChild className="w-full">
                 <a
-                  href={DEFAULT_APPLY_URL}
+                  href={applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}

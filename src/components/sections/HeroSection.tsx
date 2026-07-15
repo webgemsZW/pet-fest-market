@@ -4,7 +4,7 @@ import Image from "next/image";
 import { MapPin, CalendarDays, Clock, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
-import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
+import { getFeaturedEvent } from "@/lib/sanity/get-events";
 import { getHomepage } from "@/lib/sanity/get-homepage";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
@@ -32,8 +32,32 @@ function formatDatePill(iso: string | null | undefined): string {
   });
 }
 
+/**
+ * Static placeholder shown while the (dynamic, self-healing) hero streams
+ * in. Mirrors the hero's frame — same gradient and logo — so the shell
+ * paints instantly and the event-specific pills fill in without a jarring
+ * layout shift. Rendered as the <Suspense> fallback on the home page.
+ */
+export function HeroFallback() {
+  return (
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-brand-100 to-brand-100 pt-20">
+      <Image
+        src="/images/logo.png"
+        alt="PetFest Market"
+        width={2346}
+        height={942}
+        className="h-36 w-auto animate-pulse sm:h-44"
+        priority
+      />
+    </section>
+  );
+}
+
 export async function HeroSection() {
-  const [event, homepage] = await Promise.all([getCurrentEvent(), getHomepage()]);
+  // The featured event is self-healing: it honours the Studio override
+  // while that event is upcoming, otherwise auto-advances to the soonest
+  // future market (see get-events.ts → getFeaturedEvent).
+  const [event, homepage] = await Promise.all([getFeaturedEvent(), getHomepage()]);
   const dateLabel = formatDatePill(event?.eventDate);
   const location = event?.location?.trim() || FALLBACK_LOCATION;
   const ticketUrl = event?.ticketUrl?.trim() || null;
@@ -44,6 +68,13 @@ export async function HeroSection() {
   const countdownIso = event?.eventDate ?? FALLBACK_EVENT_DATE_ISO;
   const eyebrow = homepage?.heroEyebrow?.trim() || FALLBACK_EYEBROW;
   const subheading = homepage?.heroSubheading?.trim() || FALLBACK_SUBHEADING;
+
+  // Editable button / pill labels (Studio → Homepage → Hero).
+  const applyLabel = homepage?.heroApplyLabel?.trim() || "Apply as Stallholder";
+  const updatesLabel = homepage?.heroUpdatesLabel?.trim() || "Get Event Updates";
+  const ticketLabel = homepage?.heroTicketLabel?.trim() || "Buy Tickets";
+  const ticketComingSoonLabel =
+    homepage?.heroTicketComingSoonLabel?.trim() || "Tickets coming soon";
 
   // Trading times — Sanity per-event values override the hardcoded
   // defaults (see src/lib/site-defaults.ts).
@@ -110,12 +141,12 @@ export async function HeroSection() {
               className="flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-white shadow-sm transition-colors hover:bg-brand-700"
             >
               <Ticket className="h-4 w-4" aria-hidden="true" />
-              <span>Buy Tickets</span>
+              <span>{ticketLabel}</span>
             </a>
           ) : (
             <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
               <Ticket className="h-4 w-4 text-brand-600" aria-hidden="true" />
-              <span>Tickets coming soon</span>
+              <span>{ticketComingSoonLabel}</span>
             </div>
           )}
         </div>
@@ -130,11 +161,11 @@ export async function HeroSection() {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">
             <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-              Apply as Stallholder
+              {applyLabel}
             </a>
           </Button>
           <Button asChild size="lg" variant="secondary">
-            <Link href="#mailing-list">Get Event Updates</Link>
+            <Link href="#mailing-list">{updatesLabel}</Link>
           </Button>
         </div>
       </div>

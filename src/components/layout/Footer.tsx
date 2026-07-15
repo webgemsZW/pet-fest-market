@@ -61,10 +61,11 @@ export async function Footer() {
 
   const acknowledgement =
     siteSettings?.acknowledgementOfCountry?.trim() || FALLBACK_ACKNOWLEDGEMENT;
-  // Use the generic tagline by default — even if siteSettings.siteDescription
-  // is filled in, the footer wants the short generic line, not the SEO
-  // description. We deliberately do NOT use siteDescription here.
-  const tagline = FALLBACK_TAGLINE;
+  // Prefer the editable footer tagline (Site Settings → General). Falls
+  // back to the generic constant. We deliberately do NOT use
+  // siteDescription here — the footer wants a short generic line, not the
+  // SEO description.
+  const tagline = siteSettings?.footerTagline?.trim() || FALLBACK_TAGLINE;
 
   // Resolve each social link: prefer the Sanity-supplied URL, fall
   // back to the hardcoded default (see src/lib/site-defaults.ts).

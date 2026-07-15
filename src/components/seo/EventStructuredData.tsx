@@ -1,16 +1,17 @@
-import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
+import { getFeaturedEvent, type EventDoc } from "@/lib/sanity/get-events";
 
 /**
- * Event structured data (JSON-LD) for the home page.
+ * Event structured data (JSON-LD).
  *
  * Renders an invisible <script type="application/ld+json"> tag that
  * Google reads to power its event-style rich results — the search
  * snippet with date, venue, and (when tickets are on sale) a Buy
  * Tickets link directly in Google's UI.
  *
- * The data is pulled from `siteSettings.currentEvent` so flipping the
- * pointer to a future event (Disterrly Rd, Morris Moore) automatically
- * updates what Google sees too. No content is rendered visibly.
+ * Pass an `event` to describe a specific market (used on the
+ * /events/<slug> detail page). With no prop it describes the current
+ * featured event (used on the home page), so the rich result rolls
+ * forward automatically as markets pass. No content is rendered visibly.
  *
  * Schema reference: https://schema.org/Event
  * Google's event SEO guidelines: https://developers.google.com/search/docs/appearance/structured-data/event
@@ -27,8 +28,8 @@ import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
  *     image, since OG image is more likely to be a clean square crop.
  *     Can be swapped to event-specific imagery later if needed.
  */
-export async function EventStructuredData() {
-  const event = await getCurrentEvent();
+export async function EventStructuredData({ event: eventProp }: { event?: EventDoc | null } = {}) {
+  const event = eventProp ?? (await getFeaturedEvent());
   if (!event) return null;
 
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
