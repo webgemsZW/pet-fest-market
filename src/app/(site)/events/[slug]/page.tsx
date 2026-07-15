@@ -99,22 +99,27 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
     <>
       <EventStructuredData event={event} />
 
-      {/* Hero */}
+      {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <Link
-            href="/events"
-            className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-900"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            All markets
-          </Link>
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          {/* Back link stays left-aligned above the centered content. */}
+          <div className="mb-6 text-left">
+            <Link
+              href="/events"
+              className="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-900"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              All markets
+            </Link>
+          </div>
 
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">{event.eventName}</h1>
-          {event.blurb && <p className="mt-4 max-w-2xl text-xl text-gray-600">{event.blurb}</p>}
+          {event.blurb && (
+            <p className="mx-auto mt-4 max-w-2xl text-xl text-gray-600">{event.blurb}</p>
+          )}
 
           {/* Detail pills */}
-          <div className="mt-8 flex flex-wrap gap-4 text-sm font-medium text-gray-700">
+          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-700">
             <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
               <CalendarDays className="h-4 w-4 text-brand-600" aria-hidden="true" />
               <span>{dateLabel}</span>
@@ -131,15 +136,13 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
             </div>
           </div>
 
-          {/* Countdown */}
+          {/* Countdown (centers itself — now consistent with the hero) */}
           <div className="mt-10">
             <CountdownTimer variant="light" eventDate={event.eventDate} />
           </div>
 
-          {/* CTAs. The ticket button is static; the apply button depends on
-              the request-time deadline check, so it streams in its own
-              Suspense island. */}
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          {/* CTAs */}
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             {ticketUrl ? (
               <Button asChild size="lg">
                 <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
