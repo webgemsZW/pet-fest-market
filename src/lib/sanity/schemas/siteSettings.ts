@@ -78,7 +78,8 @@ export const siteSettings = defineType({
       type: "text",
       rows: 3,
       group: "contact",
-      description: "Mailing address or venue. Optional — leave blank to hide.",
+      description:
+        "The organiser's postal / mailing address shown on the Contact page (NOT the event venue). Leave blank to use the default PO Box.",
     }),
 
     // Social & mailing list --------------------------------------------

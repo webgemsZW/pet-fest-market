@@ -19,7 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Fallback values if siteSettings is unreachable or fields are blank.
 const FALLBACK_EMAIL = "petfest@nonconformity.com.au";
-const FALLBACK_LOCATION = "Box Hill Town Hall, Victoria, Australia";
+// Organiser's postal address (Nonconformity Productions) — NOT the event
+// venue. Editable via Site Settings → Contact Address.
+const FALLBACK_POSTAL_ADDRESS = "PO Box 1097\nTORQUAY VIC 3228";
 const FALLBACK_HEADING = "Get in Touch";
 const FALLBACK_INTRO =
   "Questions, sponsorship enquiries, or just want to say hello? We'd love to hear from you.";
@@ -28,8 +30,8 @@ export default async function ContactPage() {
   const [siteSettings, contactPage] = await Promise.all([getSiteSettings(), getContactPage()]);
   const email = siteSettings?.contactEmail?.trim() || FALLBACK_EMAIL;
   const phone = siteSettings?.contactPhone?.trim() || null;
-  const address = siteSettings?.contactAddress?.trim() || null;
-  const location = address || siteSettings?.currentEvent?.location || FALLBACK_LOCATION;
+  // The organiser's postal address — deliberately NOT the event venue.
+  const postalAddress = siteSettings?.contactAddress?.trim() || FALLBACK_POSTAL_ADDRESS;
   // Resolve each social link: prefer the Sanity-supplied URL, fall
   // back to the hardcoded default (see src/lib/site-defaults.ts).
   // Twitter has no default — only shows when explicitly set in Sanity.
@@ -103,11 +105,8 @@ export default async function ContactPage() {
                   <MapPin className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Event Location</p>
-                  <p className="whitespace-pre-line font-medium text-gray-700">{location}</p>
-                  {!address && (
-                    <p className="text-sm text-gray-400">Full address coming soon</p>
-                  )}
+                  <p className="text-sm font-medium text-gray-500">Postal Address</p>
+                  <p className="whitespace-pre-line font-medium text-gray-700">{postalAddress}</p>
                 </div>
               </div>
             </div>
