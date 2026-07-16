@@ -56,7 +56,11 @@ export async function HeroSection() {
   const applyUrl = event?.applyUrl?.trim() || DEFAULT_APPLY_URL;
   const countdownIso = event?.eventDate ?? FALLBACK_EVENT_DATE_ISO;
   const eyebrow = homepage?.heroEyebrow?.trim() || FALLBACK_EYEBROW;
-  const subheading = homepage?.heroSubheading?.trim() || FALLBACK_SUBHEADING;
+  const eventTitle = event?.eventName?.trim() || null;
+  // Hero subheading comes from the featured event's Short Description
+  // (blurb); falls back to Homepage → Hero Subtitle, then the default.
+  const subheading =
+    event?.blurb?.trim() || homepage?.heroSubheading?.trim() || FALLBACK_SUBHEADING;
 
   // Editable button / pill labels (Studio → Homepage → Hero).
   const applyLabel = homepage?.heroApplyLabel?.trim() || "Apply as Stallholder";
@@ -103,8 +107,14 @@ export async function HeroSection() {
           />
         </h1>
 
-        {/* Subheading — editable via Studio (Homepage → Hero Subtitle).
-            Must not imply visitors can bring pets to the venue. */}
+        {/* Featured event title, directly below the logo. */}
+        {eventTitle && (
+          <h2 className="mt-5 text-2xl font-bold text-gray-900 sm:text-3xl">{eventTitle}</h2>
+        )}
+
+        {/* Subheading — the featured event's Short Description (blurb), else
+            the Homepage → Hero Subtitle. Must not imply visitors can bring
+            pets to the venue. */}
         <p className="mt-6 max-w-2xl text-balance text-xl text-gray-600">{subheading}</p>
 
         {/* Event details — date, time, venue, and tickets pills. Date / venue /
@@ -123,22 +133,6 @@ export async function HeroSection() {
             <MapPin className="h-4 w-4 text-brand-600" aria-hidden="true" />
             <span>{location}</span>
           </div>
-          {ticketUrl ? (
-            <a
-              href={ticketUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-white shadow-sm transition-colors hover:bg-brand-700"
-            >
-              <Ticket className="h-4 w-4" aria-hidden="true" />
-              <span>{ticketLabel}</span>
-            </a>
-          ) : (
-            <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
-              <Ticket className="h-4 w-4 text-brand-600" aria-hidden="true" />
-              <span>{ticketComingSoonLabel}</span>
-            </div>
-          )}
         </div>
 
         {/* Countdown */}
@@ -146,10 +140,24 @@ export async function HeroSection() {
           <CountdownTimer variant="light" eventDate={countdownIso} />
         </div>
 
-        {/* CTAs — primary opens the Stallholder application form (uses the
-            per-event URL from Sanity, or the hardcoded default). */}
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg">
+        {/* CTAs — Buy Tickets is the prominent primary action (or a clear
+            "coming soon" state before tickets are on sale); Apply and Get
+            Updates sit alongside it as secondary actions. */}
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+          {ticketUrl ? (
+            <Button asChild size="lg">
+              <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
+                <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
+                {ticketLabel}
+              </a>
+            </Button>
+          ) : (
+            <Button size="lg" disabled>
+              <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
+              {ticketComingSoonLabel}
+            </Button>
+          )}
+          <Button asChild size="lg" variant="secondary">
             <a href={applyUrl} target="_blank" rel="noopener noreferrer">
               {applyLabel}
             </a>
