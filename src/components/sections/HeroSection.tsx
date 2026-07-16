@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { getFeaturedEvent } from "@/lib/sanity/get-events";
 import { getHomepage } from "@/lib/sanity/get-homepage";
+import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
 // Fallbacks — used when no `event` document is configured as the
@@ -19,18 +20,6 @@ const FALLBACK_LOCATION = "Box Hill Town Hall, VIC";
 const FALLBACK_EYEBROW = "Victoria's favourite pet community market";
 const FALLBACK_SUBHEADING =
   "An indoor community market for pet lovers — celebrating local Stallholders, pet businesses, and family fun.";
-
-function formatDatePill(iso: string | null | undefined): string {
-  if (!iso) return FALLBACK_DATE_LABEL;
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return FALLBACK_DATE_LABEL;
-  return d.toLocaleDateString("en-AU", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
 
 /**
  * Static placeholder shown while the (dynamic, self-healing) hero streams
@@ -58,7 +47,7 @@ export async function HeroSection() {
   // while that event is upcoming, otherwise auto-advances to the soonest
   // future market (see get-events.ts → getFeaturedEvent).
   const [event, homepage] = await Promise.all([getFeaturedEvent(), getHomepage()]);
-  const dateLabel = formatDatePill(event?.eventDate);
+  const dateLabel = formatEventDate(event?.eventDate, event?.timezone) ?? FALLBACK_DATE_LABEL;
   const location = event?.location?.trim() || FALLBACK_LOCATION;
   const ticketUrl = event?.ticketUrl?.trim() || null;
   // Apply URL: prefer the per-event URL from Sanity; fall back to the
@@ -80,7 +69,8 @@ export async function HeroSection() {
   // defaults (see src/lib/site-defaults.ts).
   const doorsOpen = event?.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
   const endTime = event?.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
-  const timeLabel = `${doorsOpen} – ${endTime}`;
+  const tzAbbr = formatTimeZoneAbbrev(countdownIso, event?.timezone);
+  const timeLabel = `${doorsOpen} – ${endTime}${tzAbbr ? ` ${tzAbbr}` : ""}`;
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-brand-50 via-brand-100 to-brand-100 pt-20">

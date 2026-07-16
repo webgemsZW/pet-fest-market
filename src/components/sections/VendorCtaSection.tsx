@@ -47,6 +47,7 @@ function formatDateLabel(iso: string | null | undefined): string {
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "Australia/Melbourne",
   });
 }
 

@@ -20,6 +20,7 @@ const EVENT_PROJECTION = `
   eventDate,
   doorsOpenTime,
   eventEndTime,
+  timezone,
   location,
   blurb,
   image,

@@ -60,6 +60,24 @@ export const event = defineType({
         "Human-readable closing time, e.g. '3pm'. Optional — defaults to '3pm' (the Box Hill trading time) if left blank.",
     }),
     defineField({
+      name: "timezone",
+      title: "Time Zone",
+      type: "string",
+      description:
+        "The venue's local time zone. Drives the displayed date and the zone label shown next to the trading times (e.g. AEST / AEDT). Defaults to Melbourne — change it for interstate markets (e.g. Queensland).",
+      options: {
+        list: [
+          { title: "Victoria / NSW / ACT / Tasmania (AEST/AEDT)", value: "Australia/Melbourne" },
+          { title: "Queensland (AEST)", value: "Australia/Brisbane" },
+          { title: "South Australia (ACST/ACDT)", value: "Australia/Adelaide" },
+          { title: "Western Australia (AWST)", value: "Australia/Perth" },
+          { title: "Northern Territory (ACST)", value: "Australia/Darwin" },
+        ],
+        layout: "dropdown",
+      },
+      initialValue: "Australia/Melbourne",
+    }),
+    defineField({
       name: "location",
       title: "Location",
       type: "string",
@@ -124,6 +142,7 @@ export const event = defineType({
             day: "numeric",
             month: "short",
             year: "numeric",
+            timeZone: "Australia/Melbourne",
           })
         : "No date set";
       return {

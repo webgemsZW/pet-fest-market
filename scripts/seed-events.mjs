@@ -102,6 +102,7 @@ const events = [
     eventDate: "2026-07-26T10:00:00+10:00",
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
+    timezone: "Australia/Melbourne",
     location: "Box Hill Town Hall, VIC",
   },
   {
@@ -112,6 +113,7 @@ const events = [
     eventDate: "2026-11-01T10:00:00+10:00",
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
+    timezone: "Australia/Brisbane",
     location: "Disterrly Road Market, QLD",
   },
   {
@@ -122,6 +124,7 @@ const events = [
     eventDate: "2026-11-15T10:00:00+11:00",
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
+    timezone: "Australia/Melbourne",
     location: "Morris Moore, Cheltenham, VIC",
   },
 ];

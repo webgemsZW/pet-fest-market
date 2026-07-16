@@ -9,7 +9,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
-import { formatEventDate } from "@/lib/format-event-date";
+import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { urlFor } from "@/lib/sanity/image";
 import { pageMetadata } from "@/lib/seo";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
@@ -78,9 +78,10 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   const event = await getEventBySlug(slug);
   if (!event) notFound();
 
-  const dateLabel = formatEventDate(event.eventDate) ?? "Date to be confirmed";
+  const dateLabel = formatEventDate(event.eventDate, event.timezone) ?? "Date to be confirmed";
   const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
+  const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
   const ticketUrl = event.ticketUrl?.trim() || null;
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   // EventDetail already renders at request time (it awaits `params`), so
@@ -128,6 +129,7 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
               <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
               <span>
                 {doorsOpen} – {endTime}
+                {tzAbbr ? ` ${tzAbbr}` : ""}
               </span>
             </div>
             <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">

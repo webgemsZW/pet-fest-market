@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, Clock, MapPin, ArrowRight } from "lucide-react";
 import { urlFor } from "@/lib/sanity/image";
-import { formatEventDate, formatEventDateShort } from "@/lib/format-event-date";
+import { formatEventDate, formatEventDateShort, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 import type { EventDoc } from "@/lib/sanity/get-events";
 
@@ -36,10 +36,12 @@ export function EventCard({
 }) {
   const href = event.slug ? `/events/${event.slug}` : "/events";
   const dateLabel =
-    (variant === "featured" ? formatEventDate(event.eventDate) : formatEventDateShort(event.eventDate)) ??
-    "Date to be confirmed";
+    (variant === "featured"
+      ? formatEventDate(event.eventDate, event.timezone)
+      : formatEventDateShort(event.eventDate, event.timezone)) ?? "Date to be confirmed";
   const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
+  const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
   const imageUrl = eventImageUrl(event);
   const imageAlt = event.image?.alt || event.eventName;
 
@@ -67,6 +69,7 @@ export function EventCard({
               <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
               <span>
                 {doorsOpen} – {endTime}
+                {tzAbbr ? ` ${tzAbbr}` : ""}
               </span>
             </div>
             <div className="flex items-center gap-2">
