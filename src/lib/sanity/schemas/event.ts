@@ -112,7 +112,14 @@ export const event = defineType({
       title: "Ticket Purchase URL",
       type: "url",
       description:
-        "External ticketing platform URL. When set, the hero's 'Tickets coming soon' pill becomes a buy link.",
+        "The event's public Humanitix URL. Used as the fallback 'Buy Tickets' link (when no embedded checkout code is set) and for search-engine ticket info. Recommended even when using the embedded checkout below.",
+    }),
+    defineField({
+      name: "ticketWidgetId",
+      title: "Humanitix Checkout Code (embedded tickets)",
+      type: "string",
+      description:
+        "Enables the on-page checkout. Paste the value of `data-checkout` from the Humanitix embed snippet (Advanced → Embedded widgets → Create embedded checkout) — e.g. \"petfest-market-box-hill\". When set, the event page shows the checkout inline and every 'Buy Tickets' button opens it without leaving the site. The event must be published on Humanitix.",
     }),
     defineField({
       name: "applyUrl",

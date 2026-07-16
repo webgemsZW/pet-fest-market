@@ -24,6 +24,7 @@ export interface CurrentEvent {
   image?: SanityImage | null;
   ticketPrice?: number | null;
   ticketUrl?: string | null;
+  ticketWidgetId?: string | null;
   applyUrl?: string | null;
   applyDeadline?: string | null;
 }

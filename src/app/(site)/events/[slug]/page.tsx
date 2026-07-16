@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
+import { HumanitixCheckout } from "@/components/events/HumanitixCheckout";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { urlFor } from "@/lib/sanity/image";
@@ -83,6 +84,7 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
   const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
   const ticketUrl = event.ticketUrl?.trim() || null;
+  const ticketWidgetId = event.ticketWidgetId?.trim() || null;
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   // EventDetail already renders at request time (it awaits `params`), so
   // this deadline check reflects "now" without needing connection().
@@ -145,7 +147,15 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
 
           {/* CTAs */}
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            {ticketUrl ? (
+            {ticketWidgetId ? (
+              // Embedded checkout on this page → scroll to it in-place.
+              <Button asChild size="lg">
+                <a href="#tickets">
+                  <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Buy Tickets
+                </a>
+              </Button>
+            ) : ticketUrl ? (
               <Button asChild size="lg">
                 <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
                   <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -174,6 +184,16 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
           </div>
         </div>
       </section>
+
+      {/* Embedded Humanitix checkout — buyers purchase without leaving the site. */}
+      {ticketWidgetId && (
+        <SectionWrapper>
+          <div id="tickets" className="mx-auto max-w-3xl scroll-mt-24">
+            <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">Get Tickets</h2>
+            <HumanitixCheckout code={ticketWidgetId} />
+          </div>
+        </SectionWrapper>
+      )}
 
       {/* Optional event image */}
       {imageUrl && (
