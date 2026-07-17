@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
-import { HumanitixCheckout } from "@/components/events/HumanitixCheckout";
+import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { urlFor } from "@/lib/sanity/image";
@@ -84,7 +84,6 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
   const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
   const ticketUrl = event.ticketUrl?.trim() || null;
-  const ticketWidgetId = event.ticketWidgetId?.trim() || null;
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   // EventDetail already renders at request time (it awaits `params`), so
   // this deadline check reflects "now" without needing connection().
@@ -101,6 +100,7 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   return (
     <>
       <EventStructuredData event={event} />
+      <HumanitixPopup />
 
       {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
@@ -145,17 +145,11 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
             <CountdownTimer variant="light" eventDate={event.eventDate} />
           </div>
 
-          {/* CTAs */}
+          {/* CTAs. Buy Tickets links to the Humanitix ticket URL; the pop-up
+              script turns it into an on-page modal, falling back to opening
+              the link if the script can't load. */}
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            {ticketWidgetId ? (
-              // Embedded checkout on this page → scroll to it in-place.
-              <Button asChild size="lg">
-                <a href="#tickets">
-                  <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Buy Tickets
-                </a>
-              </Button>
-            ) : ticketUrl ? (
+            {ticketUrl ? (
               <Button asChild size="lg">
                 <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
                   <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -184,16 +178,6 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
           </div>
         </div>
       </section>
-
-      {/* Embedded Humanitix checkout — buyers purchase without leaving the site. */}
-      {ticketWidgetId && (
-        <SectionWrapper>
-          <div id="tickets" className="mx-auto max-w-3xl scroll-mt-24">
-            <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">Get Tickets</h2>
-            <HumanitixCheckout code={ticketWidgetId} />
-          </div>
-        </SectionWrapper>
-      )}
 
       {/* Optional event image */}
       {imageUrl && (

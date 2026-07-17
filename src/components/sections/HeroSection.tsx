@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MapPin, CalendarDays, Clock, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
+import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getFeaturedEvent } from "@/lib/sanity/get-events";
 import { getHomepage } from "@/lib/sanity/get-homepage";
 import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
@@ -50,10 +51,6 @@ export async function HeroSection() {
   const dateLabel = formatEventDate(event?.eventDate, event?.timezone) ?? FALLBACK_DATE_LABEL;
   const location = event?.location?.trim() || FALLBACK_LOCATION;
   const ticketUrl = event?.ticketUrl?.trim() || null;
-  const ticketWidgetId = event?.ticketWidgetId?.trim() || null;
-  // When the featured event has an embedded checkout, Buy Tickets goes to
-  // its on-page checkout section rather than opening an external tab.
-  const ticketsHref = event?.slug ? `/events/${event.slug}#tickets` : "/events";
   // Apply URL: prefer the per-event URL from Sanity; fall back to the
   // hardcoded default in src/lib/site-defaults.ts so this button
   // always works even before Sanity is populated.
@@ -82,6 +79,7 @@ export async function HeroSection() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-brand-50 via-brand-100 to-brand-100 pt-20">
+      <HumanitixPopup />
       {/* Background decorative blobs */}
       <div
         aria-hidden="true"
@@ -148,14 +146,7 @@ export async function HeroSection() {
             "coming soon" state before tickets are on sale); Apply and Get
             Updates sit alongside it as secondary actions. */}
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-          {ticketWidgetId ? (
-            <Button asChild size="lg">
-              <Link href={ticketsHref}>
-                <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
-                {ticketLabel}
-              </Link>
-            </Button>
-          ) : ticketUrl ? (
+          {ticketUrl ? (
             <Button asChild size="lg">
               <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
                 <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
