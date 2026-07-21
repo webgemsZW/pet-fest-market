@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
-import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { urlFor } from "@/lib/sanity/image";
@@ -100,7 +99,6 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   return (
     <>
       <EventStructuredData event={event} />
-      <HumanitixPopup />
 
       {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">

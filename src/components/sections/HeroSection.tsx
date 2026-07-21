@@ -4,7 +4,6 @@ import Image from "next/image";
 import { MapPin, CalendarDays, Clock, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
-import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getFeaturedEvent } from "@/lib/sanity/get-events";
 import { getHomepage } from "@/lib/sanity/get-homepage";
 import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
@@ -79,7 +78,6 @@ export async function HeroSection() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-brand-50 via-brand-100 to-brand-100 pt-20">
-      <HumanitixPopup />
       {/* Background decorative blobs */}
       <div
         aria-hidden="true"

@@ -1,7 +1,9 @@
 import React from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
+import { getAllEvents } from "@/lib/sanity/get-events";
 import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /**
@@ -20,15 +22,27 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Resolve the nav "Apply" URL from the pinned event (cached — keeps the
-  // layout static). The Hero and per-event pages resolve the fully
-  // self-healing featured event separately.
-  const settings = await getSiteSettings();
+  // Both fetches are cached, so the layout stays static. The Header picks
+  // the "active" event by date in the browser (see Header.tsx), which keeps
+  // the nav Buy Tickets link self-healing without making the site dynamic.
+  const [settings, allEvents] = await Promise.all([getSiteSettings(), getAllEvents()]);
   const applyUrl = settings?.currentEvent?.applyUrl?.trim() || DEFAULT_APPLY_URL;
+
+  // Minimal, serialisable event data the Header needs to resolve the
+  // current event's ticket link.
+  const navEvents = allEvents.map((e) => ({
+    _id: e._id,
+    eventDate: e.eventDate,
+    ticketUrl: e.ticketUrl?.trim() || null,
+  }));
+  const featuredEventId = settings?.currentEvent?._id ?? null;
 
   return (
     <>
-      <Header applyUrl={applyUrl} />
+      {/* Global: powers the Humanitix pop-up for the nav Buy Tickets button
+          (which appears on every page) and the hero/detail buttons. */}
+      <HumanitixPopup />
+      <Header applyUrl={applyUrl} events={navEvents} featuredEventId={featuredEventId} />
       <main>{children}</main>
       <Footer />
     </>
