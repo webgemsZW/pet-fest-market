@@ -1,10 +1,15 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { contactPageQuery } from "./queries";
+import type { SeoFields } from "@/lib/seo";
 
 export interface ContactPage {
   heading?: string | null;
   intro?: string | null;
+  detailsHeading?: string | null;
+  followHeading?: string | null;
+  formHeading?: string | null;
+  seo?: SeoFields | null;
 }
 
 /**

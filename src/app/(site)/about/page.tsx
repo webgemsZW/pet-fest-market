@@ -2,12 +2,17 @@ import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { getAboutPage } from "@/lib/sanity/get-about-page";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "PetFest Market — a fun community indoor market bringing together makers, creators and small businesses showcasing all kinds of pet products, goods and services.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getAboutPage();
+  return pageMetadata({
+    seo: data?.seo,
+    fallbackTitle: "About",
+    fallbackDescription:
+      "PetFest Market — a fun community indoor market bringing together makers, creators and small businesses showcasing all kinds of pet products, goods and services.",
+  });
+}
 
 /* ──────────────────────────────────────────────────────────────────
    Fallback content sourced verbatim from

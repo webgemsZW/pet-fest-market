@@ -44,6 +44,34 @@ export const homepage = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
     }),
+    defineField({
+      name: "heroApplyLabel",
+      title: "Hero — Apply Button Label",
+      type: "string",
+      group: "hero",
+      description: "Text on the primary hero button. Defaults to 'Apply as Stallholder'.",
+    }),
+    defineField({
+      name: "heroUpdatesLabel",
+      title: "Hero — Updates Button Label",
+      type: "string",
+      group: "hero",
+      description: "Text on the secondary hero button that jumps to the sign-up form. Defaults to 'Get Event Updates'.",
+    }),
+    defineField({
+      name: "heroTicketLabel",
+      title: "Hero — Tickets Pill (on sale)",
+      type: "string",
+      group: "hero",
+      description: "Label on the tickets pill once a ticket link is set on the event. Defaults to 'Buy Tickets'.",
+    }),
+    defineField({
+      name: "heroTicketComingSoonLabel",
+      title: "Hero — Tickets Pill (coming soon)",
+      type: "string",
+      group: "hero",
+      description: "Label on the tickets pill before a ticket link is set. Defaults to 'Tickets coming soon'.",
+    }),
 
     // ── What to Expect ─────────────────────────────────────────────
     defineField({
@@ -110,6 +138,20 @@ export const homepage = defineType({
       rows: 2,
       group: "faq",
     }),
+    defineField({
+      name: "faqCtaPrompt",
+      title: "FAQ — Follow-up Prompt",
+      type: "string",
+      group: "faq",
+      description: "Line under the FAQ list inviting people to get in touch. Defaults to \"Can't find what you're looking for?\".",
+    }),
+    defineField({
+      name: "faqCtaLabel",
+      title: "FAQ — Follow-up Button Label",
+      type: "string",
+      group: "faq",
+      description: "Button under the FAQ list. Defaults to 'Get in Touch'.",
+    }),
 
     // ── Mailing list ───────────────────────────────────────────────
     defineField({
@@ -118,6 +160,13 @@ export const homepage = defineType({
       type: "string",
       group: "mailing",
       description: "Defaults to \"Get Updates on PetFest news and events\".",
+    }),
+    defineField({
+      name: "mailingListSubline",
+      title: "Mailing List Reassurance Line",
+      type: "string",
+      group: "mailing",
+      description: "Small print under the sign-up form. Defaults to 'No spam, ever. Unsubscribe any time.'.",
     }),
   ],
 });

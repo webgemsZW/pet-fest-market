@@ -6,6 +6,11 @@ import { siteSettingsQuery } from "./queries";
  * The resolved current event embedded inside `SiteSettings.currentEvent`.
  * Matches the projection inside `siteSettingsQuery`.
  */
+export interface SanityImage {
+  asset?: { _ref?: string };
+  alt?: string | null;
+}
+
 export interface CurrentEvent {
   _id: string;
   eventName: string;
@@ -13,16 +18,21 @@ export interface CurrentEvent {
   eventDate: string;
   doorsOpenTime?: string | null;
   eventEndTime?: string | null;
+  timezone?: string | null;
   location: string;
+  blurb?: string | null;
+  image?: SanityImage | null;
   ticketPrice?: number | null;
   ticketUrl?: string | null;
   applyUrl?: string | null;
+  applyDeadline?: string | null;
 }
 
 export interface SiteSettings {
   siteName?: string | null;
   siteDescription?: string | null;
   acknowledgementOfCountry?: string | null;
+  footerTagline?: string | null;
   contactEmail?: string | null;
   contactPhone?: string | null;
   contactAddress?: string | null;
@@ -39,6 +49,11 @@ export interface SiteSettings {
       asset?: { _ref?: string };
       alt?: string | null;
     } | null;
+  } | null;
+  policyDocuments?: {
+    termsPdf?: { asset?: { url?: string | null } | null } | null;
+    privacyPdf?: { asset?: { url?: string | null } | null } | null;
+    codeOfConductPdf?: { asset?: { url?: string | null } | null } | null;
   } | null;
   currentEvent?: CurrentEvent | null;
 }

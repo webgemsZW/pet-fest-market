@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,51 +21,63 @@ const metadataBase = new URL(
       : "http://localhost:3000"),
 );
 
-// TODO(content): The marketing description below is placeholder. The only
-// client-confirmed facts are the event name, venue (Box Hill Town Hall, VIC),
-// date (Sunday 26 July 2026), and that all PetFest Markets are indoor. A real
-// tagline / SEO description has not been provided.
-export const metadata: Metadata = {
-  metadataBase,
-  title: {
-    default: "PetFest Market — Box Hill, Victoria",
-    template: "%s | PetFest Market",
-  },
-  description:
-    "PetFest Market — an indoor community market for pet lovers at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.",
-  keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet lovers"],
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/images/icon-192.png", type: "image/png", sizes: "192x192" },
-      { url: "/images/icon-512.png", type: "image/png", sizes: "512x512" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_AU",
-    siteName: "PetFest Market",
-    title: "PetFest Market — Box Hill, Victoria",
-    description:
-      "An indoor community market for pet lovers at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
-    images: [
-      {
-        url: "/images/og-default.png",
-        width: 1200,
-        height: 630,
-        alt: "PetFest Market logo on a branded background",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PetFest Market — Box Hill, Victoria",
-    description:
-      "An indoor community market for pet lovers at Box Hill Town Hall, Victoria — Sunday 26 July 2026.",
-    images: ["/images/og-default.png"],
-  },
-};
+// Built-in fallbacks. The site name and description are now editable in
+// Studio (Site Settings → General → Site Name / Site Description); these
+// constants are used only when those fields are blank or Sanity is
+// unreachable. The only client-confirmed facts baked in are the venue,
+// date, and that all PetFest Markets are indoor.
+const FALLBACK_SITE_NAME = "PetFest Market";
+const FALLBACK_TITLE = "PetFest Market — Box Hill, Victoria";
+const FALLBACK_DESCRIPTION =
+  "PetFest Market — an indoor community market for pet lovers at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const siteName = settings?.siteName?.trim() || FALLBACK_SITE_NAME;
+  const description = settings?.siteDescription?.trim() || FALLBACK_DESCRIPTION;
+  // The default (home) title uses the fuller built-in headline unless a
+  // site name has been customised; inner pages get "<Page> | <siteName>".
+  const defaultTitle = settings?.siteName?.trim() ? siteName : FALLBACK_TITLE;
+
+  return {
+    metadataBase,
+    title: {
+      default: defaultTitle,
+      template: `%s | ${siteName}`,
+    },
+    description,
+    keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet lovers"],
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/images/icon-192.png", type: "image/png", sizes: "192x192" },
+        { url: "/images/icon-512.png", type: "image/png", sizes: "512x512" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    },
+    openGraph: {
+      type: "website",
+      locale: "en_AU",
+      siteName,
+      title: defaultTitle,
+      description,
+      images: [
+        {
+          url: "/images/og-default.png",
+          width: 1200,
+          height: 630,
+          alt: "PetFest Market logo on a branded background",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: defaultTitle,
+      description,
+      images: ["/images/og-default.png"],
+    },
+  };
+}
 
 /**
  * Root layout. Intentionally MINIMAL — just the html/body wrapper and

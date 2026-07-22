@@ -3,11 +3,15 @@ import { defineType, defineField } from "sanity";
 /**
  * An event run by PetFest Market.
  *
- * This is a COLLECTION (not a singleton) so the site can be flipped from
- * one event to the next by changing `siteSettings.currentEvent`. The
- * site UI today only renders the current event — future event listing /
- * archive pages are deferred until event #2 is on the calendar
- * (CMS_PLAN.md §14).
+ * This is a COLLECTION (not a singleton) so the site can host many events
+ * over time. As of the multi-event build the site now renders:
+ *   - a prominent "featured" event (see get-events.ts → getFeaturedEvent,
+ *     which honours `siteSettings.currentEvent` while it is still upcoming
+ *     and otherwise auto-advances to the soonest future event),
+ *   - an `/events` listing of every upcoming market, and
+ *   - a per-event detail page at `/events/<slug>`.
+ *
+ * Adding a market is therefore just "create a document" — no code change.
  */
 export const event = defineType({
   name: "event",
@@ -26,7 +30,7 @@ export const event = defineType({
       title: "Slug",
       type: "slug",
       description:
-        "URL-safe version of the event name. Auto-generated from the Event Name — click 'Generate' if it's blank. Future-proofs URLs like /events/<slug>; not used by the live site today.",
+        "URL-safe version of the event name. Auto-generated from the Event Name — click 'Generate' if it's blank. This is the address of the event's detail page: /events/<slug>.",
       options: {
         source: "eventName",
         maxLength: 96,
@@ -56,11 +60,46 @@ export const event = defineType({
         "Human-readable closing time, e.g. '3pm'. Optional — defaults to '3pm' (the Box Hill trading time) if left blank.",
     }),
     defineField({
+      name: "timezone",
+      title: "Time Zone",
+      type: "string",
+      description:
+        "The venue's local time zone. Drives the displayed date and the zone label shown next to the trading times (e.g. AEST / AEDT). Defaults to Melbourne — change it for interstate markets (e.g. Queensland).",
+      options: {
+        list: [
+          { title: "Victoria / NSW / ACT / Tasmania (AEST/AEDT)", value: "Australia/Melbourne" },
+          { title: "Queensland (AEST)", value: "Australia/Brisbane" },
+          { title: "South Australia (ACST/ACDT)", value: "Australia/Adelaide" },
+          { title: "Western Australia (AWST)", value: "Australia/Perth" },
+          { title: "Northern Territory (ACST)", value: "Australia/Darwin" },
+        ],
+        layout: "dropdown",
+      },
+      initialValue: "Australia/Melbourne",
+    }),
+    defineField({
       name: "location",
       title: "Location",
       type: "string",
       description: "Venue name and city, e.g. 'Box Hill Town Hall, VIC'.",
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "blurb",
+      title: "Short Description",
+      type: "text",
+      rows: 3,
+      description:
+        "One or two sentences describing this market. Shown on the /events listing card and on the event's detail page. Optional — leave blank to show just the date and venue.",
+    }),
+    defineField({
+      name: "image",
+      title: "Event Image",
+      type: "image",
+      description:
+        "Optional. Used on the /events listing card and the event detail page. Falls back to the PetFest logo when blank.",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
     }),
     defineField({
       name: "ticketPrice",
@@ -70,17 +109,24 @@ export const event = defineType({
     }),
     defineField({
       name: "ticketUrl",
-      title: "Ticket Purchase URL",
+      title: "Humanitix Ticket URL",
       type: "url",
       description:
-        "External ticketing platform URL. When set, the hero's 'Tickets coming soon' pill becomes a buy link.",
+        "Powers the 'Buy Tickets' button. When set, tickets open in a pop-up checkout over the site (no page change); if the pop-up can't load, the button falls back to opening this link. Where to get it: in Humanitix, open your event → Advanced → Embedded widgets → Create embedded button → 'Add to site', then copy the button URL it gives you in Step 2 and paste it here. The event must be published on Humanitix for the pop-up to work.",
     }),
     defineField({
       name: "applyUrl",
       title: "Stallholder Application URL",
       type: "url",
       description:
-        "Google Form URL for Stallholder applications. When set, all 'Apply as Stallholder' buttons link here directly.",
+        "Google Form URL for Stallholder applications. When set, this event's 'Apply as Stallholder' buttons link here directly. Stallholders can apply for any upcoming market, not just the featured one.",
+    }),
+    defineField({
+      name: "applyDeadline",
+      title: "Stallholder Application Deadline",
+      type: "datetime",
+      description:
+        "Optional. After this date the 'Apply' button for this event switches to 'Applications closed'. Leave blank to keep applications open right up to the event.",
     }),
   ],
   preview: {
@@ -96,6 +142,7 @@ export const event = defineType({
             day: "numeric",
             month: "short",
             year: "numeric",
+            timeZone: "Australia/Melbourne",
           })
         : "No date set";
       return {

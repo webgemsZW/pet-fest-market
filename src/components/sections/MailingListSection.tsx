@@ -11,9 +11,12 @@ const FALLBACK_HEADING = "Get Updates on PetFest news and events";
  * Server wrapper — fetches the editable heading from the Homepage
  * document and renders the client-side form below.
  */
+const FALLBACK_SUBLINE = "No spam, ever. Unsubscribe any time.";
+
 export async function MailingListSection() {
   const homepage = await getHomepage();
   const heading = homepage?.mailingListHeading?.trim() || FALLBACK_HEADING;
+  const subline = homepage?.mailingListSubline?.trim() || FALLBACK_SUBLINE;
 
   return (
     <section
@@ -24,7 +27,7 @@ export async function MailingListSection() {
         <div className="mb-4 text-4xl">📬</div>
         <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">{heading}</h2>
         <MailingListForm />
-        <p className="mt-4 text-xs text-gray-400">No spam, ever. Unsubscribe any time.</p>
+        <p className="mt-4 text-xs text-gray-400">{subline}</p>
       </div>
     </section>
   );

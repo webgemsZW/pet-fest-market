@@ -17,6 +17,7 @@ export const siteSettings = defineType({
     { name: "contact", title: "Contact" },
     { name: "social", title: "Social & Mailing list" },
     { name: "branding", title: "Branding" },
+    { name: "policies", title: "Policy Documents" },
     { name: "event", title: "Current Event" },
   ],
   fields: [
@@ -45,6 +46,14 @@ export const siteSettings = defineType({
       description: "Shown in the site footer on every page.",
       validation: (r) => r.required().min(20),
     }),
+    defineField({
+      name: "footerTagline",
+      title: "Footer Tagline",
+      type: "string",
+      group: "general",
+      description:
+        "Short line shown under the logo in the footer. Defaults to 'An indoor market for Pet Lovers!'. Keep it generic (no specific city or date) so it works across every market.",
+    }),
 
     // Contact -----------------------------------------------------------
     defineField({
@@ -69,7 +78,8 @@ export const siteSettings = defineType({
       type: "text",
       rows: 3,
       group: "contact",
-      description: "Mailing address or venue. Optional — leave blank to hide.",
+      description:
+        "The organiser's postal / mailing address shown on the Contact page (NOT the event venue). Leave blank to use the default PO Box.",
     }),
 
     // Social & mailing list --------------------------------------------
@@ -120,16 +130,46 @@ export const siteSettings = defineType({
       ],
     }),
 
+    // Policy documents -------------------------------------------------
+    defineField({
+      name: "policyDocuments",
+      title: "Policy Documents (PDFs)",
+      type: "object",
+      group: "policies",
+      description:
+        "Upload the PDF for each legal policy — these are exactly what the footer links to. Upload a new file here any time to update the live document; no developer or deploy needed. Leave a slot empty to keep using the built-in default PDF that ships with the site.",
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        defineField({
+          name: "termsPdf",
+          title: "Terms & Conditions PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
+        }),
+        defineField({
+          name: "privacyPdf",
+          title: "Privacy Policy PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
+        }),
+        defineField({
+          name: "codeOfConductPdf",
+          title: "Code of Conduct PDF",
+          type: "file",
+          options: { accept: "application/pdf" },
+        }),
+      ],
+    }),
+
     // Current event ----------------------------------------------------
     defineField({
       name: "currentEvent",
-      title: "Current Event",
+      title: "Featured Event (optional override)",
       type: "reference",
       group: "event",
       description:
-        "The event the site is currently promoting. Pick from the list of events. To flip the site over to a new event, change this reference.",
+        "Optional. Pin a specific event as the prominent one across the site. Leave this blank and the site automatically features the soonest upcoming market (and rolls forward on its own once an event passes). Only set this if you want to spotlight an event out of date order — and note it is ignored once the event it points at is in the past.",
       to: [{ type: "event" }],
-      validation: (r) => r.required(),
     }),
   ],
 });

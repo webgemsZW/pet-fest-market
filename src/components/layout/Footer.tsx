@@ -38,33 +38,30 @@ const footerNav = [
 ];
 
 /*
-  Footer policy links — per Andrea's 3 June 2026 note, these point
-  directly to the PDF documents served from /public/policies/ (rather
-  than the in-site rendered pages at /policies/*). PDFs open in-tab in
-  most browsers for a cleaner viewer experience than the original
-  .docx files. The Refund Policy was removed — refund details will
-  live in the Stallholder Guidelines (emailed to successful applicants)
-  and the ticketing company's own T&Cs once set up.
-
-  The in-site rendered pages at /policies/{terms,privacy,code-of-conduct}
-  are still available as a backup — they're just not linked from the
-  footer any more.
+  Footer policy links. Each links to the PDF Andrea uploads in Studio
+  (Site Settings → Policy Documents); when a slot is empty it falls back
+  to the static PDF shipped in /public/policies. So she can update a live
+  legal document herself by uploading a new PDF — no developer, no deploy.
+  Per her 3 June 2026 note these stay as downloadable PDFs (not the
+  in-site rendered /policies/* pages, which remain as an unlinked backup).
+  Refund is intentionally not listed — handled by the ticketing company.
 */
-const policyLinks = [
-  { href: "/policies/terms-and-conditions.pdf", label: "Terms & Conditions" },
-  { href: "/policies/privacy-policy.pdf", label: "Privacy Policy" },
-  { href: "/policies/code-of-conduct.pdf", label: "Code of Conduct" },
-];
+const POLICY_PDF_FALLBACKS = {
+  terms: "/policies/terms-and-conditions.pdf",
+  privacy: "/policies/privacy-policy.pdf",
+  codeOfConduct: "/policies/code-of-conduct.pdf",
+};
 
 export async function Footer() {
   const siteSettings = await getSiteSettings();
 
   const acknowledgement =
     siteSettings?.acknowledgementOfCountry?.trim() || FALLBACK_ACKNOWLEDGEMENT;
-  // Use the generic tagline by default — even if siteSettings.siteDescription
-  // is filled in, the footer wants the short generic line, not the SEO
-  // description. We deliberately do NOT use siteDescription here.
-  const tagline = FALLBACK_TAGLINE;
+  // Prefer the editable footer tagline (Site Settings → General). Falls
+  // back to the generic constant. We deliberately do NOT use
+  // siteDescription here — the footer wants a short generic line, not the
+  // SEO description.
+  const tagline = siteSettings?.footerTagline?.trim() || FALLBACK_TAGLINE;
 
   // Resolve each social link: prefer the Sanity-supplied URL, fall
   // back to the hardcoded default (see src/lib/site-defaults.ts).
@@ -84,6 +81,24 @@ export async function Footer() {
     : null;
   const npLogoSrc = npLogoFromSanity ?? FALLBACK_NP_LOGO_SRC;
   const npLogoAlt = siteSettings?.nonconformityCredit?.logo?.alt || "Nonconformity Productions";
+
+  // Policy links: use the PDF uploaded in Sanity when present, else the
+  // static file shipped in /public/policies.
+  const pdfs = siteSettings?.policyDocuments;
+  const policyLinks = [
+    {
+      label: "Terms & Conditions",
+      href: pdfs?.termsPdf?.asset?.url || POLICY_PDF_FALLBACKS.terms,
+    },
+    {
+      label: "Privacy Policy",
+      href: pdfs?.privacyPdf?.asset?.url || POLICY_PDF_FALLBACKS.privacy,
+    },
+    {
+      label: "Code of Conduct",
+      href: pdfs?.codeOfConductPdf?.asset?.url || POLICY_PDF_FALLBACKS.codeOfConduct,
+    },
+  ];
 
   return (
     <footer className="bg-brand-900 text-brand-100">
@@ -177,7 +192,7 @@ export async function Footer() {
             </h3>
             <ul className="space-y-2">
               {policyLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <a
                     href={link.href}
                     target="_blank"

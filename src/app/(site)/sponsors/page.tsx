@@ -5,12 +5,30 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { tierConfig } from "@/lib/sponsors-data";
 import { getSponsors, type SponsorTier } from "@/lib/sanity/get-sponsors";
+import { getSponsorsPage } from "@/lib/sanity/get-sponsors-page";
 import { urlFor } from "@/lib/sanity/image";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Sponsors",
-  description: "Meet the sponsors of PetFest Market — local businesses supporting our pet community event.",
-};
+const FALLBACK_HEADING = "Our Sponsors";
+const FALLBACK_SUBTITLE =
+  "PetFest Market is made possible through the generous support of local businesses.";
+const FALLBACK_EMPTY_HEADING = "Sponsors coming soon";
+const FALLBACK_EMPTY_BODY =
+  "We're currently lining up partners for our markets. Want to be one of the first?";
+const FALLBACK_CTA_HEADING = "Become a Sponsor";
+const FALLBACK_CTA_BODY =
+  "Interested in supporting PetFest Market? We'd love to have you on board. Reach out to discuss sponsorship opportunities and packages.";
+const FALLBACK_CTA_BUTTON = "Get in Touch";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getSponsorsPage();
+  return pageMetadata({
+    seo: page?.seo,
+    fallbackTitle: "Sponsors",
+    fallbackDescription:
+      "Meet the sponsors of PetFest Market — local businesses supporting our pet community event.",
+  });
+}
 
 /*
   /sponsors is intentionally NOT linked from the header or footer navigation
@@ -25,9 +43,17 @@ export const metadata: Metadata = {
   src/lib/sponsors-data.ts is kept only for its `tierConfig` styling map.
 */
 export default async function SponsorsPage() {
-  const sponsors = await getSponsors();
+  const [sponsors, page] = await Promise.all([getSponsors(), getSponsorsPage()]);
   const tierOrder: SponsorTier[] = ["platinum", "gold", "silver", "bronze"];
   const hasSponsors = sponsors.length > 0;
+
+  const heading = page?.heading?.trim() || FALLBACK_HEADING;
+  const subtitle = page?.subtitle?.trim() || FALLBACK_SUBTITLE;
+  const emptyHeading = page?.emptyStateHeading?.trim() || FALLBACK_EMPTY_HEADING;
+  const emptyBody = page?.emptyStateBody?.trim() || FALLBACK_EMPTY_BODY;
+  const ctaHeading = page?.ctaHeading?.trim() || FALLBACK_CTA_HEADING;
+  const ctaBody = page?.ctaBody?.trim() || FALLBACK_CTA_BODY;
+  const ctaButton = page?.ctaButtonLabel?.trim() || FALLBACK_CTA_BUTTON;
 
   return (
     <>
@@ -35,10 +61,8 @@ export default async function SponsorsPage() {
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <div className="mb-4 text-5xl">🏆</div>
-          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">Our Sponsors</h1>
-          <p className="mt-4 text-xl text-gray-600">
-            PetFest Market is made possible through the generous support of local businesses.
-          </p>
+          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">{heading}</h1>
+          <p className="mt-4 text-xl text-gray-600">{subtitle}</p>
         </div>
       </section>
 
@@ -123,11 +147,8 @@ export default async function SponsorsPage() {
           */
           <div className="mx-auto max-w-2xl rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
             <div className="mb-4 text-4xl">🤝</div>
-            <h2 className="text-2xl font-bold text-gray-900">Sponsors coming soon</h2>
-            <p className="mt-3 text-gray-600">
-              We&apos;re currently lining up partners for our first PetFest Market on Sunday 26
-              July 2026 at Box Hill Town Hall. Want to be the first?
-            </p>
+            <h2 className="text-2xl font-bold text-gray-900">{emptyHeading}</h2>
+            <p className="mt-3 text-gray-600">{emptyBody}</p>
           </div>
         )}
       </SectionWrapper>
@@ -136,14 +157,11 @@ export default async function SponsorsPage() {
       <SectionWrapper className="bg-brand-50">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-4 text-4xl">🤝</div>
-          <h2 className="text-3xl font-bold text-gray-900">Become a Sponsor</h2>
-          <p className="mt-3 text-lg text-gray-500">
-            Interested in supporting PetFest Market? We&apos;d love to have you on board. Reach out
-            to discuss sponsorship opportunities and packages.
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">{ctaHeading}</h2>
+          <p className="mt-3 text-lg text-gray-500">{ctaBody}</p>
           <div className="mt-8">
             <Button asChild size="lg">
-              <Link href="/contact">Get in Touch</Link>
+              <Link href="/contact">{ctaButton}</Link>
             </Button>
           </div>
         </div>

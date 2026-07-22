@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { aboutPageQuery } from "./queries";
+import type { SeoFields } from "@/lib/seo";
 
 interface PortableBlock {
   _type: string;
@@ -18,6 +19,7 @@ export interface AboutPage {
     asset?: { _ref?: string };
     alt?: string | null;
   } | null;
+  seo?: SeoFields | null;
 }
 
 /**

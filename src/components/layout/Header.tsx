@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -9,12 +9,30 @@ import { cn } from "@/lib/utils";
 import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /*
-  Apply URL note: the Header is a Client Component (it needs useState
-  for the mobile menu + scroll behaviour), so we can't fetch the
-  per-event applyUrl from Sanity here without extra plumbing. Using
-  the hardcoded default keeps the button live everywhere. The Hero
-  and Stallholder page still honour the per-event Sanity override.
+  The Header is a Client Component (it needs useState for the mobile menu +
+  scroll behaviour), so it can't fetch from Sanity itself. The server layout
+  passes in:
+   - `applyUrl` — the Stallholder form link (from the pinned event).
+   - `events` + `featuredEventId` — the minimal event data used to resolve
+     the CURRENT event's ticket link in the browser. Doing that pick
+     client-side (by today's date) means the nav "Buy Tickets" link
+     self-heals to the next event automatically as markets roll over,
+     without forcing the whole site to render dynamically.
 */
+
+type NavEvent = { _id: string; eventDate: string; ticketUrl: string | null };
+
+/** Mirror of getFeaturedEvent: pinned event while it's still upcoming, else
+ *  the soonest upcoming — then return that event's ticket link. */
+function resolveTicketUrl(events: NavEvent[], featuredEventId: string | null, now: number): string | null {
+  const pinned = featuredEventId ? events.find((e) => e._id === featuredEventId) : null;
+  const isUpcoming = (e: NavEvent) => new Date(e.eventDate).getTime() >= now;
+  const featured =
+    pinned && isUpcoming(pinned)
+      ? pinned
+      : events.filter(isUpcoming).sort((a, b) => +new Date(a.eventDate) - +new Date(b.eventDate))[0] ?? null;
+  return featured?.ticketUrl || null;
+}
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
 // sponsors are signed (per @/lib/sponsors-data). Restore the entry below
@@ -22,15 +40,40 @@ import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 //   { href: "/sponsors", label: "Sponsors" },
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stallholders" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
 
-export function Header() {
+export function Header({
+  applyUrl = DEFAULT_APPLY_URL,
+  events = [],
+  featuredEventId = null,
+}: {
+  applyUrl?: string;
+  events?: NavEvent[];
+  featuredEventId?: string | null;
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Deterministic initial value (no `Date.now()`) so server and first client
+  // render match — avoids a hydration mismatch. Corrected to the true
+  // date-based pick right after mount, and re-picks daily as events pass.
+  const initialTicketUrl = useMemo(
+    () =>
+      (featuredEventId ? events.find((e) => e._id === featuredEventId)?.ticketUrl : null) ||
+      events.find((e) => e.ticketUrl)?.ticketUrl ||
+      null,
+    [events, featuredEventId],
+  );
+  const [ticketUrl, setTicketUrl] = useState<string | null>(initialTicketUrl);
+
+  useEffect(() => {
+    setTicketUrl(resolveTicketUrl(events, featuredEventId, Date.now()));
+  }, [events, featuredEventId]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -68,8 +111,15 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Button asChild size="sm">
-            <a href={DEFAULT_APPLY_URL} target="_blank" rel="noopener noreferrer">
+          {ticketUrl && (
+            <Button asChild size="sm">
+              <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
+                Buy Tickets
+              </a>
+            </Button>
+          )}
+          <Button asChild size="sm" variant="secondary">
+            <a href={applyUrl} target="_blank" rel="noopener noreferrer">
               Apply as Stallholder
             </a>
           </Button>
@@ -100,10 +150,22 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <div className="mt-3">
-              <Button asChild className="w-full">
+            <div className="mt-3 flex flex-col gap-2">
+              {ticketUrl && (
+                <Button asChild className="w-full">
+                  <a
+                    href={ticketUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Buy Tickets
+                  </a>
+                </Button>
+              )}
+              <Button asChild className="w-full" variant="secondary">
                 <a
-                  href={DEFAULT_APPLY_URL}
+                  href={applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}

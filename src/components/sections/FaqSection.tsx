@@ -33,6 +33,8 @@ export async function FaqSection() {
   const list = resolveList(items);
   const heading = homepage?.faqPreviewHeading?.trim() || FALLBACK_HEADING;
   const subtitle = homepage?.faqPreviewSubtitle?.trim() || FALLBACK_SUBTITLE;
+  const ctaPrompt = homepage?.faqCtaPrompt?.trim() || "Can't find what you're looking for?";
+  const ctaLabel = homepage?.faqCtaLabel?.trim() || "Get in Touch";
 
   return (
     <SectionWrapper className="bg-brand-50">
@@ -52,9 +54,9 @@ export async function FaqSection() {
 
         {/* Catch-all CTA for visitors whose question isn't covered above. */}
         <div className="mt-10 text-center">
-          <p className="mb-4 text-sm text-gray-600">Can&apos;t find what you&apos;re looking for?</p>
+          <p className="mb-4 text-sm text-gray-600">{ctaPrompt}</p>
           <Button asChild variant="secondary">
-            <Link href="/contact">Get in Touch</Link>
+            <Link href="/contact">{ctaLabel}</Link>
           </Button>
         </div>
       </div>

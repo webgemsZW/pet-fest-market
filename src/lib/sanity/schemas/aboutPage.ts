@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { seoField } from "./_seo-fields";
 
 /**
  * About page content. Per the 2 June 2026 client revision the page is
@@ -34,5 +35,6 @@ export const aboutPage = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
     }),
+    seoField(),
   ],
 });

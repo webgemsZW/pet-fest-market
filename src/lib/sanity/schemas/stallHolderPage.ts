@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { seoField } from "./_seo-fields";
 
 /**
  * Stallholder page content. Per the 2/3 June 2026 client revisions the
@@ -30,5 +31,19 @@ export const stallHolderPage = defineType({
       description:
         "Short paragraph under the heading. Optional — leave blank for a clean hero with just the heading and the two buttons.",
     }),
+    defineField({
+      name: "applyButtonLabel",
+      title: "Apply Button Label",
+      type: "string",
+      description: "Text on the application button. Defaults to 'Apply Here'.",
+    }),
+    defineField({
+      name: "upcomingHeading",
+      title: "Upcoming Markets Heading",
+      type: "string",
+      description:
+        "Heading above the list of markets Stallholders can apply for. Defaults to 'Apply for an upcoming market'. Only shown when more than one upcoming market exists.",
+    }),
+    seoField(),
   ],
 });
