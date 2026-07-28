@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { eventPhase, type EventPhase } from "@/lib/format-event-date";
 
 interface TimeLeft {
   days: number;
@@ -60,28 +61,43 @@ interface CountdownTimerProps {
    * Sourced from the current event in Site Settings.
    */
   eventDate: string;
+  /**
+   * The event's exact finish instant (epoch ms), from resolveEventEndMs.
+   * Used to flip "underway" → "finished" at the real end time. Falls back to
+   * a window when omitted.
+   */
+  endsAt?: number;
   variant?: Variant;
 }
 
-export function CountdownTimer({ eventDate, variant = "dark" }: CountdownTimerProps) {
+export function CountdownTimer({ eventDate, endsAt, variant = "dark" }: CountdownTimerProps) {
   const target = new Date(eventDate);
   const targetValid = !Number.isNaN(target.getTime());
 
+  // `phase === undefined` means "not computed yet" (server render + first
+  // paint). We render nothing in that state so we never flash a wrong
+  // message like "the event has started" before the real time is known.
+  const [phase, setPhase] = useState<EventPhase | undefined>(undefined);
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const styles = variantStyles[variant];
 
   useEffect(() => {
     if (!targetValid) return;
-    setTimeLeft(getTimeLeft(target));
-    const interval = setInterval(() => setTimeLeft(getTimeLeft(target)), 1000);
+    const tick = () => {
+      const p = eventPhase(eventDate, Date.now(), endsAt) ?? "finished";
+      setPhase(p);
+      setTimeLeft(p === "upcoming" ? getTimeLeft(target) : null);
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
     // target is derived from `eventDate` — re-run when the date string changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventDate]);
+  }, [eventDate, endsAt]);
 
-  if (!targetValid) return null;
+  if (!targetValid || phase === undefined) return null;
 
-  if (!timeLeft) {
+  if (phase === "underway") {
     return (
       <div className="text-center">
         <p className={`text-2xl font-bold ${styles.finished}`}>
@@ -90,6 +106,18 @@ export function CountdownTimer({ eventDate, variant = "dark" }: CountdownTimerPr
       </div>
     );
   }
+
+  if (phase === "finished") {
+    return (
+      <div className="text-center">
+        <p className={`text-2xl font-bold ${styles.finished}`}>
+          This market has finished — thank you to everyone who joined us! 🐾
+        </p>
+      </div>
+    );
+  }
+
+  if (!timeLeft) return null;
 
   return (
     <div className="flex flex-wrap justify-center gap-4" aria-label="Countdown to PetFest Market">
