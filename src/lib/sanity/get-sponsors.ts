@@ -29,7 +29,7 @@ export interface Sponsor {
 export async function getSponsors(): Promise<Sponsor[]> {
   "use cache";
   cacheTag("sanity:type:sponsor");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return [];
 

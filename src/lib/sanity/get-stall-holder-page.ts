@@ -14,7 +14,7 @@ export interface StallHolderPage {
 export async function getStallHolderPage(): Promise<StallHolderPage | null> {
   "use cache";
   cacheTag("sanity:stallHolderPage", "sanity:type:stallHolderPage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 
