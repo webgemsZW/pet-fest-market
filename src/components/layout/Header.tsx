@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -59,17 +59,12 @@ export function Header({
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Deterministic initial value (no `Date.now()`) so server and first client
-  // render match — avoids a hydration mismatch. Corrected to the true
-  // date-based pick right after mount, and re-picks daily as events pass.
-  const initialTicketUrl = useMemo(
-    () =>
-      (featuredEventId ? events.find((e) => e._id === featuredEventId)?.ticketUrl : null) ||
-      events.find((e) => e.ticketUrl)?.ticketUrl ||
-      null,
-    [events, featuredEventId],
-  );
-  const [ticketUrl, setTicketUrl] = useState<string | null>(initialTicketUrl);
+  // Which event's tickets the nav button links to depends on today's date,
+  // which we can only evaluate in the browser. Start as null (no button) on
+  // the server + first client render, then resolve after mount. This means
+  // the button either shows the CORRECT current event or nothing — never a
+  // wrong/past event that flashes in and disappears.
+  const [ticketUrl, setTicketUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setTicketUrl(resolveTicketUrl(events, featuredEventId, Date.now()));

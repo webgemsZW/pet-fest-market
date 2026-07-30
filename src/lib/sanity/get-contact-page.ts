@@ -20,7 +20,7 @@ export interface ContactPage {
 export async function getContactPage(): Promise<ContactPage | null> {
   "use cache";
   cacheTag("sanity:contactPage", "sanity:type:contactPage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

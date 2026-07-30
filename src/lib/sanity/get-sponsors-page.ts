@@ -21,7 +21,7 @@ export interface SponsorsPage {
 export async function getSponsorsPage(): Promise<SponsorsPage | null> {
   "use cache";
   cacheTag("sanity:sponsorsPage", "sanity:type:sponsorsPage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

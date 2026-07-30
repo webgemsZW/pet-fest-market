@@ -82,7 +82,7 @@ export interface SiteSettings {
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   "use cache";
   cacheTag("sanity:siteSettings", "sanity:type:siteSettings", "sanity:type:event");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

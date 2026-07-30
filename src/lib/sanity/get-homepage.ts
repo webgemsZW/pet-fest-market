@@ -33,7 +33,7 @@ export interface Homepage {
 export async function getHomepage(): Promise<Homepage | null> {
   "use cache";
   cacheTag("sanity:homepage", "sanity:type:homepage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

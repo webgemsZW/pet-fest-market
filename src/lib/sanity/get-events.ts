@@ -23,7 +23,7 @@ export type EventDoc = CurrentEvent;
 export async function getAllEvents(): Promise<EventDoc[]> {
   "use cache";
   cacheTag("sanity:type:event");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return [];
 
@@ -43,7 +43,7 @@ export async function getAllEvents(): Promise<EventDoc[]> {
 export async function getEventBySlug(slug: string): Promise<EventDoc | null> {
   "use cache";
   cacheTag("sanity:type:event");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

@@ -29,7 +29,7 @@ export interface AboutPage {
 export async function getAboutPage(): Promise<AboutPage | null> {
   "use cache";
   cacheTag("sanity:aboutPage", "sanity:type:aboutPage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

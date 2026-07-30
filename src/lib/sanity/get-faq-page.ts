@@ -18,7 +18,7 @@ export interface FaqPage {
 export async function getFaqPage(): Promise<FaqPage | null> {
   "use cache";
   cacheTag("sanity:faqPage", "sanity:type:faqPage");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
 

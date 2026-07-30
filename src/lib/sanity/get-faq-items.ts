@@ -25,7 +25,7 @@ export interface FaqItem {
 export async function getFaqItems(): Promise<FaqItem[]> {
   "use cache";
   cacheTag("sanity:type:faqItem");
-  cacheLife("max");
+  cacheLife("sanity");
 
   if (!isSanityConfigured()) return [];
 
