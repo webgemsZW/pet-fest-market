@@ -9,7 +9,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
-import { formatEventDate, formatTimeZoneAbbrev } from "@/lib/format-event-date";
+import { formatEventDate, formatTimeZoneAbbrev, eventPhase, resolveEventEndMs } from "@/lib/format-event-date";
 import { urlFor } from "@/lib/sanity/image";
 import { pageMetadata } from "@/lib/seo";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
@@ -85,8 +85,15 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   const ticketUrl = event.ticketUrl?.trim() || null;
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   // EventDetail already renders at request time (it awaits `params`), so
-  // this deadline check reflects "now" without needing connection().
+  // these time-based checks reflect "now" without needing connection().
   const applyOpen = isApplyOpen(event);
+  const endsAt = resolveEventEndMs(event.eventDate, event.eventEndTime, event.timezone);
+  const phase = eventPhase(event.eventDate, Date.now(), endsAt);
+  // Only offer tickets while they make sense: a real link right up until the
+  // event has finished, and "coming soon" only before it starts. A started
+  // or finished event never shows "Tickets coming soon".
+  const showBuyTickets = Boolean(ticketUrl) && phase !== "finished";
+  const showTicketsComingSoon = !ticketUrl && phase === "upcoming";
 
   const imageUrl = event.image?.asset?._ref
     ? urlFor(event.image as Parameters<typeof urlFor>[0])
@@ -140,26 +147,26 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
 
           {/* Countdown (centers itself — now consistent with the hero) */}
           <div className="mt-10">
-            <CountdownTimer variant="light" eventDate={event.eventDate} />
+            <CountdownTimer variant="light" eventDate={event.eventDate} endsAt={endsAt ?? undefined} />
           </div>
 
           {/* CTAs. Buy Tickets links to the Humanitix ticket URL; the pop-up
               script turns it into an on-page modal, falling back to opening
               the link if the script can't load. */}
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            {ticketUrl ? (
+            {showBuyTickets ? (
               <Button asChild size="lg">
-                <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
+                <a href={ticketUrl!} target="_blank" rel="noopener noreferrer">
                   <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
                   Buy Tickets
                 </a>
               </Button>
-            ) : (
+            ) : showTicketsComingSoon ? (
               <Button size="lg" disabled>
                 <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
                 Tickets coming soon
               </Button>
-            )}
+            ) : null}
 
             {applyOpen ? (
               <Button asChild size="lg" variant="secondary">
