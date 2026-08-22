@@ -7,6 +7,7 @@ import { TiktokIcon } from "@/components/shared/TiktokIcon";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import { urlFor } from "@/lib/sanity/image";
 import { DEFAULT_SOCIAL_LINKS } from "@/lib/site-defaults";
+import { VERSION_LABEL } from "@/lib/version";
 
 /* ──────────────────────────────────────────────────────────────────
    Fallbacks used when Sanity is unreachable, env vars unset, or the
@@ -246,6 +247,8 @@ export async function Footer() {
         <div className="mt-6 text-center text-xs text-brand-600">
           © 2026 PetFest Market. All rights reserved.
         </div>
+        {/* Build stamp — which version this environment is running. */}
+        <div className="mt-1 text-center text-[10px] text-brand-700/50">{VERSION_LABEL}</div>
       </div>
     </footer>
   );
