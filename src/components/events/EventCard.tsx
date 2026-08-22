@@ -1,29 +1,16 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { CalendarDays, Clock, MapPin, ArrowRight } from "lucide-react";
-import { urlFor } from "@/lib/sanity/image";
 import { formatEventDate, formatEventDateShort, formatTimeZoneAbbrev } from "@/lib/format-event-date";
 import { DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 import type { EventDoc } from "@/lib/sanity/get-events";
-
-const FALLBACK_IMAGE = "/images/og-default.png";
-
-function eventImageUrl(event: EventDoc): string {
-  if (event.image?.asset?._ref) {
-    return urlFor(event.image as Parameters<typeof urlFor>[0])
-      .width(800)
-      .height(500)
-      .fit("crop")
-      .url();
-  }
-  return FALLBACK_IMAGE;
-}
+import { EventImage } from "./EventImage";
 
 /**
  * A single event on the /events listing. `variant="featured"` renders the
  * prominent hero-style card (wide, full detail); `variant="compact"` is
  * the smaller card used in the upcoming grid and the past-events list.
+ * Both frame the artwork at 16:10 via <EventImage> (whole image, no crop).
  */
 export function EventCard({
   event,
@@ -42,8 +29,6 @@ export function EventCard({
   const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
   const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
-  const imageUrl = eventImageUrl(event);
-  const imageAlt = event.image?.alt || event.eventName;
 
   if (variant === "featured") {
     return (
@@ -51,9 +36,12 @@ export function EventCard({
         href={href}
         className="group grid overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100 transition-shadow hover:shadow-md md:grid-cols-2"
       >
-        <div className="relative aspect-[16/10] md:aspect-auto">
-          <Image src={imageUrl} alt={imageAlt} fill className="object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
-        </div>
+        <EventImage
+          event={event}
+          className="aspect-[16/10] md:self-center"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          priority
+        />
         <div className="flex flex-col justify-center gap-4 p-8 sm:p-10">
           <span className="inline-flex w-fit items-center rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700">
             Next market
@@ -93,9 +81,7 @@ export function EventCard({
         muted ? "opacity-70 hover:opacity-100" : ""
       }`}
     >
-      <div className="relative aspect-[16/10]">
-        <Image src={imageUrl} alt={imageAlt} fill className="object-cover" sizes="(min-width: 640px) 33vw, 100vw" />
-      </div>
+      <EventImage event={event} className="aspect-[16/10]" sizes="(min-width: 640px) 33vw, 100vw" />
       <div className="flex flex-1 flex-col gap-2 p-5">
         <h3 className="text-lg font-semibold text-gray-900">{event.eventName}</h3>
         <div className="flex items-center gap-2 text-sm text-gray-600">

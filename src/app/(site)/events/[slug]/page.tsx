@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, Clock, MapPin, Ticket, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
+import { EventImage } from "@/components/events/EventImage";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev, eventPhase, resolveEventEndMs } from "@/lib/format-event-date";
-import { urlFor } from "@/lib/sanity/image";
 import { pageMetadata } from "@/lib/seo";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
@@ -95,13 +94,7 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
   const showBuyTickets = Boolean(ticketUrl) && phase !== "finished";
   const showTicketsComingSoon = !ticketUrl && phase === "upcoming";
 
-  const imageUrl = event.image?.asset?._ref
-    ? urlFor(event.image as Parameters<typeof urlFor>[0])
-        .width(1600)
-        .height(700)
-        .fit("crop")
-        .url()
-    : null;
+  const hasImage = Boolean(event.image?.asset?._ref);
 
   return (
     <>
@@ -185,18 +178,10 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
       </section>
 
       {/* Optional event image */}
-      {imageUrl && (
+      {hasImage && (
         <SectionWrapper>
           <div className="mx-auto max-w-4xl overflow-hidden rounded-3xl shadow-sm ring-1 ring-gray-100">
-            <div className="relative aspect-[16/7]">
-              <Image
-                src={imageUrl}
-                alt={event.image?.alt || event.eventName}
-                fill
-                className="object-cover"
-                sizes="(min-width: 896px) 896px, 100vw"
-              />
-            </div>
+            <EventImage event={event} className="aspect-[16/10]" sizes="(min-width: 896px) 896px, 100vw" />
           </div>
         </SectionWrapper>
       )}
