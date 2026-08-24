@@ -46,6 +46,14 @@ export const event = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "showCountdown",
+      title: "Show Countdown Timer",
+      type: "boolean",
+      description:
+        "Turn the live countdown to this event on or off (shown on the home page hero and the event page). Off by default.",
+      initialValue: false,
+    }),
+    defineField({
       name: "doorsOpenTime",
       title: "Doors Open Time",
       type: "string",

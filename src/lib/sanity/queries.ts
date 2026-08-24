@@ -18,6 +18,7 @@ const EVENT_PROJECTION = `
   eventName,
   "slug": slug.current,
   eventDate,
+  showCountdown,
   doorsOpenTime,
   eventEndTime,
   timezone,

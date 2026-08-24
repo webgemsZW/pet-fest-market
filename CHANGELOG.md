@@ -5,6 +5,39 @@ cross-check what's been done.
 
 ---
 
+## Saturday, 22 August 2026 — Countdown toggle + tickets/apply funnel
+
+Three changes from your latest note.
+
+### 1. Countdown timer is now on/off per event
+
+Each event now has a **Show Countdown Timer** switch in Studio (on the
+event, just under the date). It's **off by default** — so a new event
+won't show a countdown unless you turn it on. When on, the live countdown
+appears on the home page hero and that event's page; when off, neither
+shows it. No more countdown appearing when you don't want it.
+
+### 2. "Buy Tickets" now sends people to the events page first
+
+Previously the **Buy Tickets** buttons (home page hero and the top menu)
+opened the ticketing checkout for one specific event. Now they link to
+the **Events page** (`/events`), where the visitor picks which market
+they want and buys tickets for that specific event from its page. This
+works better now that there can be several markets on the calendar at
+once. (The actual checkout still opens on the individual event's page.)
+
+The top-menu Buy Tickets button only appears when there's an upcoming
+market, so it's never a dead end.
+
+### 3. "Apply as Stallholder" on the home page also goes to the events page
+
+Same idea for the home page **Apply as Stallholder** button — it now
+sends people to the **Events page** to choose which market they'd like to
+apply for, rather than straight to one form. (The Stallholders page and
+each event's page still have their own apply buttons.)
+
+---
+
 ## Saturday, 27 June 2026 — Custom 404 page
 
 If a visitor hits a broken URL (typo, expired link, dead bookmark), they

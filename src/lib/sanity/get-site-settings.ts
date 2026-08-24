@@ -16,6 +16,7 @@ export interface CurrentEvent {
   eventName: string;
   slug?: string | null;
   eventDate: string;
+  showCountdown?: boolean | null;
   doorsOpenTime?: string | null;
   eventEndTime?: string | null;
   timezone?: string | null;

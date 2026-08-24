@@ -7,7 +7,7 @@ import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { getFeaturedEvent, type EventDoc } from "@/lib/sanity/get-events";
 import { getHomepage, type Homepage } from "@/lib/sanity/get-homepage";
 import { formatEventDate, formatTimeZoneAbbrev, resolveEventEndMs } from "@/lib/format-event-date";
-import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
+import { DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
 // Fallbacks for the homepage marketing copy (used when the Homepage document
 // isn't populated). NOTE(content): the user has chosen to keep the eyebrow
@@ -44,7 +44,6 @@ export async function HeroSection() {
   // market — and is null when no upcoming event is published.
   const [event, homepage] = await Promise.all([getFeaturedEvent(), getHomepage()]);
   const eyebrow = homepage?.heroEyebrow?.trim() || FALLBACK_EYEBROW;
-  const applyUrl = event?.applyUrl?.trim() || DEFAULT_APPLY_URL;
   const applyLabel = homepage?.heroApplyLabel?.trim() || "Apply as Stallholder";
   const updatesLabel = homepage?.heroUpdatesLabel?.trim() || "Get Event Updates";
 
@@ -82,12 +81,11 @@ export async function HeroSection() {
           <FeaturedEventHero
             event={event}
             homepage={homepage}
-            applyUrl={applyUrl}
             applyLabel={applyLabel}
             updatesLabel={updatesLabel}
           />
         ) : (
-          <NoEventHero homepage={homepage} applyUrl={applyUrl} applyLabel={applyLabel} updatesLabel={updatesLabel} />
+          <NoEventHero homepage={homepage} applyLabel={applyLabel} updatesLabel={updatesLabel} />
         )}
       </div>
 
@@ -105,19 +103,16 @@ export async function HeroSection() {
 function FeaturedEventHero({
   event,
   homepage,
-  applyUrl,
   applyLabel,
   updatesLabel,
 }: {
   event: EventDoc;
   homepage: Homepage | null;
-  applyUrl: string;
   applyLabel: string;
   updatesLabel: string;
 }) {
   const dateLabel = formatEventDate(event.eventDate, event.timezone) ?? "Date to be confirmed";
   const location = event.location?.trim() || "";
-  const ticketUrl = event.ticketUrl?.trim() || null;
   // Subheading comes from the featured event's Short Description (blurb),
   // falling back to Homepage → Hero Subtitle, then the default.
   const subheading = event.blurb?.trim() || homepage?.heroSubheading?.trim() || FALLBACK_SUBHEADING;
@@ -126,7 +121,6 @@ function FeaturedEventHero({
   const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
   const timeLabel = `${doorsOpen} – ${endTime}${tzAbbr ? ` ${tzAbbr}` : ""}`;
   const ticketLabel = homepage?.heroTicketLabel?.trim() || "Buy Tickets";
-  const ticketComingSoonLabel = homepage?.heroTicketComingSoonLabel?.trim() || "Tickets coming soon";
 
   return (
     <>
@@ -152,34 +146,29 @@ function FeaturedEventHero({
         )}
       </div>
 
-      {/* Countdown */}
-      <div className="mt-10">
-        <CountdownTimer
-          variant="light"
-          eventDate={event.eventDate}
-          endsAt={resolveEventEndMs(event.eventDate, event.eventEndTime, event.timezone) ?? undefined}
-        />
-      </div>
+      {/* Countdown — only when the event has it toggled on in Studio. */}
+      {event.showCountdown && (
+        <div className="mt-10">
+          <CountdownTimer
+            variant="light"
+            eventDate={event.eventDate}
+            endsAt={resolveEventEndMs(event.eventDate, event.eventEndTime, event.timezone) ?? undefined}
+          />
+        </div>
+      )}
 
-      {/* CTAs — Buy Tickets prominent; Apply + Get Updates alongside. */}
+      {/* CTAs — Buy Tickets and Apply both route to /events, where the
+          visitor picks the specific market (and then buys / applies for it).
+          Get Updates jumps to the mailing-list section. */}
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-        {ticketUrl ? (
-          <Button asChild size="lg">
-            <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
-              <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
-              {ticketLabel}
-            </a>
-          </Button>
-        ) : (
-          <Button size="lg" disabled>
+        <Button asChild size="lg">
+          <Link href="/events">
             <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
-            {ticketComingSoonLabel}
-          </Button>
-        )}
+            {ticketLabel}
+          </Link>
+        </Button>
         <Button asChild size="lg" variant="secondary">
-          <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-            {applyLabel}
-          </a>
+          <Link href="/events">{applyLabel}</Link>
         </Button>
         <Button asChild size="lg" variant="secondary">
           <Link href="#mailing-list">{updatesLabel}</Link>
@@ -196,12 +185,10 @@ function FeaturedEventHero({
  */
 function NoEventHero({
   homepage,
-  applyUrl,
   applyLabel,
   updatesLabel,
 }: {
   homepage: Homepage | null;
-  applyUrl: string;
   applyLabel: string;
   updatesLabel: string;
 }) {
@@ -225,9 +212,7 @@ function NoEventHero({
           <Link href="#mailing-list">{updatesLabel}</Link>
         </Button>
         <Button asChild size="lg" variant="secondary">
-          <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-            {applyLabel}
-          </a>
+          <Link href="/events">{applyLabel}</Link>
         </Button>
       </div>
     </>
