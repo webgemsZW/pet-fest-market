@@ -5,6 +5,39 @@ cross-check what's been done.
 
 ---
 
+## Saturday, 22 August 2026 — Events page tidy-up + publishing fix
+
+A follow-up batch after the changes below.
+
+### Events page — one simple "Upcoming Markets" list
+
+The `/events` page no longer singles out a big "Next Market" block above
+the rest. Instead there's a single **Upcoming Markets** section listing
+**every** upcoming market as an equal block (each with its image, date,
+venue, and a link through to that market's own page), ordered
+**soonest first**. The **Previous markets** section below is unchanged.
+
+(The home page still spotlights the next market at the top — that's
+separate and wasn't touched.)
+
+### "Apply as Stallholder" in the top menu now matches
+
+For consistency with the home-page button, the **Apply as Stallholder**
+button in the top navigation now also goes to the **Events page** (where
+the visitor picks which market to apply for) rather than opening one form
+directly.
+
+### Publishing fix — edits no longer briefly revert
+
+Fixed a bug where editing a field in Studio (e.g. an event's **Short
+Description**) would show the new text, then the **old text would come
+back** a little later. The site was reading through a cache layer that
+lagged behind your publish; it now always reads the latest published
+content, so edits stick as soon as they propagate. **No action needed on
+your side.**
+
+---
+
 ## Saturday, 22 August 2026 — Countdown toggle + tickets/apply funnel
 
 Three changes from your latest note.
