@@ -5,7 +5,7 @@ cross-check what's been done.
 
 ---
 
-## Saturday, 22 August 2026 — Events page tidy-up + publishing fix
+## Monday, 24 August 2026 — Events page tidy-up + publishing fix
 
 A follow-up batch after the changes below.
 
@@ -35,6 +35,17 @@ back** a little later. The site was reading through a cache layer that
 lagged behind your publish; it now always reads the latest published
 content, so edits stick as soon as they propagate. **No action needed on
 your side.**
+
+### "Featured Event" setting moved to the Home page
+
+The optional **Featured Event** override — which pins one market as the
+one spotlighted on the home page — has moved in Studio from **Site
+Settings** to the **Homepage** document (under the Hero group), where it
+sits more logically alongside the other home-page hero settings. It works
+exactly as before: leave it blank and the site automatically features the
+soonest upcoming market; set it only to spotlight a market out of order.
+If you'd previously set it in Site Settings, re-select it on the Homepage
+(it doesn't carry across automatically).
 
 ---
 
