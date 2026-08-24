@@ -138,10 +138,13 @@ async function EventDetail({ params }: { params: Promise<Params> }) {
             </div>
           </div>
 
-          {/* Countdown (centers itself — now consistent with the hero) */}
-          <div className="mt-10">
-            <CountdownTimer variant="light" eventDate={event.eventDate} endsAt={endsAt ?? undefined} />
-          </div>
+          {/* Countdown (centers itself — now consistent with the hero).
+              Only shown when the event has the countdown toggled on. */}
+          {event.showCountdown && (
+            <div className="mt-10">
+              <CountdownTimer variant="light" eventDate={event.eventDate} endsAt={endsAt ?? undefined} />
+            </div>
+          )}
 
           {/* CTAs. Buy Tickets links to the Humanitix ticket URL; the pop-up
               script turns it into an on-page modal, falling back to opening

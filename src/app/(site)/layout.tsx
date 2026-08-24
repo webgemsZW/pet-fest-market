@@ -2,9 +2,7 @@ import React from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HumanitixPopup } from "@/components/events/HumanitixPopup";
-import { getSiteSettings } from "@/lib/sanity/get-site-settings";
 import { getAllEvents } from "@/lib/sanity/get-events";
-import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /**
  * Layout for the public marketing site. Wraps every route in the
@@ -22,27 +20,21 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Both fetches are cached, so the layout stays static. The Header picks
-  // the "active" event by date in the browser (see Header.tsx), which keeps
-  // the nav Buy Tickets link self-healing without making the site dynamic.
-  const [settings, allEvents] = await Promise.all([getSiteSettings(), getAllEvents()]);
-  const applyUrl = settings?.currentEvent?.applyUrl?.trim() || DEFAULT_APPLY_URL;
+  // Cached fetch, so the layout stays static. The Header decides in the
+  // browser (by date) whether to show the nav Buy Tickets button, so it
+  // self-heals as markets roll over without making the site dynamic.
+  const allEvents = await getAllEvents();
 
-  // Minimal, serialisable event data the Header needs to resolve the
-  // current event's ticket link.
-  const navEvents = allEvents.map((e) => ({
-    _id: e._id,
-    eventDate: e.eventDate,
-    ticketUrl: e.ticketUrl?.trim() || null,
-  }));
-  const featuredEventId = settings?.currentEvent?._id ?? null;
+  // Minimal, serialisable event dates the Header needs to know whether any
+  // market is upcoming.
+  const navEvents = allEvents.map((e) => ({ eventDate: e.eventDate }));
 
   return (
     <>
-      {/* Global: powers the Humanitix pop-up for the nav Buy Tickets button
-          (which appears on every page) and the hero/detail buttons. */}
+      {/* Global: powers the Humanitix pop-up used by the event detail page's
+          Buy Tickets button (the checkout opens in a modal over the site). */}
       <HumanitixPopup />
-      <Header applyUrl={applyUrl} events={navEvents} featuredEventId={featuredEventId} />
+      <Header events={navEvents} />
       <main>{children}</main>
       <Footer />
     </>

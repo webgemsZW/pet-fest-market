@@ -6,32 +6,22 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /*
   The Header is a Client Component (it needs useState for the mobile menu +
   scroll behaviour), so it can't fetch from Sanity itself. The server layout
-  passes in:
-   - `applyUrl` — the Stallholder form link (from the pinned event).
-   - `events` + `featuredEventId` — the minimal event data used to resolve
-     the CURRENT event's ticket link in the browser. Doing that pick
-     client-side (by today's date) means the nav "Buy Tickets" link
-     self-heals to the next event automatically as markets roll over,
-     without forcing the whole site to render dynamically.
+  passes in `events` — minimal event data used to decide, in the browser,
+  whether there's an upcoming market. Both nav CTAs (Buy Tickets, Apply as
+  Stallholder) link to /events, where the visitor picks a market and then
+  buys / applies for it. The Buy Tickets button only shows when a market is
+  actually upcoming — evaluated client-side by today's date so it self-heals
+  as markets roll over, without forcing the whole site to render dynamically.
 */
 
-type NavEvent = { _id: string; eventDate: string; ticketUrl: string | null };
+type NavEvent = { eventDate: string };
 
-/** Mirror of getFeaturedEvent: pinned event while it's still upcoming, else
- *  the soonest upcoming — then return that event's ticket link. */
-function resolveTicketUrl(events: NavEvent[], featuredEventId: string | null, now: number): string | null {
-  const pinned = featuredEventId ? events.find((e) => e._id === featuredEventId) : null;
-  const isUpcoming = (e: NavEvent) => new Date(e.eventDate).getTime() >= now;
-  const featured =
-    pinned && isUpcoming(pinned)
-      ? pinned
-      : events.filter(isUpcoming).sort((a, b) => +new Date(a.eventDate) - +new Date(b.eventDate))[0] ?? null;
-  return featured?.ticketUrl || null;
+function hasUpcomingEvent(events: NavEvent[], now: number): boolean {
+  return events.some((e) => new Date(e.eventDate).getTime() >= now);
 }
 
 // TODO(content): "/sponsors" link is intentionally omitted while no
@@ -47,28 +37,19 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Header({
-  applyUrl = DEFAULT_APPLY_URL,
-  events = [],
-  featuredEventId = null,
-}: {
-  applyUrl?: string;
-  events?: NavEvent[];
-  featuredEventId?: string | null;
-}) {
+export function Header({ events = [] }: { events?: NavEvent[] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Which event's tickets the nav button links to depends on today's date,
-  // which we can only evaluate in the browser. Start as null (no button) on
-  // the server + first client render, then resolve after mount. This means
-  // the button either shows the CORRECT current event or nothing — never a
-  // wrong/past event that flashes in and disappears.
-  const [ticketUrl, setTicketUrl] = useState<string | null>(null);
+  // Whether to show the nav "Buy Tickets" button depends on today's date,
+  // which we can only evaluate in the browser. Start false (no button) on the
+  // server + first client render, then resolve after mount — so it shows only
+  // when a market is genuinely upcoming, never flashing for a past one.
+  const [showTickets, setShowTickets] = useState(false);
 
   useEffect(() => {
-    setTicketUrl(resolveTicketUrl(events, featuredEventId, Date.now()));
-  }, [events, featuredEventId]);
+    setShowTickets(hasUpcomingEvent(events, Date.now()));
+  }, [events]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -106,17 +87,13 @@ export function Header({
               {link.label}
             </Link>
           ))}
-          {ticketUrl && (
+          {showTickets && (
             <Button asChild size="sm">
-              <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
-                Buy Tickets
-              </a>
+              <Link href="/events">Buy Tickets</Link>
             </Button>
           )}
           <Button asChild size="sm" variant="secondary">
-            <a href={applyUrl} target="_blank" rel="noopener noreferrer">
-              Apply as Stallholder
-            </a>
+            <Link href="/events">Apply as Stallholder</Link>
           </Button>
         </nav>
 
@@ -146,27 +123,17 @@ export function Header({
               </Link>
             ))}
             <div className="mt-3 flex flex-col gap-2">
-              {ticketUrl && (
+              {showTickets && (
                 <Button asChild className="w-full">
-                  <a
-                    href={ticketUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMenuOpen(false)}
-                  >
+                  <Link href="/events" onClick={() => setMenuOpen(false)}>
                     Buy Tickets
-                  </a>
+                  </Link>
                 </Button>
               )}
               <Button asChild className="w-full" variant="secondary">
-                <a
-                  href={applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMenuOpen(false)}
-                >
+                <Link href="/events" onClick={() => setMenuOpen(false)}>
                   Apply as Stallholder
-                </a>
+                </Link>
               </Button>
             </div>
           </nav>
