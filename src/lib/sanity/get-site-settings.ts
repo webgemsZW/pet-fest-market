@@ -3,8 +3,8 @@ import { sanityClient, isSanityConfigured } from "./client";
 import { siteSettingsQuery } from "./queries";
 
 /**
- * The resolved current event embedded inside `SiteSettings.currentEvent`.
- * Matches the projection inside `siteSettingsQuery`.
+ * A single event document. Shared shape used everywhere an event is read
+ * (hero, listing, detail page, structured data) — matches EVENT_PROJECTION.
  */
 export interface SanityImage {
   asset?: { _ref?: string };
@@ -56,25 +56,20 @@ export interface SiteSettings {
     privacyPdf?: { asset?: { url?: string | null } | null } | null;
     codeOfConductPdf?: { asset?: { url?: string | null } | null } | null;
   } | null;
-  currentEvent?: CurrentEvent | null;
 }
 
 /**
- * Fetch the global Site Settings document with the current event
- * resolved inline.
+ * Fetch the global Site Settings document.
  *
  * Tag strategy:
  *   - `sanity:siteSettings`        → invalidated when the Site Settings
  *                                    doc is published
  *   - `sanity:type:siteSettings`   → invalidated by any siteSettings change
- *   - `sanity:type:event`          → invalidated by ANY event change, so
- *                                    the inline currentEvent projection
- *                                    stays fresh when the event the site
- *                                    points at is updated
  *
  * The webhook in /api/revalidate fires `sanity:<docId>` and
  * `sanity:type:<docType>` on every publish, so these tags catch all
- * relevant changes.
+ * relevant changes. (The Featured Event pointer moved to the Homepage
+ * document, so this no longer needs the event type tag.)
  *
  * Returns `null` if the Sanity env vars are unset, the fetch fails, or
  * no `siteSettings` document has been published yet. Callers fall back
@@ -82,7 +77,7 @@ export interface SiteSettings {
  */
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   "use cache";
-  cacheTag("sanity:siteSettings", "sanity:type:siteSettings", "sanity:type:event");
+  cacheTag("sanity:siteSettings", "sanity:type:siteSettings");
   cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
@@ -93,14 +88,4 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     console.error("[sanity] siteSettings fetch failed", error);
     return null;
   }
-}
-
-/**
- * Convenience: return just the current event from Site Settings. Saves
- * components from writing `(await getSiteSettings())?.currentEvent` and
- * the same null-check ceremony.
- */
-export async function getCurrentEvent(): Promise<CurrentEvent | null> {
-  const settings = await getSiteSettings();
-  return settings?.currentEvent ?? null;
 }

@@ -20,6 +20,15 @@ export const homepage = defineType({
   fields: [
     // ── Hero ───────────────────────────────────────────────────────
     defineField({
+      name: "featuredEvent",
+      title: "Featured Event (optional override)",
+      type: "reference",
+      group: "hero",
+      description:
+        "Optional. Pin a specific event as the one spotlighted on the home page hero. Leave this blank and the site automatically features the soonest upcoming market (rolling forward on its own once an event passes). Only set this to spotlight an event out of date order — it is ignored once the event it points at is in the past.",
+      to: [{ type: "event" }],
+    }),
+    defineField({
       name: "heroEyebrow",
       title: "Hero Eyebrow",
       type: "string",

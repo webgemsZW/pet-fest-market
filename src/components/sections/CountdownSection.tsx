@@ -1,6 +1,6 @@
 import React from "react";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
-import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
+import { getCurrentEvent } from "@/lib/sanity/get-homepage";
 
 // Currently not rendered on the home page — the countdown was folded
 // into HeroSection. Kept in the codebase in case we want a dedicated

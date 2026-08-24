@@ -32,7 +32,8 @@ const EVENT_PROJECTION = `
 `;
 
 // ------------------------------------------------------------------
-// Site Settings (singleton) — global content + currentEvent reference
+// Site Settings (singleton) — global content. The Featured Event pointer
+// lives on the Homepage document (see homepageQuery), not here.
 // ------------------------------------------------------------------
 export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   siteName,
@@ -57,8 +58,7 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
     termsPdf{ asset->{ url } },
     privacyPdf{ asset->{ url } },
     codeOfConductPdf{ asset->{ url } }
-  },
-  currentEvent->{${EVENT_PROJECTION}}
+  }
 }`;
 
 // ------------------------------------------------------------------
@@ -79,6 +79,7 @@ export const allEventsQuery = `*[_type == "event" && defined(eventDate)] | order
 // Page singletons
 // ------------------------------------------------------------------
 export const homepageQuery = `*[_id == "homepage"][0]{
+  featuredEvent->{${EVENT_PROJECTION}},
   heroEyebrow,
   heroSubheading,
   heroImage,

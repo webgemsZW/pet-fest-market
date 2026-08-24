@@ -1,13 +1,13 @@
 import { connection } from "next/server";
 import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
-import { getSiteSettings, type CurrentEvent } from "./get-site-settings";
+import { type CurrentEvent } from "./get-site-settings";
+import { getHomepage } from "./get-homepage";
 import { allEventsQuery, eventBySlugQuery } from "./queries";
 
 /**
- * A single event document. Same shape as the `currentEvent` projection on
- * Site Settings — kept as one type so every event surface (hero, listing,
- * detail page, structured data) agrees on the fields.
+ * A single event document. Shared shape so every event surface (hero,
+ * listing, detail page, structured data) agrees on the fields.
  */
 export type EventDoc = CurrentEvent;
 
@@ -82,7 +82,7 @@ const eventTime = (e: EventDoc): number => new Date(e.eventDate).getTime();
  * no manual pointer change.
  *
  * Featured-event rule:
- *   1. If `siteSettings.currentEvent` is set AND still upcoming → use it
+ *   1. If `homepage.featuredEvent` is set AND still upcoming → use it
  *      (lets an editor spotlight an event out of date order).
  *   2. Otherwise → the soonest upcoming event.
  *   3. If nothing is upcoming → null (the hero shows its own fallback and
@@ -91,14 +91,13 @@ const eventTime = (e: EventDoc): number => new Date(e.eventDate).getTime();
 export async function getEventsView(): Promise<EventsView> {
   await connection();
 
-  const [settings, all] = await Promise.all([getSiteSettings(), getAllEvents()]);
+  const [homepage, all] = await Promise.all([getHomepage(), getAllEvents()]);
   const now = Date.now();
   const isUpcoming = (e: EventDoc) => eventTime(e) >= now;
 
   const upcomingAll = all.filter(isUpcoming); // already sorted ascending
-  const pointer = settings?.currentEvent?._id
-    ? all.find((e) => e._id === settings.currentEvent!._id) ?? null
-    : null;
+  const pointerId = homepage?.featuredEvent?._id;
+  const pointer = pointerId ? all.find((e) => e._id === pointerId) ?? null : null;
 
   // Featured is always an upcoming event (or null): the pinned override
   // while it's still upcoming, otherwise the soonest upcoming market.

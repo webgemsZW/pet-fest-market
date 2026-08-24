@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { getCurrentEvent } from "@/lib/sanity/get-site-settings";
+import { getCurrentEvent } from "@/lib/sanity/get-homepage";
 import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 /* ──────────────────────────────────────────────────────────────────

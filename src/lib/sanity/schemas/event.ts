@@ -6,7 +6,7 @@ import { defineType, defineField } from "sanity";
  * This is a COLLECTION (not a singleton) so the site can host many events
  * over time. As of the multi-event build the site now renders:
  *   - a prominent "featured" event (see get-events.ts → getFeaturedEvent,
- *     which honours `siteSettings.currentEvent` while it is still upcoming
+ *     which honours `homepage.featuredEvent` while it is still upcoming
  *     and otherwise auto-advances to the soonest future event),
  *   - an `/events` listing of every upcoming market, and
  *   - a per-event detail page at `/events/<slug>`.

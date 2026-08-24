@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { homepageQuery } from "./queries";
+import type { CurrentEvent } from "./get-site-settings";
 
 export interface WhatToExpectCard {
   icon?: string | null;
@@ -9,6 +10,8 @@ export interface WhatToExpectCard {
 }
 
 export interface Homepage {
+  /** Optional pinned "featured" event override (see getEventsView). */
+  featuredEvent?: CurrentEvent | null;
   heroEyebrow?: string | null;
   heroSubheading?: string | null;
   heroImage?: {
@@ -32,7 +35,9 @@ export interface Homepage {
 
 export async function getHomepage(): Promise<Homepage | null> {
   "use cache";
-  cacheTag("sanity:homepage", "sanity:type:homepage");
+  // Also tagged `sanity:type:event` because the homepage now embeds the
+  // Featured Event projection — editing that event must refresh this cache.
+  cacheTag("sanity:homepage", "sanity:type:homepage", "sanity:type:event");
   cacheLife("sanity");
 
   if (!isSanityConfigured()) return null;
@@ -43,4 +48,13 @@ export async function getHomepage(): Promise<Homepage | null> {
     console.error("[sanity] homepage fetch failed", error);
     return null;
   }
+}
+
+/**
+ * Convenience: the pinned Featured Event override from the Homepage doc, or
+ * null when unset. Note this is the RAW pointer — for the resolved,
+ * self-healing "which event is featured" use getFeaturedEvent in get-events.
+ */
+export async function getCurrentEvent(): Promise<CurrentEvent | null> {
+  return (await getHomepage())?.featuredEvent ?? null;
 }
