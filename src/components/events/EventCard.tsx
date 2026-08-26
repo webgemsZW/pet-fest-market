@@ -16,10 +16,13 @@ export function EventCard({
   event,
   variant = "compact",
   muted = false,
+  badge,
 }: {
   event: EventDoc;
   variant?: "featured" | "compact";
   muted?: boolean;
+  /** Optional pill shown above the title on the featured card (e.g. "Next market"). Omit for no badge. */
+  badge?: string;
 }) {
   const href = event.slug ? `/events/${event.slug}` : "/events";
   const dateLabel =
@@ -43,9 +46,11 @@ export function EventCard({
           priority
         />
         <div className="flex flex-col justify-center gap-4 p-8 sm:p-10">
-          <span className="inline-flex w-fit items-center rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700">
-            Next market
-          </span>
+          {badge && (
+            <span className="inline-flex w-fit items-center rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700">
+              {badge}
+            </span>
+          )}
           <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">{event.eventName}</h2>
           {event.blurb && <p className="text-gray-600">{event.blurb}</p>}
           <dl className="space-y-2 text-sm text-gray-700">

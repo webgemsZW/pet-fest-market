@@ -5,6 +5,125 @@ cross-check what's been done.
 
 ---
 
+## Wednesday, 26 August 2026 — City-first homepage
+
+Reworked how visitors find a market, per our chat: the site is now
+organised **by city** rather than around one headline event.
+
+### Homepage is now a directory of cities
+
+The home page no longer spotlights a single event (no featured event, no
+countdown, no event date up top). Instead the hero shows **city badges** —
+one per city (**Melbourne**, then **Brisbane**) — and clicking a city
+takes you to that city's markets. Both badges always show, whether or not
+that city has markets scheduled yet.
+
+### New per-city pages
+
+Each city has its own page at `/events/<city>` (e.g. `/events/melbourne`)
+listing that city's **upcoming** markets, with **previous** markets kept
+below (PetFest's track record is worth showing). If a city has no upcoming
+markets yet, the page invites the visitor to **subscribe for updates**
+(with the sign-up form right there) instead of showing an apply button.
+
+### New "City" setting on each event
+
+Every event now has a **City** dropdown in Studio (Melbourne / Brisbane).
+It's **required** — please set it on each event; it's what
+places the event under the right city badge and city page. (Your existing
+events will show a reminder until their city is set.)
+
+### Button changes
+
+- **Buy Tickets** (home + top menu) → the Events page, to pick a market.
+- **Apply as Stallholder** (home + top menu) → the **Stallholders** page.
+
+### Behind the scenes
+
+- The old **Featured Event** override has been removed (the homepage no
+  longer features a single event).
+- The home page is now fully static again, so it loads a touch faster.
+- City pages are included in the sitemap for search engines.
+
+---
+
+## Monday, 24 August 2026 — Events page tidy-up + publishing fix
+
+A follow-up batch after the changes below.
+
+### Events page — one simple "Upcoming Markets" list
+
+The `/events` page no longer singles out a big "Next Market" block above
+the rest. Instead there's a single **Upcoming Markets** section listing
+**every** upcoming market as an equal block (each with its image, date,
+venue, and a link through to that market's own page), ordered
+**soonest first**. The **Previous markets** section below is unchanged.
+
+(The home page still spotlights the next market at the top — that's
+separate and wasn't touched.)
+
+### "Apply as Stallholder" in the top menu now matches
+
+For consistency with the home-page button, the **Apply as Stallholder**
+button in the top navigation now also goes to the **Events page** (where
+the visitor picks which market to apply for) rather than opening one form
+directly.
+
+### Publishing fix — edits no longer briefly revert
+
+Fixed a bug where editing a field in Studio (e.g. an event's **Short
+Description**) would show the new text, then the **old text would come
+back** a little later. The site was reading through a cache layer that
+lagged behind your publish; it now always reads the latest published
+content, so edits stick as soon as they propagate. **No action needed on
+your side.**
+
+### "Featured Event" setting moved to the Home page
+
+The optional **Featured Event** override — which pins one market as the
+one spotlighted on the home page — has moved in Studio from **Site
+Settings** to the **Homepage** document (under the Hero group), where it
+sits more logically alongside the other home-page hero settings. It works
+exactly as before: leave it blank and the site automatically features the
+soonest upcoming market; set it only to spotlight a market out of order.
+If you'd previously set it in Site Settings, re-select it on the Homepage
+(it doesn't carry across automatically).
+
+---
+
+## Saturday, 22 August 2026 — Countdown toggle + tickets/apply funnel
+
+Three changes from your latest note.
+
+### 1. Countdown timer is now on/off per event
+
+Each event now has a **Show Countdown Timer** switch in Studio (on the
+event, just under the date). It's **off by default** — so a new event
+won't show a countdown unless you turn it on. When on, the live countdown
+appears on the home page hero and that event's page; when off, neither
+shows it. No more countdown appearing when you don't want it.
+
+### 2. "Buy Tickets" now sends people to the events page first
+
+Previously the **Buy Tickets** buttons (home page hero and the top menu)
+opened the ticketing checkout for one specific event. Now they link to
+the **Events page** (`/events`), where the visitor picks which market
+they want and buys tickets for that specific event from its page. This
+works better now that there can be several markets on the calendar at
+once. (The actual checkout still opens on the individual event's page.)
+
+The top-menu Buy Tickets button only appears when there's an upcoming
+market, so it's never a dead end.
+
+### 3. "Apply as Stallholder" on the home page also goes to the events page
+
+Same idea for the home page **Apply as Stallholder** button — it now
+sends people to the **Events page** to choose which market they'd like to
+apply for, rather than straight to one form. (The Stallholders page and
+each event's page still have their own apply buttons.)
+
+---
+
 ## Saturday, 27 June 2026 — Custom 404 page
 
 If a visitor hits a broken URL (typo, expired link, dead bookmark), they

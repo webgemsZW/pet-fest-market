@@ -18,9 +18,11 @@ const EVENT_PROJECTION = `
   eventName,
   "slug": slug.current,
   eventDate,
+  showCountdown,
   doorsOpenTime,
   eventEndTime,
   timezone,
+  city,
   location,
   blurb,
   image,
@@ -31,7 +33,8 @@ const EVENT_PROJECTION = `
 `;
 
 // ------------------------------------------------------------------
-// Site Settings (singleton) — global content + currentEvent reference
+// Site Settings (singleton) — global content. The Featured Event pointer
+// lives on the Homepage document (see homepageQuery), not here.
 // ------------------------------------------------------------------
 export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   siteName,
@@ -56,8 +59,7 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
     termsPdf{ asset->{ url } },
     privacyPdf{ asset->{ url } },
     codeOfConductPdf{ asset->{ url } }
-  },
-  currentEvent->{${EVENT_PROJECTION}}
+  }
 }`;
 
 // ------------------------------------------------------------------

@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 };
 
 /*
-  /events lists every market. The prominent "featured" event is resolved
-  self-healingly at request time (see get-events.ts → getEventsView): it
-  honours the Studio "Featured Event" override while that event is still
-  upcoming, otherwise it auto-advances to the soonest future market. Past
-  markets appear in a muted "Previous markets" strip once any exist.
+  /events lists every market. All UPCOMING markets are shown as equal hero
+  cards under one "Upcoming Markets" heading, ordered soonest first (no
+  singled-out "next market"). Past markets appear in a muted "Previous
+  markets" strip once any exist. The home page still spotlights the featured
+  event separately — that's unaffected by this page.
 */
 export default function EventsPage() {
   return (
@@ -55,8 +55,9 @@ export default function EventsPage() {
 }
 
 async function EventsList() {
-  const { featured, upcoming, past } = await getEventsView();
-  const hasAnything = Boolean(featured) || upcoming.length > 0 || past.length > 0;
+  const { upcoming: upcomingAll, past } = await getEventsView();
+
+  const hasAnything = upcomingAll.length > 0 || past.length > 0;
 
   if (!hasAnything) {
     return (
@@ -73,20 +74,13 @@ async function EventsList() {
 
   return (
     <div className="space-y-16">
-      {/* Featured / next market */}
-      {featured && (
+      {/* Upcoming markets — every market as an equal hero card, soonest first. */}
+      {upcomingAll.length > 0 && (
         <div>
-          <EventCard event={featured} variant="featured" />
-        </div>
-      )}
-
-      {/* Other upcoming markets */}
-      {upcoming.length > 0 && (
-        <div>
-          <SectionHeading title="More upcoming markets" />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {upcoming.map((event) => (
-              <EventCard key={event._id} event={event} variant="compact" />
+          <SectionHeading title="Upcoming Markets" />
+          <div className="space-y-8">
+            {upcomingAll.map((event) => (
+              <EventCard key={event._id} event={event} variant="featured" />
             ))}
           </div>
         </div>
@@ -112,13 +106,10 @@ async function EventsList() {
 
 function EventsListSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="h-64 animate-pulse rounded-3xl bg-gray-100" />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="h-72 animate-pulse rounded-2xl bg-gray-100" />
-        ))}
-      </div>
+    <div className="space-y-8">
+      {[0, 1].map((i) => (
+        <div key={i} className="h-64 animate-pulse rounded-3xl bg-gray-100" />
+      ))}
     </div>
   );
 }

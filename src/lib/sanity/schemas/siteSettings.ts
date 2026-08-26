@@ -18,7 +18,6 @@ export const siteSettings = defineType({
     { name: "social", title: "Social & Mailing list" },
     { name: "branding", title: "Branding" },
     { name: "policies", title: "Policy Documents" },
-    { name: "event", title: "Current Event" },
   ],
   fields: [
     // General -----------------------------------------------------------
@@ -159,17 +158,6 @@ export const siteSettings = defineType({
           options: { accept: "application/pdf" },
         }),
       ],
-    }),
-
-    // Current event ----------------------------------------------------
-    defineField({
-      name: "currentEvent",
-      title: "Featured Event (optional override)",
-      type: "reference",
-      group: "event",
-      description:
-        "Optional. Pin a specific event as the prominent one across the site. Leave this blank and the site automatically features the soonest upcoming market (and rolls forward on its own once an event passes). Only set this if you want to spotlight an event out of date order — and note it is ignored once the event it points at is in the past.",
-      to: [{ type: "event" }],
     }),
   ],
 });

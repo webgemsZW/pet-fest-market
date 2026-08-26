@@ -1,13 +1,12 @@
 import { connection } from "next/server";
 import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
-import { getSiteSettings, type CurrentEvent } from "./get-site-settings";
+import { type CurrentEvent } from "./get-site-settings";
 import { allEventsQuery, eventBySlugQuery } from "./queries";
 
 /**
- * A single event document. Same shape as the `currentEvent` projection on
- * Site Settings — kept as one type so every event surface (hero, listing,
- * detail page, structured data) agrees on the fields.
+ * A single event document. Shared shape so every event surface (hero,
+ * listing, detail page, structured data) agrees on the fields.
  */
 export type EventDoc = CurrentEvent;
 
@@ -56,13 +55,7 @@ export async function getEventBySlug(slug: string): Promise<EventDoc | null> {
 }
 
 export interface EventsView {
-  /**
-   * The prominent (always UPCOMING) event shown in the hero and at the top
-   * of /events. Null when no upcoming events exist — callers fall back to
-   * their own defaults (e.g. the hero's hardcoded Box Hill placeholder).
-   */
-  featured: EventDoc | null;
-  /** Remaining upcoming events (excludes `featured`), soonest first. */
+  /** Upcoming events, soonest first. */
   upcoming: EventDoc[];
   /** Past events, most recent first. */
   past: EventDoc[];
@@ -72,47 +65,40 @@ export interface EventsView {
 
 const eventTime = (e: EventDoc): number => new Date(e.eventDate).getTime();
 
+function splitByTime(all: EventDoc[], now: number): EventsView {
+  const isUpcoming = (e: EventDoc) => eventTime(e) >= now;
+  return {
+    upcoming: all.filter(isUpcoming), // already sorted ascending
+    past: all.filter((e) => !isUpcoming(e)).reverse(), // most recent first
+    all,
+  };
+}
+
 /**
- * Resolve the request-time view of all events.
- *
- * `await connection()` opts this into DYNAMIC rendering so `Date.now()`
- * reflects the actual request time (not build time) — this is what makes
- * the featured event "self-healing": once a market's date passes, the
- * site rolls forward to the next one automatically, with no publish and
- * no manual pointer change.
- *
- * Featured-event rule:
- *   1. If `siteSettings.currentEvent` is set AND still upcoming → use it
- *      (lets an editor spotlight an event out of date order).
- *   2. Otherwise → the soonest upcoming event.
- *   3. If nothing is upcoming → null (the hero shows its own fallback and
- *      /events shows only the past-markets list).
+ * Request-time view of all events, split into upcoming / past. `await
+ * connection()` opts this into DYNAMIC rendering so the split reflects the
+ * actual request time (Cache Components forbids reading `now` while cached).
  */
 export async function getEventsView(): Promise<EventsView> {
   await connection();
-
-  const [settings, all] = await Promise.all([getSiteSettings(), getAllEvents()]);
-  const now = Date.now();
-  const isUpcoming = (e: EventDoc) => eventTime(e) >= now;
-
-  const upcomingAll = all.filter(isUpcoming); // already sorted ascending
-  const pointer = settings?.currentEvent?._id
-    ? all.find((e) => e._id === settings.currentEvent!._id) ?? null
-    : null;
-
-  // Featured is always an upcoming event (or null): the pinned override
-  // while it's still upcoming, otherwise the soonest upcoming market.
-  const featured = pointer && isUpcoming(pointer) ? pointer : upcomingAll[0] ?? null;
-
-  const upcoming = upcomingAll.filter((e) => e._id !== featured?._id);
-  const past = all.filter((e) => !isUpcoming(e)).reverse(); // most recent first
-
-  return { featured, upcoming, past, all };
+  return splitByTime(await getAllEvents(), Date.now());
 }
 
-/** Convenience: just the prominent event (self-healing). */
-export async function getFeaturedEvent(): Promise<EventDoc | null> {
-  return (await getEventsView()).featured;
+/**
+ * Same as getEventsView but filtered to one city (matched case-insensitively
+ * against the event `city` field). `hasCityEvents` is whether ANY event
+ * (past or upcoming) exists for the city — used to tell "no markets yet" from
+ * "only past markets".
+ */
+export async function getCityEventsView(
+  city: string,
+): Promise<EventsView & { hasCityEvents: boolean }> {
+  await connection();
+  const target = city.trim().toLowerCase();
+  const cityEvents = (await getAllEvents()).filter(
+    (e) => (e.city ?? "").trim().toLowerCase() === target,
+  );
+  return { ...splitByTime(cityEvents, Date.now()), hasCityEvents: cityEvents.length > 0 };
 }
 
 /**

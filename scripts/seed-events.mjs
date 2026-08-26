@@ -103,6 +103,7 @@ const events = [
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
     timezone: "Australia/Melbourne",
+    city: "Melbourne",
     location: "Box Hill Town Hall, VIC",
   },
   {
@@ -114,6 +115,7 @@ const events = [
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
     timezone: "Australia/Brisbane",
+    city: "Brisbane",
     location: "Disterrly Road Market, QLD",
   },
   {
@@ -125,6 +127,7 @@ const events = [
     doorsOpenTime: "10am",
     eventEndTime: "3pm",
     timezone: "Australia/Melbourne",
+    city: "Melbourne",
     location: "Morris Moore, Cheltenham, VIC",
   },
 ];
