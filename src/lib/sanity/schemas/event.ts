@@ -129,7 +129,7 @@ export const event = defineType({
       title: "Humanitix Ticket URL",
       type: "url",
       description:
-        "Powers the 'Buy Tickets' button. When set, tickets open in a pop-up checkout over the site (no page change); if the pop-up can't load, the button falls back to opening this link. Where to get it: in Humanitix, open your event → Advanced → Embedded widgets → Create embedded button → 'Add to site', then copy the button URL it gives you in Step 2 and paste it here. The event must be published on Humanitix for the pop-up to work.",
+        "Powers the 'Buy Tickets' button — tickets open in a pop-up over the site. Just paste your event's Humanitix link (e.g. https://events.humanitix.com/your-event); the site automatically formats it for the pop-up, so the exact shape of the link you paste doesn't matter. The event must be published on Humanitix. Leave blank to show 'Tickets coming soon'.",
     }),
     defineField({
       name: "applyUrl",
