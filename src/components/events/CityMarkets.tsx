@@ -3,8 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Button } from "@/components/ui/button";
 import { EventCard } from "@/components/events/EventCard";
+import { CityFilter } from "@/components/events/CityFilter";
 import { MailingListForm } from "@/components/sections/MailingListForm";
 import { getCityEventsView } from "@/lib/sanity/get-events";
 import type { City } from "@/lib/cities";
@@ -42,26 +42,19 @@ export async function CityMarkets({ city }: { city: City }) {
       </section>
 
       <SectionWrapper>
-        {upcoming.length > 0 ? (
-          <>
-            {/* Upcoming markets in this city */}
-            <div>
-              <SectionHeading title="Upcoming Markets" />
-              <div className="space-y-8">
-                {upcoming.map((event) => (
-                  <EventCard key={event._id} event={event} variant="featured" />
-                ))}
-              </div>
-            </div>
+        {/* City filter — switch cities (or back to all) without the home page. */}
+        <CityFilter active={city} />
 
-            {/* Stallholder CTA — only when there are markets to apply for. */}
-            <div className="mt-16 text-center">
-              <p className="mb-4 text-gray-600">Want a stall at one of our markets?</p>
-              <Button asChild size="lg">
-                <Link href="/stall-holders">Apply as a Stallholder</Link>
-              </Button>
+        {upcoming.length > 0 ? (
+          /* Upcoming markets in this city */
+          <div>
+            <SectionHeading title="Upcoming Markets" />
+            <div className="space-y-8">
+              {upcoming.map((event) => (
+                <EventCard key={event._id} event={event} variant="featured" />
+              ))}
             </div>
-          </>
+          </div>
         ) : (
           /* No upcoming markets → urge the visitor to subscribe for updates
              (no Stallholder CTA, since there's nothing to apply for yet). */

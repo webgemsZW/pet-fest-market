@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Link from "next/link";
 import { CalendarDays } from "lucide-react";
 import { getEventsView } from "@/lib/sanity/get-events";
 import { EventCard } from "@/components/events/EventCard";
+import { CityFilter } from "@/components/events/CityFilter";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Markets",
@@ -36,19 +35,14 @@ export default function EventsPage() {
       </section>
 
       <SectionWrapper>
+        {/* City filter — jump straight to a city's markets without the home page. */}
+        <CityFilter active="all" />
+
         {/* The market list is resolved at request time (self-healing), so
             it streams in behind a skeleton per Cache Components. */}
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList />
         </Suspense>
-
-        {/* Stallholder CTA (static) */}
-        <div className="mt-16 text-center">
-          <p className="mb-4 text-gray-600">Want a stall at one of our markets?</p>
-          <Button asChild size="lg">
-            <Link href="/stall-holders">Apply as a Stallholder</Link>
-          </Button>
-        </div>
       </SectionWrapper>
     </>
   );
