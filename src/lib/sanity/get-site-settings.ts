@@ -20,6 +20,7 @@ export interface CurrentEvent {
   doorsOpenTime?: string | null;
   eventEndTime?: string | null;
   timezone?: string | null;
+  city?: string | null;
   location: string;
   blurb?: string | null;
   image?: SanityImage | null;

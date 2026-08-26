@@ -105,15 +105,10 @@ async function UpcomingMarkets({
   applyLabel: string;
   upcomingHeading: string;
 }) {
-  const { featured, upcoming } = await getEventsView();
+  const { upcoming } = await getEventsView();
 
-  // Every upcoming market (featured first), so Stallholders can apply for
-  // future events too. `featured` can be a past event when nothing is
-  // upcoming — filter it out here so only genuinely upcoming markets show.
-  const now = Date.now();
-  const markets = [featured, ...upcoming]
-    .filter((e): e is EventDoc => Boolean(e))
-    .filter((e) => new Date(e.eventDate).getTime() >= now);
+  // Every upcoming market, so Stallholders can apply for future events too.
+  const markets: EventDoc[] = upcoming;
 
   // No upcoming markets → single default apply button (always works).
   if (markets.length === 0) {

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllEvents } from "@/lib/sanity/get-events";
+import { getAllEvents, getCitiesWithEvents } from "@/lib/sanity/get-events";
+import { citySlug } from "@/lib/cities";
 
 /**
  * Sitemap for search engines. Generated automatically at /sitemap.xml.
@@ -22,7 +23,14 @@ import { getAllEvents } from "@/lib/sanity/get-events";
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const events = await getAllEvents();
+  const [events, cities] = await Promise.all([getAllEvents(), getCitiesWithEvents()]);
+
+  const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({
+    url: `${SITE_URL}/events/${citySlug(city)}`,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   const eventRoutes: MetadataRoute.Sitemap = events
     .filter((e) => e.slug)
     .map((e) => ({
@@ -62,6 +70,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    ...cityRoutes,
     ...eventRoutes,
   ];
 }

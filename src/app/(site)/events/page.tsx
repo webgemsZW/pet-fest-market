@@ -55,14 +55,7 @@ export default function EventsPage() {
 }
 
 async function EventsList() {
-  const { featured, upcoming, past } = await getEventsView();
-
-  // All upcoming markets as one chronological list (soonest first). `featured`
-  // is an upcoming event (or null); merge it back in and sort by date so a
-  // pinned-out-of-order featured event still lands in its correct slot.
-  const upcomingAll = [featured, ...upcoming]
-    .filter((e): e is NonNullable<typeof e> => Boolean(e))
-    .sort((a, b) => +new Date(a.eventDate) - +new Date(b.eventDate));
+  const { upcoming: upcomingAll, past } = await getEventsView();
 
   const hasAnything = upcomingAll.length > 0 || past.length > 0;
 

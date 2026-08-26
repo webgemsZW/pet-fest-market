@@ -22,6 +22,7 @@ const EVENT_PROJECTION = `
   doorsOpenTime,
   eventEndTime,
   timezone,
+  city,
   location,
   blurb,
   image,
@@ -79,8 +80,8 @@ export const allEventsQuery = `*[_type == "event" && defined(eventDate)] | order
 // Page singletons
 // ------------------------------------------------------------------
 export const homepageQuery = `*[_id == "homepage"][0]{
-  featuredEvent->{${EVENT_PROJECTION}},
   heroEyebrow,
+  citiesHeading,
   heroSubheading,
   heroImage,
   heroApplyLabel,

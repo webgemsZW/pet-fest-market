@@ -8,26 +8,26 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
 import { EventImage } from "@/components/events/EventImage";
+import { CityMarkets, CityMarketsSkeleton } from "@/components/events/CityMarkets";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev, eventPhase, resolveEventEndMs } from "@/lib/format-event-date";
 import { pageMetadata } from "@/lib/seo";
+import { cityFromSlug } from "@/lib/cities";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
 type Params = { slug: string };
 
-// No generateStaticParams: event detail pages render dynamically at
-// request time (they read the current time to decide whether Stallholder
-// applications are still open), and Cache Components requires
-// generateStaticParams to be non-empty — which this repo can't guarantee,
-// since it must build with zero Sanity events.
+// This single dynamic segment serves TWO kinds of URL:
+//   /events/<city>  (e.g. /events/melbourne)  → the city's markets listing
+//   /events/<slug>  (e.g. /events/box-hill-…) → an individual event page
+// We branch on whether the slug matches a known city. (One segment because
+// Next can't have two dynamic children at the same path level.)
 //
-// Consequence: because `params` is request-time (uncached) data under
-// Cache Components, the whole page lives inside a Suspense boundary, so an
-// unknown slug is a streamed "soft 404" (200 status + the not-found UI)
-// rather than a hard 404. That's fine for real (linked) event URLs. To
-// upgrade to a hard 404 later, add generateStaticParams returning the
-// published event slugs — safe once the production dataset always has
-// at least one event at build time.
+// No generateStaticParams: both render dynamically (they read the current
+// time), and Cache Components requires generateStaticParams to be non-empty,
+// which this repo can't guarantee (it must build with zero Sanity events).
+// `params` is request-time data, so content lives inside a Suspense
+// boundary; an unknown event slug is therefore a streamed "soft 404".
 
 export async function generateMetadata({
   params,
@@ -35,6 +35,15 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
+
+  const city = cityFromSlug(slug);
+  if (city) {
+    return pageMetadata({
+      fallbackTitle: `PetFest Markets in ${city}`,
+      fallbackDescription: `Upcoming and past PetFest Markets in and around ${city} — a community market for pet lovers.`,
+    });
+  }
+
   const event = await getEventBySlug(slug);
   if (!event) return { title: "Market" };
 
@@ -47,33 +56,23 @@ export async function generateMetadata({
   });
 }
 
-export default function EventDetailPage({ params }: { params: Promise<Params> }) {
-  // `params` is request-time data under Cache Components, so the content
-  // (which reads it) must sit inside a Suspense boundary.
+export default function EventsSlugPage({ params }: { params: Promise<Params> }) {
+  // `params` is request-time data under Cache Components, so reading it (to
+  // branch city-vs-event) must happen inside the Suspense boundary.
   return (
-    <Suspense fallback={<EventDetailSkeleton />}>
-      <EventDetail params={params} />
+    <Suspense fallback={<CityMarketsSkeleton />}>
+      <SlugRouter params={params} />
     </Suspense>
   );
 }
 
-function EventDetailSkeleton() {
-  return (
-    <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <div className="h-6 w-32 animate-pulse rounded bg-white/60" />
-        <div className="mt-6 h-12 w-2/3 animate-pulse rounded bg-white/60" />
-        <div className="mt-8 flex gap-4">
-          <div className="h-9 w-40 animate-pulse rounded-full bg-white/60" />
-          <div className="h-9 w-32 animate-pulse rounded-full bg-white/60" />
-        </div>
-      </div>
-    </section>
-  );
+async function SlugRouter({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
+  const city = cityFromSlug(slug);
+  return city ? <CityMarkets city={city} /> : <EventDetail slug={slug} />;
 }
 
-async function EventDetail({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
+async function EventDetail({ slug }: { slug: string }) {
   const event = await getEventBySlug(slug);
   if (!event) notFound();
 

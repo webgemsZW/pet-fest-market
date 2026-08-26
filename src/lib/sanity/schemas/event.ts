@@ -1,14 +1,14 @@
 import { defineType, defineField } from "sanity";
+import { CITY_OPTIONS } from "../../cities";
 
 /**
  * An event run by PetFest Market.
  *
  * This is a COLLECTION (not a singleton) so the site can host many events
- * over time. As of the multi-event build the site now renders:
- *   - a prominent "featured" event (see get-events.ts → getFeaturedEvent,
- *     which honours `homepage.featuredEvent` while it is still upcoming
- *     and otherwise auto-advances to the soonest future event),
- *   - an `/events` listing of every upcoming market, and
+ * over time. The site renders:
+ *   - homepage city badges (grouped by the `city` field),
+ *   - a per-city listing at `/events/<city>`,
+ *   - an `/events` listing of every market, and
  *   - a per-event detail page at `/events/<slug>`.
  *
  * Adding a market is therefore just "create a document" — no code change.
@@ -86,10 +86,19 @@ export const event = defineType({
       initialValue: "Australia/Melbourne",
     }),
     defineField({
+      name: "city",
+      title: "City",
+      type: "string",
+      description:
+        "Which city this market belongs to. Drives the homepage city badges and the /events/<city> pages. Pick the nearest listed metro.",
+      options: { list: CITY_OPTIONS, layout: "dropdown" },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: "location",
       title: "Location",
       type: "string",
-      description: "Venue name and city, e.g. 'Box Hill Town Hall, VIC'.",
+      description: "Venue name and area, e.g. 'Box Hill Town Hall, VIC'.",
       validation: (r) => r.required(),
     }),
     defineField({
