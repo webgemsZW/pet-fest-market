@@ -3,7 +3,6 @@ import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { type CurrentEvent } from "./get-site-settings";
 import { allEventsQuery, eventBySlugQuery } from "./queries";
-import { orderedCitiesWithEvents, type City } from "@/lib/cities";
 
 /**
  * A single event document. Shared shape so every event surface (hero,
@@ -100,16 +99,6 @@ export async function getCityEventsView(
     (e) => (e.city ?? "").trim().toLowerCase() === target,
   );
   return { ...splitByTime(cityEvents, Date.now()), hasCityEvents: cityEvents.length > 0 };
-}
-
-/**
- * The known cities that currently have at least one event (any date), in
- * canonical display order — powers the homepage badges. Date-agnostic, so it
- * stays cacheable (no `connection()`), keeping the homepage static.
- */
-export async function getCitiesWithEvents(): Promise<City[]> {
-  const all = await getAllEvents();
-  return orderedCitiesWithEvents(all.map((e) => e.city));
 }
 
 /**

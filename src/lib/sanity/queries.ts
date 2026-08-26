@@ -81,7 +81,6 @@ export const allEventsQuery = `*[_type == "event" && defined(eventDate)] | order
 // ------------------------------------------------------------------
 export const homepageQuery = `*[_id == "homepage"][0]{
   heroEyebrow,
-  citiesHeading,
   heroSubheading,
   heroImage,
   heroApplyLabel,

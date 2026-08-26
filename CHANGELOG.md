@@ -5,6 +5,48 @@ cross-check what's been done.
 
 ---
 
+## Wednesday, 26 August 2026 — City-first homepage
+
+Reworked how visitors find a market, per our chat: the site is now
+organised **by city** rather than around one headline event.
+
+### Homepage is now a directory of cities
+
+The home page no longer spotlights a single event (no featured event, no
+countdown, no event date up top). Instead the hero shows **city badges** —
+one per city (**Melbourne**, then **Brisbane**) — and clicking a city
+takes you to that city's markets. Both badges always show, whether or not
+that city has markets scheduled yet.
+
+### New per-city pages
+
+Each city has its own page at `/events/<city>` (e.g. `/events/melbourne`)
+listing that city's **upcoming** markets, with **previous** markets kept
+below (PetFest's track record is worth showing). If a city has no upcoming
+markets yet, the page invites the visitor to **subscribe for updates**
+(with the sign-up form right there) instead of showing an apply button.
+
+### New "City" setting on each event
+
+Every event now has a **City** dropdown in Studio (Melbourne / Brisbane).
+It's **required** — please set it on each event; it's what
+places the event under the right city badge and city page. (Your existing
+events will show a reminder until their city is set.)
+
+### Button changes
+
+- **Buy Tickets** (home + top menu) → the Events page, to pick a market.
+- **Apply as Stallholder** (home + top menu) → the **Stallholders** page.
+
+### Behind the scenes
+
+- The old **Featured Event** override has been removed (the homepage no
+  longer features a single event).
+- The home page is now fully static again, so it loads a touch faster.
+- City pages are included in the sitemap for search engines.
+
+---
+
 ## Monday, 24 August 2026 — Events page tidy-up + publishing fix
 
 A follow-up batch after the changes below.

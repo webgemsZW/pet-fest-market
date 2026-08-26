@@ -4,7 +4,7 @@
  * /events/<city> landing pages. The array order is the display order
  * (Melbourne, Brisbane, Adelaide). Add a city here to extend the site.
  */
-export const CITIES = ["Melbourne", "Brisbane", "Adelaide"] as const;
+export const CITIES = ["Melbourne", "Brisbane"] as const;
 
 export type City = (typeof CITIES)[number];
 
@@ -21,12 +21,3 @@ export function cityFromSlug(slug: string): City | null {
 
 /** The Sanity dropdown options for the event `city` field. */
 export const CITY_OPTIONS = CITIES.map((c) => ({ title: c, value: c }));
-
-/**
- * Given every event's city, return the known cities that have at least one
- * event, in canonical display order. Unknown/blank values are ignored.
- */
-export function orderedCitiesWithEvents(eventCities: Array<string | null | undefined>): City[] {
-  const present = new Set(eventCities.filter(Boolean).map((c) => (c as string).trim()));
-  return CITIES.filter((c) => present.has(c));
-}

@@ -10,7 +10,6 @@ export interface WhatToExpectCard {
 
 export interface Homepage {
   heroEyebrow?: string | null;
-  citiesHeading?: string | null;
   heroSubheading?: string | null;
   heroImage?: {
     asset?: { _ref?: string };

@@ -93,7 +93,7 @@ export function Header({ events = [] }: { events?: NavEvent[] }) {
             </Button>
           )}
           <Button asChild size="sm" variant="secondary">
-            <Link href="/events">Apply as Stallholder</Link>
+            <Link href="/stall-holders">Apply as Stallholder</Link>
           </Button>
         </nav>
 
@@ -131,7 +131,7 @@ export function Header({ events = [] }: { events?: NavEvent[] }) {
                 </Button>
               )}
               <Button asChild className="w-full" variant="secondary">
-                <Link href="/events" onClick={() => setMenuOpen(false)}>
+                <Link href="/stall-holders" onClick={() => setMenuOpen(false)}>
                   Apply as Stallholder
                 </Link>
               </Button>

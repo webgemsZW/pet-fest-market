@@ -27,14 +27,6 @@ export const homepage = defineType({
       description: "Small pill of text shown above the logo. Keep under ~40 characters.",
     }),
     defineField({
-      name: "citiesHeading",
-      title: "Cities Heading",
-      type: "string",
-      group: "hero",
-      description:
-        "Short line shown above the city badges on the home page. Defaults to 'Find a market near you'.",
-    }),
-    defineField({
       name: "heroSubheading",
       title: "Hero Subtitle",
       type: "text",
