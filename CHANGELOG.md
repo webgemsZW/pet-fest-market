@@ -5,6 +5,25 @@ cross-check what's been done.
 
 ---
 
+## Wednesday, 26 August 2026 — City filter on the markets pages
+
+Added a row of city filter chips to the top of the Events page and each
+city page — **All Markets · Melbourne · Brisbane**. Visitors can jump
+straight between a city's markets (or back to all markets) without
+returning to the home page. The chip for the page you're on is
+highlighted, and each chip is a normal link, so the URLs stay shareable.
+
+---
+
+## Wednesday, 26 August 2026 — Remove Stallholder prompt from market lists
+
+Removed the "Want a stall at one of our markets?" prompt and its **Apply
+as a Stallholder** button from the bottom of the Events page and the
+per-city pages. Stallholder applications are still reachable from the top
+menu and the home page (both link to the Stallholders page).
+
+---
+
 ## Wednesday, 26 August 2026 — City-first homepage
 
 Reworked how visitors find a market, per our chat: the site is now
