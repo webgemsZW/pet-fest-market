@@ -44,7 +44,6 @@ export interface SiteSettings {
     tiktok?: string | null;
     twitter?: string | null;
   } | null;
-  mailingListUrl?: string | null;
   nonconformityCredit?: {
     text?: string | null;
     logo?: {

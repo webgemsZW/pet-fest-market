@@ -18,7 +18,6 @@ export interface Homepage {
   heroApplyLabel?: string | null;
   heroUpdatesLabel?: string | null;
   heroTicketLabel?: string | null;
-  heroTicketComingSoonLabel?: string | null;
   whatToExpectHeading?: string | null;
   whatToExpectSubtitle?: string | null;
   whatToExpectCards?: WhatToExpectCard[] | null;

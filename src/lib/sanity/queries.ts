@@ -50,7 +50,6 @@ export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
     tiktok,
     twitter
   },
-  mailingListUrl,
   nonconformityCredit{
     text,
     logo
@@ -86,7 +85,6 @@ export const homepageQuery = `*[_id == "homepage"][0]{
   heroApplyLabel,
   heroUpdatesLabel,
   heroTicketLabel,
-  heroTicketComingSoonLabel,
   whatToExpectHeading,
   whatToExpectSubtitle,
   whatToExpectCards[]{

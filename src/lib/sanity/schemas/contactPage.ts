@@ -28,7 +28,7 @@ export const contactPage = defineType({
       name: "detailsHeading",
       title: "Contact Details Heading",
       type: "string",
-      description: "Heading above the email / phone / location block. Defaults to 'Contact Details'.",
+      description: "Heading above the email / phone / postal address block. Defaults to 'Contact Details'.",
     }),
     defineField({
       name: "followHeading",

@@ -49,28 +49,22 @@ export const homepage = defineType({
       title: "Hero — Apply Button Label",
       type: "string",
       group: "hero",
-      description: "Text on the primary hero button. Defaults to 'Apply as Stallholder'.",
+      description:
+        "Text on the 'Apply as Stallholder' button in the hero (links to the Stallholders page). Defaults to 'Apply as Stallholder'.",
     }),
     defineField({
       name: "heroUpdatesLabel",
       title: "Hero — Updates Button Label",
       type: "string",
       group: "hero",
-      description: "Text on the secondary hero button that jumps to the sign-up form. Defaults to 'Get Event Updates'.",
+      description: "Text on the hero button that jumps to the sign-up form. Defaults to 'Get Event Updates'.",
     }),
     defineField({
       name: "heroTicketLabel",
-      title: "Hero — Tickets Pill (on sale)",
+      title: "Hero — Buy Tickets Button Label",
       type: "string",
       group: "hero",
-      description: "Label on the tickets pill once a ticket link is set on the event. Defaults to 'Buy Tickets'.",
-    }),
-    defineField({
-      name: "heroTicketComingSoonLabel",
-      title: "Hero — Tickets Pill (coming soon)",
-      type: "string",
-      group: "hero",
-      description: "Label on the tickets pill before a ticket link is set. Defaults to 'Tickets coming soon'.",
+      description: "Text on the 'Buy Tickets' button in the hero (links to the Events page). Defaults to 'Buy Tickets'.",
     }),
 
     // ── What to Expect ─────────────────────────────────────────────
@@ -129,7 +123,7 @@ export const homepage = defineType({
       title: "FAQ Section Heading",
       type: "string",
       group: "faq",
-      description: "Defaults to 'Common Questions'.",
+      description: "Defaults to 'Frequently Asked Questions'.",
     }),
     defineField({
       name: "faqPreviewSubtitle",
