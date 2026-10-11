@@ -30,6 +30,15 @@ nonconformity-site-spec.md
 nonconformity-quote.md
 *-quote.md
 *-estimate.md
+*-spec.md
+# invoices (contain business/financial details)
+Invoice*.pdf
+Invoice*.html
+*-invoice.md
+*-invoice.html
+*.dc.html
+# design-canvas working drafts (invoices, etc.)
+/.design-drafts/
 
 # debug
 npm-debug.log*
