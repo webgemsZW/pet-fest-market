@@ -101,7 +101,7 @@ async function EventDetail({ slug }: { slug: string }) {
 
   return (
     <>
-      <EventStructuredData event={event} />
+      <EventStructuredData event={event} finished={phase === "finished"} />
 
       {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
