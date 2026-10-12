@@ -15,7 +15,7 @@ import type { MetadataRoute } from "next";
  * NOT blocked — letting legal docs be indexed is normal practice.
  */
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
+import { SITE_URL } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -5,6 +5,33 @@ cross-check what's been done.
 
 ---
 
+## Thursday, 27 August 2026 — Studio wording tidy-up
+
+Housekeeping in the back-office (Studio) — no change to the live site.
+
+- Corrected the help text under several fields so it matches how the site
+  works now after the city-based redesign (e.g. the event **Show
+  Countdown Timer**, **Event Date**, and the home-page button labels no
+  longer mention things that have moved or gone).
+- Removed the unused **Mailing List Sign-up URL** field from Site
+  Settings. It wasn't connected to anything — the newsletter sign-up
+  forms already work via their own setup — so it was only there to
+  confuse. The sign-up forms are unaffected.
+
+> **Note for future development.** Removing a field from the schema does
+> NOT erase its stored value in Sanity — the data stays behind as an
+> "orphaned" value (this is what causes the "Unknown field found" warning
+> in Studio). If a field with the **same name and type** is ever
+> re-introduced later, that old value will **resurface unexpectedly**.
+> This applies to every field we've removed or moved (`mailingListUrl`,
+> `featuredEvent`/`currentEvent`, `heroTicketComingSoonLabel`,
+> `citiesHeading`, `ticketWidgetId`). To avoid surprises when
+> re-introducing one: either re-add it under a **new field name**, or
+> first clear the old value from the affected documents (a small data
+> migration).
+
+---
+
 ## Wednesday, 26 August 2026 — City filter on the markets pages
 
 Added a row of city filter chips to the top of the Events page and each

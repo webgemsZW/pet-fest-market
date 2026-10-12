@@ -96,15 +96,6 @@ export const siteSettings = defineType({
         defineField({ name: "twitter", title: "Twitter / X URL", type: "url" }),
       ],
     }),
-    defineField({
-      name: "mailingListUrl",
-      title: "Mailing List Sign-up URL",
-      type: "url",
-      group: "social",
-      description:
-        "External form URL (e.g. MailChimp hosted form). Used by the newsletter sign-up forms in the footer and on the home page.",
-    }),
-
     // Branding ---------------------------------------------------------
     defineField({
       name: "nonconformityCredit",

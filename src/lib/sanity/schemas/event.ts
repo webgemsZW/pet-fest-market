@@ -22,7 +22,8 @@ export const event = defineType({
       name: "eventName",
       title: "Event Name",
       type: "string",
-      description: "Internal name for the event, e.g. 'Box Hill Town Hall 2026'.",
+      description:
+        "The event's name, shown publicly as its title on event cards and the event page. E.g. 'Box Hill Town Hall 2026'.",
       validation: (r) => r.required(),
     }),
     defineField({
@@ -42,7 +43,7 @@ export const event = defineType({
       title: "Event Date & Start Time",
       type: "datetime",
       description:
-        "Full date and start time of the event. Powers the homepage countdown and the date pill in the hero.",
+        "Full date and start time of the event. Powers the countdown on the event's page, the dates shown on event listings, and whether the market shows as upcoming or past.",
       validation: (r) => r.required(),
     }),
     defineField({
@@ -50,7 +51,7 @@ export const event = defineType({
       title: "Show Countdown Timer",
       type: "boolean",
       description:
-        "Turn the live countdown to this event on or off (shown on the home page hero and the event page). Off by default.",
+        "Turn the live countdown to this event on or off (shown on the event's own page). Off by default.",
       initialValue: false,
     }),
     defineField({
@@ -129,14 +130,14 @@ export const event = defineType({
       title: "Humanitix Ticket URL",
       type: "url",
       description:
-        "Powers the 'Buy Tickets' button. When set, tickets open in a pop-up checkout over the site (no page change); if the pop-up can't load, the button falls back to opening this link. Where to get it: in Humanitix, open your event → Advanced → Embedded widgets → Create embedded button → 'Add to site', then copy the button URL it gives you in Step 2 and paste it here. The event must be published on Humanitix for the pop-up to work.",
+        "Powers the 'Buy Tickets' button — tickets open in a pop-up over the site. Just paste your event's Humanitix link (e.g. https://events.humanitix.com/your-event); the site automatically formats it for the pop-up, so the exact shape of the link you paste doesn't matter. The event must be published on Humanitix. Leave blank to show 'Tickets coming soon'.",
     }),
     defineField({
       name: "applyUrl",
       title: "Stallholder Application URL",
       type: "url",
       description:
-        "Google Form URL for Stallholder applications. When set, this event's 'Apply as Stallholder' buttons link here directly. Stallholders can apply for any upcoming market, not just the featured one.",
+        "Google Form URL for Stallholder applications. When set, this event's 'Apply as Stallholder' buttons link here directly. Stallholders can apply for any upcoming market.",
     }),
     defineField({
       name: "applyDeadline",

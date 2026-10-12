@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,22 +15,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const metadataBase = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3000"),
-);
+const metadataBase = new URL(SITE_URL);
 
 // Built-in fallbacks. The site name and description are now editable in
 // Studio (Site Settings → General → Site Name / Site Description); these
 // constants are used only when those fields are blank or Sanity is
-// unreachable. The only client-confirmed facts baked in are the venue,
-// date, and that all PetFest Markets are indoor.
+// unreachable. Deliberately event-agnostic (no venue, city or date) so search
+// results never go stale as markets pass — per-event details live on the
+// /events pages. Wording mirrors the home page hero subheading.
 const FALLBACK_SITE_NAME = "PetFest Market";
-const FALLBACK_TITLE = "PetFest Market — Box Hill, Victoria";
+const FALLBACK_TITLE = "PetFest Market — An Indoor Community Market for Pet Lovers";
 const FALLBACK_DESCRIPTION =
-  "PetFest Market — an indoor community market for pet lovers at Box Hill Town Hall, Victoria, on Sunday 26 July 2026.";
+  "PetFest Market — an indoor community market for pet lovers, celebrating local Stallholders, pet businesses and family fun.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -46,7 +43,11 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${siteName}`,
     },
     description,
-    keywords: ["pet market", "PetFest", "Box Hill", "Victoria", "community market", "pet lovers"],
+    // "./" resolves against each page's own path (e.g. /about →
+    // https://www.petfest.com.au/about), so every page self-canonicalises
+    // without having to set it individually.
+    alternates: { canonical: "./" },
+    keywords: ["pet market", "PetFest", "community market", "pet lovers"],
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },

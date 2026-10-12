@@ -1,4 +1,5 @@
 import { type EventDoc } from "@/lib/sanity/get-events";
+import { SITE_URL } from "@/lib/site-url";
 
 /**
  * Event structured data (JSON-LD).
@@ -26,9 +27,16 @@ import { type EventDoc } from "@/lib/sanity/get-events";
  *     image, since OG image is more likely to be a clean square crop.
  *     Can be swapped to event-specific imagery later if needed.
  */
-export function EventStructuredData({ event }: { event: EventDoc }) {
+export function EventStructuredData({
+  event,
+  finished = false,
+}: {
+  event: EventDoc;
+  /** True once the event has ended — suppresses the (now invalid) ticket Offer. */
+  finished?: boolean;
+}) {
 
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
+  const siteUrl = SITE_URL;
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -52,7 +60,10 @@ export function EventStructuredData({ event }: { event: EventDoc }) {
 
   // Add Offer block only when we have enough info for Google to honour it.
   // Per Google: an Offer requires url, price, priceCurrency, and validFrom.
-  if (event.ticketUrl && typeof event.ticketPrice === "number") {
+  // Skipped for finished events: tickets can't be bought, so "InStock" would
+  // be false. (schema.org has no "EventCompleted" status, so a past event
+  // keeps EventScheduled with its past startDate, which Google treats as past.)
+  if (!finished && event.ticketUrl && typeof event.ticketPrice === "number") {
     // validFrom: six months before the event start — deterministic from
     // the event date so this never depends on the current time (which
     // would break Cache Components mode).

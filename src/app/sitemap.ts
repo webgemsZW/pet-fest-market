@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllEvents } from "@/lib/sanity/get-events";
 import { CITIES, citySlug } from "@/lib/cities";
+import { SITE_URL } from "@/lib/site-url";
 
 /**
  * Sitemap for search engines. Generated automatically at /sitemap.xml.
@@ -19,8 +20,6 @@ import { CITIES, citySlug } from "@/lib/cities";
  *                              real sponsors are in Sanity and the
  *                              page is linked from the nav.
  */
-
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const events = await getAllEvents();

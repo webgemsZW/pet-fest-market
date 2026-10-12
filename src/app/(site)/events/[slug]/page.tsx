@@ -13,6 +13,7 @@ import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
 import { formatEventDate, formatTimeZoneAbbrev, eventPhase, resolveEventEndMs } from "@/lib/format-event-date";
 import { pageMetadata } from "@/lib/seo";
 import { cityFromSlug } from "@/lib/cities";
+import { toHumanitixPopupUrl } from "@/lib/humanitix";
 import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
 
 type Params = { slug: string };
@@ -80,7 +81,10 @@ async function EventDetail({ slug }: { slug: string }) {
   const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
   const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
   const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
-  const ticketUrl = event.ticketUrl?.trim() || null;
+  // Normalise whatever ticket link was entered into the pop-up-widget shape,
+  // so "Buy Tickets" opens the checkout as a modal regardless of the exact
+  // URL the editor pasted (see toHumanitixPopupUrl).
+  const ticketUrl = toHumanitixPopupUrl(event.ticketUrl);
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   // EventDetail already renders at request time (it awaits `params`), so
   // these time-based checks reflect "now" without needing connection().
@@ -97,7 +101,7 @@ async function EventDetail({ slug }: { slug: string }) {
 
   return (
     <>
-      <EventStructuredData event={event} />
+      <EventStructuredData event={event} finished={phase === "finished"} />
 
       {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
