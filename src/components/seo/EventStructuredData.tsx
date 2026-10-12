@@ -1,4 +1,5 @@
 import { type EventDoc } from "@/lib/sanity/get-events";
+import { SITE_URL } from "@/lib/site-url";
 
 /**
  * Event structured data (JSON-LD).
@@ -35,7 +36,7 @@ export function EventStructuredData({
   finished?: boolean;
 }) {
 
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://petfest.com.au").replace(/\/$/, "");
+  const siteUrl = SITE_URL;
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",

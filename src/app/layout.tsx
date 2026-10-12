@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { getSiteSettings } from "@/lib/sanity/get-site-settings";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,12 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const metadataBase = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3000"),
-);
+const metadataBase = new URL(SITE_URL);
 
 // Built-in fallbacks. The site name and description are now editable in
 // Studio (Site Settings → General → Site Name / Site Description); these
@@ -47,6 +43,10 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${siteName}`,
     },
     description,
+    // "./" resolves against each page's own path (e.g. /about →
+    // https://www.petfest.com.au/about), so every page self-canonicalises
+    // without having to set it individually.
+    alternates: { canonical: "./" },
     keywords: ["pet market", "PetFest", "community market", "pet lovers"],
     icons: {
       icon: [
