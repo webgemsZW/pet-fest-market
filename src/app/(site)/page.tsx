@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { EventSummarySection } from "@/components/sections/EventSummarySection";
 // SponsorPreviewSection is commented out — we have no confirmed sponsors
@@ -6,6 +7,14 @@ import { EventSummarySection } from "@/components/sections/EventSummarySection";
 // import { SponsorPreviewSection } from "@/components/sections/SponsorPreviewSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { MailingListSection } from "@/components/sections/MailingListSection";
+
+// Explicit canonical for the home page. The layout's relative "./" canonical
+// works for every other page, but on "/" it renders as ".../index" once the
+// page is regenerated in the background (the internal route name leaks into
+// the URL), so pin it here.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 // NOTE: The Acknowledgement of Country lives in the global Footer (see
 // Footer.tsx) so it appears on every page.
