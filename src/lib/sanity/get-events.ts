@@ -3,6 +3,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import { sanityClient, isSanityConfigured } from "./client";
 import { type CurrentEvent } from "./get-site-settings";
 import { allEventsQuery, eventBySlugQuery } from "./queries";
+import { eventFinishMs } from "@/lib/format-event-date";
 
 /**
  * A single event document. Shared shape so every event surface (hero,
@@ -55,27 +56,33 @@ export async function getEventBySlug(slug: string): Promise<EventDoc | null> {
 }
 
 export interface EventsView {
-  /** Upcoming events, soonest first. */
+  /** Not yet started, soonest first. */
   upcoming: EventDoc[];
-  /** Past events, most recent first. */
+  /** Started but not yet finished ("happening now" — including between days of a multi-day market), soonest first. */
+  underway: EventDoc[];
+  /** Finished, most recent first. */
   past: EventDoc[];
   /** Every event, oldest → newest. */
   all: EventDoc[];
 }
 
-const eventTime = (e: EventDoc): number => new Date(e.eventDate).getTime();
+const startTime = (e: EventDoc): number => new Date(e.eventDate).getTime();
+// Same finish boundary the event page uses for its "underway" → "finished" flip.
+const finishTime = (e: EventDoc): number => eventFinishMs(e) ?? startTime(e);
 
 function splitByTime(all: EventDoc[], now: number): EventsView {
-  const isUpcoming = (e: EventDoc) => eventTime(e) >= now;
+  const isUpcoming = (e: EventDoc) => startTime(e) >= now;
+  const isPast = (e: EventDoc) => !isUpcoming(e) && finishTime(e) < now;
   return {
     upcoming: all.filter(isUpcoming), // already sorted ascending
-    past: all.filter((e) => !isUpcoming(e)).reverse(), // most recent first
+    underway: all.filter((e) => !isUpcoming(e) && !isPast(e)),
+    past: all.filter(isPast).reverse(), // most recent first
     all,
   };
 }
 
 /**
- * Request-time view of all events, split into upcoming / past. `await
+ * Request-time view of all events, split into upcoming / underway / past. `await
  * connection()` opts this into DYNAMIC rendering so the split reflects the
  * actual request time (Cache Components forbids reading `now` while cached).
  */

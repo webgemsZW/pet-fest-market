@@ -21,6 +21,7 @@ const EVENT_PROJECTION = `
   showCountdown,
   doorsOpenTime,
   eventEndTime,
+  additionalDays[]{ date, doorsOpenTime, eventEndTime },
   timezone,
   city,
   location,
@@ -28,6 +29,7 @@ const EVENT_PROJECTION = `
   image,
   ticketPrice,
   ticketUrl,
+  ticketSalesDeadline,
   applyUrl,
   applyDeadline
 `;

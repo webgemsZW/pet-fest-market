@@ -1,5 +1,6 @@
 import { type EventDoc } from "@/lib/sanity/get-events";
 import { SITE_URL } from "@/lib/site-url";
+import { resolveEventEndMs } from "@/lib/format-event-date";
 
 /**
  * Event structured data (JSON-LD).
@@ -16,9 +17,11 @@ import { SITE_URL } from "@/lib/site-url";
  * Google's event SEO guidelines: https://developers.google.com/search/docs/appearance/structured-data/event
  *
  * Notes on omissions:
- *   - `endDate` — omitted. We'd need to combine the eventDate's date
- *     portion with the free-form `eventEndTime` string ("3pm") which
- *     is parse-fragile. Google accepts events with just startDate.
+ *   - `endDate` — only emitted for multi-day events (those with
+ *     `additionalDays`), where it's the last day's closing instant and
+ *     Google expects it. Single-day events omit it: it would mean parsing
+ *     the free-form `eventEndTime` string ("3pm"), and Google accepts
+ *     events with just startDate.
  *   - `offers` — only emitted when both `ticketUrl` and `ticketPrice`
  *     are populated in the event document. Google requires url + price
  *     + currency + validFrom on an Offer; partial data would just be
@@ -29,11 +32,11 @@ import { SITE_URL } from "@/lib/site-url";
  */
 export function EventStructuredData({
   event,
-  finished = false,
+  ticketsClosed = false,
 }: {
   event: EventDoc;
-  /** True once the event has ended — suppresses the (now invalid) ticket Offer. */
-  finished?: boolean;
+  /** True once tickets can no longer be bought (sales closed or event finished) — suppresses the (now invalid) ticket Offer. */
+  ticketsClosed?: boolean;
 }) {
 
   const siteUrl = SITE_URL;
@@ -58,12 +61,23 @@ export function EventStructuredData({
     },
   };
 
+  if (event.additionalDays?.length) {
+    const endMs = resolveEventEndMs(
+      event.eventDate,
+      event.eventEndTime,
+      event.timezone,
+      event.additionalDays,
+    );
+    if (endMs != null) jsonLd.endDate = new Date(endMs).toISOString();
+  }
+
   // Add Offer block only when we have enough info for Google to honour it.
   // Per Google: an Offer requires url, price, priceCurrency, and validFrom.
-  // Skipped for finished events: tickets can't be bought, so "InStock" would
-  // be false. (schema.org has no "EventCompleted" status, so a past event
-  // keeps EventScheduled with its past startDate, which Google treats as past.)
-  if (!finished && event.ticketUrl && typeof event.ticketPrice === "number") {
+  // Skipped once tickets can't be bought (sales closed or event finished), so
+  // "InStock" would be false. (schema.org has no "EventCompleted" status, so a
+  // past event keeps EventScheduled with its past startDate, which Google
+  // treats as past.)
+  if (!ticketsClosed && event.ticketUrl && typeof event.ticketPrice === "number") {
     // validFrom: six months before the event start — deterministic from
     // the event date so this never depends on the current time (which
     // would break Cache Components mode).
