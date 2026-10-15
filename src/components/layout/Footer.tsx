@@ -27,13 +27,10 @@ const FALLBACK_NP_LOGO_SRC = "/images/nonconformity-logo.png";
 
 const FALLBACK_MAILING_HEADING = "Get Updates on PetFest news and events";
 
-// TODO(content): "/sponsors" link is intentionally omitted while no
-// sponsors are signed. Restore the entry below once the client confirms
-// the first sponsor.
-//   { href: "/sponsors", label: "Sponsors" },
 const footerNav = [
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stallholders" },
+  { href: "/sponsors", label: "Sponsors" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];

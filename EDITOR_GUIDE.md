@@ -187,14 +187,18 @@ Each sponsor is its own document under **Sponsors**.
   set.
 - Set the **Display Order** to control sort order within the tier.
 
-While there are zero sponsors published, the Sponsors page shows a
-"coming soon" placeholder and the Sponsors link is hidden from the main
-navigation. Add your first sponsor and the page automatically switches
-to the populated view.
+The Sponsors page always shows a **sponsor enquiry form** (Name,
+Business, Phone (optional), Email, Message). Submissions are emailed to
+the contact address in Site Settings with the subject "Sponsorship
+Enquiry" — hit Reply to respond to the sender. The intro text above the
+form is editable under **Sponsors Page**.
 
-> One thing only Charles can do: re-add the Sponsors link to the
-> header + footer navigation once your first sponsor is signed. Ping
-> him when that happens.
+While there are zero sponsors published, only the heading and the form
+show. Add your first sponsor and the tiered list appears above the form
+automatically.
+
+> The homepage "sponsor preview" strip stays switched off until there
+> are real sponsors. Ping Charles when your first one is signed.
 
 ---
 

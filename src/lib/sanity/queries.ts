@@ -137,11 +137,8 @@ export const faqPageQuery = `*[_id == "faqPage"][0]{
 export const sponsorsPageQuery = `*[_id == "sponsorsPage"][0]{
   heading,
   subtitle,
-  emptyStateHeading,
-  emptyStateBody,
   ctaHeading,
   ctaBody,
-  ctaButtonLabel,
   seo
 }`;
 

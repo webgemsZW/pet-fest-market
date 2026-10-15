@@ -53,7 +53,7 @@ Anything not covered by a source-of-truth document above is **placeholder**. The
 - Stallholder Google Form link — provided in 2 June email but per-event so lives on the `event` document
 - Ticketing platform details and ticket-purchase link (per 2 June email — "tickets won't be released until mid July, sold through a ticketing company")
 - Refund Policy (per 2 June email — refund policy will be handled by the ticketing company)
-- Sponsor list and sponsorship tiers (no sponsors yet — `/sponsors` shows a "coming soon" state)
+- Sponsor list and sponsorship tiers (no sponsors yet — `/sponsors` shows only the sponsor enquiry form until Sponsor documents are added in Studio)
 
 ### Hardcoded defaults (always render, Sanity overrides)
 A few values are hardcoded in `src/lib/site-defaults.ts` so the live site always shows them even if Sanity is unset. Sanity values still take precedence when populated. Current defaults:

@@ -26,15 +26,12 @@ function hasUpcomingEvent(events: NavEvent[], now: number): boolean {
   return events.some((e) => e.ticketsCloseAt != null && e.ticketsCloseAt >= now);
 }
 
-// TODO(content): "/sponsors" link is intentionally omitted while no
-// sponsors are signed (per @/lib/sponsors-data). Restore the entry below
-// once the client confirms the first sponsor.
-//   { href: "/sponsors", label: "Sponsors" },
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stallholders" },
+  { href: "/sponsors", label: "Sponsors" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];

@@ -6,11 +6,8 @@ import type { SeoFields } from "@/lib/seo";
 export interface SponsorsPage {
   heading?: string | null;
   subtitle?: string | null;
-  emptyStateHeading?: string | null;
-  emptyStateBody?: string | null;
   ctaHeading?: string | null;
   ctaBody?: string | null;
-  ctaButtonLabel?: string | null;
   seo?: SeoFields | null;
 }
 

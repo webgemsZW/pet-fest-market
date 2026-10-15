@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "seed:events": "node --env-file=.env.local scripts/seed-events.mjs"
+    "seed:events": "node --env-file=.env.local scripts/seed-events.mjs",
+    "unset:orphaned": "node --env-file=.env.local scripts/unset-orphaned-fields.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^6.2.0",

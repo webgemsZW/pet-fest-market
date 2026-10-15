@@ -15,10 +15,6 @@ import { SITE_URL } from "@/lib/site-url";
  *                              the canonical version (linked from the
  *                              footer); this avoids duplicate-content
  *                              ranking penalties.
- *   - /sponsors               — placeholder "coming soon" while no
- *                              sponsors signed; will be added once
- *                              real sponsors are in Sanity and the
- *                              page is linked from the nav.
  */
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -63,6 +59,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_URL}/stall-holders`,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/sponsors`,
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
     {
       url: `${SITE_URL}/contact`,
