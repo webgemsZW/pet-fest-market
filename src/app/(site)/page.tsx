@@ -6,6 +6,7 @@ import { EventSummarySection } from "@/components/sections/EventSummarySection";
 // first sponsor and supplies their logo/name/tier.
 // import { SponsorPreviewSection } from "@/components/sections/SponsorPreviewSection";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { SponsorEnquirySection } from "@/components/sections/SponsorEnquirySection";
 import { MailingListSection } from "@/components/sections/MailingListSection";
 
 // Explicit canonical for the home page. The layout's relative "./" canonical
@@ -31,6 +32,7 @@ export default function HomePage() {
       <EventSummarySection />
       {/* TODO(content): <SponsorPreviewSection /> hidden until we have real sponsors. */}
       <FaqSection />
+      <SponsorEnquirySection />
       <MailingListSection />
     </>
   );

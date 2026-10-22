@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { SponsorEnquiryForm } from "@/components/sections/SponsorEnquiryForm";
+import { SponsorEnquirySection } from "@/components/sections/SponsorEnquirySection";
 import { tierConfig } from "@/lib/sponsors-data";
 import { getSponsors, type SponsorTier } from "@/lib/sanity/get-sponsors";
 import { getSponsorsPage } from "@/lib/sanity/get-sponsors-page";
@@ -11,10 +11,6 @@ import { pageMetadata } from "@/lib/seo";
 const FALLBACK_HEADING = "Our Sponsors";
 const FALLBACK_SUBTITLE =
   "PetFest Market is made possible through the generous support of local businesses.";
-const FALLBACK_CTA_HEADING = "Become a Sponsor";
-// Client-supplied copy (Andrea, sponsor tab request).
-const FALLBACK_CTA_BODY =
-  "Interested in sponsoring PetFest Market? Complete the form and we will be in touch with you to discuss.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getSponsorsPage();
@@ -42,8 +38,6 @@ export default async function SponsorsPage() {
 
   const heading = page?.heading?.trim() || FALLBACK_HEADING;
   const subtitle = page?.subtitle?.trim() || FALLBACK_SUBTITLE;
-  const ctaHeading = page?.ctaHeading?.trim() || FALLBACK_CTA_HEADING;
-  const ctaBody = page?.ctaBody?.trim() || FALLBACK_CTA_BODY;
 
   return (
     <>
@@ -133,16 +127,7 @@ export default async function SponsorsPage() {
       )}
 
       {/* Sponsor enquiry */}
-      <SectionWrapper className={hasSponsors ? "bg-brand-50" : undefined}>
-        <div className="mx-auto max-w-2xl">
-          <div className="mb-8 text-center">
-            <div className="mb-4 text-4xl">🤝</div>
-            <h2 className="text-3xl font-bold text-gray-900">{ctaHeading}</h2>
-            <p className="mt-3 text-lg text-gray-500">{ctaBody}</p>
-          </div>
-          <SponsorEnquiryForm />
-        </div>
-      </SectionWrapper>
+      <SponsorEnquirySection className={hasSponsors ? "bg-brand-50" : undefined} />
     </>
   );
 }
