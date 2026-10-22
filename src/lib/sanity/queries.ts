@@ -21,6 +21,7 @@ const EVENT_PROJECTION = `
   showCountdown,
   doorsOpenTime,
   eventEndTime,
+  additionalDays[]{ date, doorsOpenTime, eventEndTime },
   timezone,
   city,
   location,
@@ -28,6 +29,9 @@ const EVENT_PROJECTION = `
   image,
   ticketPrice,
   ticketUrl,
+  ticketSalesCloseMode,
+  ticketSalesCloseDate,
+  ticketSalesCloseTime,
   applyUrl,
   applyDeadline
 `;
@@ -135,11 +139,8 @@ export const faqPageQuery = `*[_id == "faqPage"][0]{
 export const sponsorsPageQuery = `*[_id == "sponsorsPage"][0]{
   heading,
   subtitle,
-  emptyStateHeading,
-  emptyStateBody,
   ctaHeading,
   ctaBody,
-  ctaButtonLabel,
   seo
 }`;
 

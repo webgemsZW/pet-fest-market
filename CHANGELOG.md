@@ -5,6 +5,39 @@ cross-check what's been done.
 
 ---
 
+## Thursday, 15 October 2026 — Sponsors page with enquiry form
+
+Following your request for a Sponsor tab: the **Sponsors** page is now
+back in the main menu and the footer, and it leads with a sponsorship
+enquiry form.
+
+- Your intro text sits above the form: *"Interested in sponsoring
+  PetFest Market? Complete the form and we will be in touch with you to
+  discuss."* You can still edit it in Studio under **Sponsors Page →
+  Enquiry Form**.
+- The form asks for **Name, Business, Phone (optional), Email and
+  Message**.
+- Each enquiry is emailed to the contact address in Site Settings, with
+  the subject **"Sponsorship Enquiry"** so it stands out from general
+  contact messages. Hit Reply to respond straight to the sender.
+- The old "Sponsors coming soon" box has gone. Once you add sponsors in
+  Studio under **Sponsors**, their logos appear on the page above the
+  form automatically, grouped by tier.
+- The Sponsors page is now included in the site map, so search engines
+  can find it.
+
+Why your earlier edit didn't seem to work: what you entered in Studio
+*did* save. The page was just hidden from the menu while there were no
+sponsors, so there was nowhere to see it.
+
+**Studio clean-up.** The Sponsors Page settings no longer have the
+"coming soon" box fields or the old "Get in Touch" button label, because
+the form replaces them. If Studio shows an **"Unknown field found"**
+warning on the Sponsors Page, click **Remove field** and then
+**Publish**. It's harmless leftover data and doesn't affect the site.
+
+---
+
 ## Thursday, 27 August 2026 — Studio wording tidy-up
 
 Housekeeping in the back-office (Studio) — no change to the live site.

@@ -8,13 +8,20 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { EventStructuredData } from "@/components/seo/EventStructuredData";
 import { EventImage } from "@/components/events/EventImage";
+import { EventTimes } from "@/components/events/EventTimes";
 import { CityMarkets, CityMarketsSkeleton } from "@/components/events/CityMarkets";
 import { getEventBySlug, isApplyOpen } from "@/lib/sanity/get-events";
-import { formatEventDate, formatTimeZoneAbbrev, eventPhase, resolveEventEndMs } from "@/lib/format-event-date";
+import {
+  formatEventDates,
+  formatEventTimes,
+  eventPhase,
+  resolveEventEndMs,
+  resolveTicketSalesCloseMs,
+} from "@/lib/format-event-date";
 import { pageMetadata } from "@/lib/seo";
 import { cityFromSlug } from "@/lib/cities";
 import { toHumanitixPopupUrl } from "@/lib/humanitix";
-import { DEFAULT_APPLY_URL, DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
+import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
 type Params = { slug: string };
 
@@ -48,7 +55,7 @@ export async function generateMetadata({
   const event = await getEventBySlug(slug);
   if (!event) return { title: "Market" };
 
-  const dateLabel = formatEventDate(event.eventDate);
+  const dateLabel = formatEventDates(event);
   return pageMetadata({
     fallbackTitle: event.eventName,
     fallbackDescription:
@@ -77,10 +84,8 @@ async function EventDetail({ slug }: { slug: string }) {
   const event = await getEventBySlug(slug);
   if (!event) notFound();
 
-  const dateLabel = formatEventDate(event.eventDate, event.timezone) ?? "Date to be confirmed";
-  const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
-  const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
-  const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
+  const dateLabel = formatEventDates(event) ?? "Date to be confirmed";
+  const timeLines = formatEventTimes(event);
   // Normalise whatever ticket link was entered into the pop-up-widget shape,
   // so "Buy Tickets" opens the checkout as a modal regardless of the exact
   // URL the editor pasted (see toHumanitixPopupUrl).
@@ -89,19 +94,28 @@ async function EventDetail({ slug }: { slug: string }) {
   // EventDetail already renders at request time (it awaits `params`), so
   // these time-based checks reflect "now" without needing connection().
   const applyOpen = isApplyOpen(event);
-  const endsAt = resolveEventEndMs(event.eventDate, event.eventEndTime, event.timezone);
+  const endsAt = resolveEventEndMs(
+    event.eventDate,
+    event.eventEndTime,
+    event.timezone,
+    event.additionalDays,
+  );
   const phase = eventPhase(event.eventDate, Date.now(), endsAt);
-  // Only offer tickets while they make sense: a real link right up until the
-  // event has finished, and "coming soon" only before it starts. A started
-  // or finished event never shows "Tickets coming soon".
-  const showBuyTickets = Boolean(ticketUrl) && phase !== "finished";
+  // Tickets are only sold until the event's "Online Ticket Sales Stop" setting
+  // (default: the moment the market opens). After that, an unfinished market shows "Ticket sales
+  // closed"; a finished one shows no ticket button at all. "Coming soon" is
+  // only for a market that hasn't started and has no ticket link yet.
+  const closeAt = resolveTicketSalesCloseMs(event);
+  const salesOpen = closeAt != null && closeAt >= Date.now();
+  const showBuyTickets = Boolean(ticketUrl) && salesOpen && phase !== "finished";
+  const showTicketsClosed = Boolean(ticketUrl) && !salesOpen && phase !== "finished";
   const showTicketsComingSoon = !ticketUrl && phase === "upcoming";
 
   const hasImage = Boolean(event.image?.asset?._ref);
 
   return (
     <>
-      <EventStructuredData event={event} finished={phase === "finished"} />
+      <EventStructuredData event={event} ticketsClosed={phase === "finished" || !salesOpen} />
 
       {/* Hero — centered to match the rest of the site's page heroes. */}
       <section className="bg-gradient-to-br from-brand-50 to-brand-100 pb-16 pt-32">
@@ -117,6 +131,11 @@ async function EventDetail({ slug }: { slug: string }) {
             </Link>
           </div>
 
+          {phase === "underway" && (
+            <span className="mb-4 inline-flex items-center rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+              Happening now
+            </span>
+          )}
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">{event.eventName}</h1>
           {event.blurb && (
             <p className="mx-auto mt-4 max-w-2xl text-xl text-gray-600">{event.blurb}</p>
@@ -128,12 +147,13 @@ async function EventDetail({ slug }: { slug: string }) {
               <CalendarDays className="h-4 w-4 text-brand-600" aria-hidden="true" />
               <span>{dateLabel}</span>
             </div>
-            <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
-              <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
-              <span>
-                {doorsOpen} – {endTime}
-                {tzAbbr ? ` ${tzAbbr}` : ""}
-              </span>
+            <div
+              className={`flex items-center gap-2 bg-white/80 px-4 py-2 text-left shadow-sm ${
+                timeLines.length > 1 ? "rounded-2xl" : "rounded-full"
+              }`}
+            >
+              <Clock className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+              <EventTimes lines={timeLines} />
             </div>
             <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm">
               <MapPin className="h-4 w-4 text-brand-600" aria-hidden="true" />
@@ -159,6 +179,11 @@ async function EventDetail({ slug }: { slug: string }) {
                   <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
                   Buy Tickets
                 </a>
+              </Button>
+            ) : showTicketsClosed ? (
+              <Button size="lg" disabled>
+                <Ticket className="mr-2 h-4 w-4" aria-hidden="true" />
+                Ticket sales closed
               </Button>
             ) : showTicketsComingSoon ? (
               <Button size="lg" disabled>

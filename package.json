@@ -1,6 +1,6 @@
 {
   "name": "pet-fest-market",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "seed:events": "node --env-file=.env.local scripts/seed-events.mjs"
+    "seed:events": "node --env-file=.env.local scripts/seed-events.mjs",
+    "seed:sponsors": "node --env-file=.env.local scripts/seed-sponsors.mjs",
+    "unset:orphaned": "node --env-file=.env.local scripts/unset-orphaned-fields.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^6.2.0",

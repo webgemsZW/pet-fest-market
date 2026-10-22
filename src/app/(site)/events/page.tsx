@@ -49,9 +49,9 @@ export default function EventsPage() {
 }
 
 async function EventsList() {
-  const { upcoming: upcomingAll, past } = await getEventsView();
+  const { upcoming: upcomingAll, underway, past } = await getEventsView();
 
-  const hasAnything = upcomingAll.length > 0 || past.length > 0;
+  const hasAnything = upcomingAll.length > 0 || underway.length > 0 || past.length > 0;
 
   if (!hasAnything) {
     return (
@@ -68,6 +68,18 @@ async function EventsList() {
 
   return (
     <div className="space-y-16">
+      {/* Markets on right now (started, not yet finished) — pinned above upcoming. */}
+      {underway.length > 0 && (
+        <div>
+          <SectionHeading title="Happening Now" />
+          <div className="space-y-8">
+            {underway.map((event) => (
+              <EventCard key={event._id} event={event} variant="featured" badge="Happening now" />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Upcoming markets — every market as an equal hero card, soonest first. */}
       {upcomingAll.length > 0 && (
         <div>

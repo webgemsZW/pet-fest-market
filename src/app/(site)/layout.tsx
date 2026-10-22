@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HumanitixPopup } from "@/components/events/HumanitixPopup";
 import { getAllEvents } from "@/lib/sanity/get-events";
+import { resolveTicketSalesCloseMs } from "@/lib/format-event-date";
 
 /**
  * Layout for the public marketing site. Wraps every route in the
@@ -25,9 +26,9 @@ export default async function SiteLayout({
   // self-heals as markets roll over without making the site dynamic.
   const allEvents = await getAllEvents();
 
-  // Minimal, serialisable event dates the Header needs to know whether any
-  // market is upcoming.
-  const navEvents = allEvents.map((e) => ({ eventDate: e.eventDate }));
+  // Minimal, serialisable timings the Header needs to know whether any
+  // market still has tickets on sale. Deterministic (no "now"), so cache-safe.
+  const navEvents = allEvents.map((e) => ({ ticketsCloseAt: resolveTicketSalesCloseMs(e) }));
 
   return (
     <>

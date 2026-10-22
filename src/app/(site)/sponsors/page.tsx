@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
+import { SponsorEnquirySection } from "@/components/sections/SponsorEnquirySection";
 import { tierConfig } from "@/lib/sponsors-data";
 import { getSponsors, type SponsorTier } from "@/lib/sanity/get-sponsors";
 import { getSponsorsPage } from "@/lib/sanity/get-sponsors-page";
@@ -12,13 +11,6 @@ import { pageMetadata } from "@/lib/seo";
 const FALLBACK_HEADING = "Our Sponsors";
 const FALLBACK_SUBTITLE =
   "PetFest Market is made possible through the generous support of local businesses.";
-const FALLBACK_EMPTY_HEADING = "Sponsors coming soon";
-const FALLBACK_EMPTY_BODY =
-  "We're currently lining up partners for our markets. Want to be one of the first?";
-const FALLBACK_CTA_HEADING = "Become a Sponsor";
-const FALLBACK_CTA_BODY =
-  "Interested in supporting PetFest Market? We'd love to have you on board. Reach out to discuss sponsorship opportunities and packages.";
-const FALLBACK_CTA_BUTTON = "Get in Touch";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getSponsorsPage();
@@ -31,16 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /*
-  /sponsors is intentionally NOT linked from the header or footer navigation
-  while there are no published sponsors. The page itself stays accessible so
-  direct links still resolve and so the "Become a Sponsor" CTA remains
-  discoverable. When sponsors are signed:
-    1. Add a Sponsor document in Studio.
-    2. Restore the /sponsors link in Header.tsx + Footer.tsx.
-    3. Re-enable <SponsorPreviewSection /> on the homepage.
-
-  Source-of-truth is now Sanity (via @/lib/sanity/get-sponsors). The legacy
+  Sponsors come from Sanity (via @/lib/sanity/get-sponsors); the legacy
   src/lib/sponsors-data.ts is kept only for its `tierConfig` styling map.
+
+  The page leads with the sponsor enquiry form. While there are no signed
+  sponsors the tiered list is simply omitted — add Sponsor documents in
+  Studio and it appears above the form automatically.
+  The homepage <SponsorPreviewSection /> stays off until there are sponsors.
 */
 export default async function SponsorsPage() {
   const [sponsors, page] = await Promise.all([getSponsors(), getSponsorsPage()]);
@@ -49,11 +38,6 @@ export default async function SponsorsPage() {
 
   const heading = page?.heading?.trim() || FALLBACK_HEADING;
   const subtitle = page?.subtitle?.trim() || FALLBACK_SUBTITLE;
-  const emptyHeading = page?.emptyStateHeading?.trim() || FALLBACK_EMPTY_HEADING;
-  const emptyBody = page?.emptyStateBody?.trim() || FALLBACK_EMPTY_BODY;
-  const ctaHeading = page?.ctaHeading?.trim() || FALLBACK_CTA_HEADING;
-  const ctaBody = page?.ctaBody?.trim() || FALLBACK_CTA_BODY;
-  const ctaButton = page?.ctaButtonLabel?.trim() || FALLBACK_CTA_BUTTON;
 
   return (
     <>
@@ -66,9 +50,9 @@ export default async function SponsorsPage() {
         </div>
       </section>
 
-      {/* Sponsors list or placeholder */}
-      <SectionWrapper>
-        {hasSponsors ? (
+      {/* Sponsors list — only when at least one sponsor is published */}
+      {hasSponsors && (
+        <SectionWrapper>
           <div className="space-y-16">
             {tierOrder.map((tier) => {
               const tierSponsors = sponsors.filter((s) => s.tier === tier);
@@ -139,33 +123,11 @@ export default async function SponsorsPage() {
               );
             })}
           </div>
-        ) : (
-          /*
-            Empty state shown while no sponsors are signed. Editors can
-            add Sponsors in Studio whenever a partner is confirmed —
-            this page will automatically switch to the populated view.
-          */
-          <div className="mx-auto max-w-2xl rounded-2xl bg-brand-50 p-12 text-center ring-1 ring-brand-100">
-            <div className="mb-4 text-4xl">🤝</div>
-            <h2 className="text-2xl font-bold text-gray-900">{emptyHeading}</h2>
-            <p className="mt-3 text-gray-600">{emptyBody}</p>
-          </div>
-        )}
-      </SectionWrapper>
+        </SectionWrapper>
+      )}
 
-      {/* Become a sponsor */}
-      <SectionWrapper className="bg-brand-50">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 text-4xl">🤝</div>
-          <h2 className="text-3xl font-bold text-gray-900">{ctaHeading}</h2>
-          <p className="mt-3 text-lg text-gray-500">{ctaBody}</p>
-          <div className="mt-8">
-            <Button asChild size="lg">
-              <Link href="/contact">{ctaButton}</Link>
-            </Button>
-          </div>
-        </div>
-      </SectionWrapper>
+      {/* Sponsor enquiry */}
+      <SponsorEnquirySection className={hasSponsors ? "bg-brand-50" : undefined} />
     </>
   );
 }

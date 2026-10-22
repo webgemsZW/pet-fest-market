@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { getStallHolderPage } from "@/lib/sanity/get-stall-holder-page";
 import { getEventsView, isApplyOpen, type EventDoc } from "@/lib/sanity/get-events";
-import { formatEventDate } from "@/lib/format-event-date";
+import { formatEventDates } from "@/lib/format-event-date";
 import { pageMetadata } from "@/lib/seo";
 import { DEFAULT_APPLY_URL } from "@/lib/site-defaults";
 
@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const FALLBACK_HEADING = "Become a Stallholder";
 
 function MarketRow({ event, label }: { event: EventDoc; label: string }) {
-  const dateLabel = formatEventDate(event.eventDate) ?? "Date to be confirmed";
+  const dateLabel = formatEventDates(event) ?? "Date to be confirmed";
   const applyUrl = event.applyUrl?.trim() || DEFAULT_APPLY_URL;
   const open = isApplyOpen(event);
 

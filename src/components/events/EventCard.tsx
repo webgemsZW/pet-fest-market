@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, MapPin, ArrowRight } from "lucide-react";
-import { formatEventDate, formatEventDateShort, formatTimeZoneAbbrev } from "@/lib/format-event-date";
-import { DEFAULT_EVENT_TIMES } from "@/lib/site-defaults";
+import { formatEventDates, formatEventTimes } from "@/lib/format-event-date";
 import type { EventDoc } from "@/lib/sanity/get-events";
 import { EventImage } from "./EventImage";
+import { EventTimes } from "./EventTimes";
 
 /**
  * A single event on the /events listing. `variant="featured"` renders the
@@ -26,12 +26,8 @@ export function EventCard({
 }) {
   const href = event.slug ? `/events/${event.slug}` : "/events";
   const dateLabel =
-    (variant === "featured"
-      ? formatEventDate(event.eventDate, event.timezone)
-      : formatEventDateShort(event.eventDate, event.timezone)) ?? "Date to be confirmed";
-  const doorsOpen = event.doorsOpenTime?.trim() || DEFAULT_EVENT_TIMES.doorsOpen;
-  const endTime = event.eventEndTime?.trim() || DEFAULT_EVENT_TIMES.end;
-  const tzAbbr = formatTimeZoneAbbrev(event.eventDate, event.timezone);
+    formatEventDates(event, variant === "featured" ? "long" : "short") ?? "Date to be confirmed";
+  const timeLines = formatEventTimes(event);
 
   if (variant === "featured") {
     return (
@@ -59,11 +55,8 @@ export function EventCard({
               <span>{dateLabel}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
-              <span>
-                {doorsOpen} – {endTime}
-                {tzAbbr ? ` ${tzAbbr}` : ""}
-              </span>
+              <Clock className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+              <EventTimes lines={timeLines} />
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-brand-600" aria-hidden="true" />

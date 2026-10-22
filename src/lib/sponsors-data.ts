@@ -1,25 +1,11 @@
 /*
-  Single source of truth for sponsors.
+  Tier styling for sponsors. Sponsor records themselves live in Sanity
+  (see @/lib/sanity/get-sponsors) — this file only supplies `tierConfig`,
+  which the /sponsors page and <SponsorPreviewSection /> use for labels
+  and colours.
 
-  Both the (currently hidden) `SponsorPreviewSection` on the homepage and
-  the `/sponsors` page read from this file so they cannot drift apart.
-
-  TODO(content): The previous version of the site hardcoded fake sponsor
-  names ("Paws & Co.", "Happy Tails Vet", "Bark & Brew", etc.) — none of
-  these are real partners. The 25 May email from the client confirms no
-  sponsors are signed yet for the Box Hill 26 July 2026 launch event.
-
-  While `sponsors` is empty:
-    - the `/sponsors` page is hidden from header + footer navigation.
-    - `<SponsorPreviewSection />` is commented out of the homepage
-      (see src/app/page.tsx).
-    - the `/sponsors` page itself still exists (for direct linking) and
-      shows a placeholder state.
-
-  When the first sponsor is signed:
-    1. Add an entry to `sponsors` below with name + tier + tagline.
-    2. Uncomment the `/sponsors` link in both Header.tsx and Footer.tsx.
-    3. Uncomment `<SponsorPreviewSection />` in src/app/page.tsx.
+  The `sponsors` array below is a legacy empty list and is not read by the
+  site.
 */
 
 export type SponsorTier = "platinum" | "gold" | "silver" | "bronze";

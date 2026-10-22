@@ -1,5 +1,6 @@
-import { defineType, defineField } from "sanity";
+import { defineType, defineField, defineArrayMember } from "sanity";
 import { CITY_OPTIONS } from "../../cities";
+import { EVENT_TIME_ZONE, localDateKey, parseTimeOfDay } from "../../format-event-date";
 
 /**
  * An event run by PetFest Market.
@@ -43,7 +44,7 @@ export const event = defineType({
       title: "Event Date & Start Time",
       type: "datetime",
       description:
-        "Full date and start time of the event. Powers the countdown on the event's page, the dates shown on event listings, and whether the market shows as upcoming or past.",
+        "Full date and start time of the event. Powers the countdown on the event's page, the dates shown on event listings, and whether the market shows as upcoming or past. For a multi-day market this is the FIRST day — add the other days under 'Additional Days' below.",
       validation: (r) => r.required(),
     }),
     defineField({
@@ -59,14 +60,87 @@ export const event = defineType({
       title: "Doors Open Time",
       type: "string",
       description:
-        "Human-readable opening time, e.g. '10am'. Optional — defaults to '10am' (the Box Hill trading time) if left blank.",
+        "Human-readable opening time, e.g. '10am'. Optional — defaults to '10am' (the Box Hill trading time) if left blank. For a multi-day market this is the first day's time, and the default for any additional day that doesn't set its own.",
     }),
     defineField({
       name: "eventEndTime",
       title: "Event End Time",
       type: "string",
       description:
-        "Human-readable closing time, e.g. '3pm'. Optional — defaults to '3pm' (the Box Hill trading time) if left blank.",
+        "Human-readable closing time, e.g. '3pm'. Optional — defaults to '3pm' (the Box Hill trading time) if left blank. For a multi-day market this is the first day's time, and the default for any additional day that doesn't set its own.",
+    }),
+    defineField({
+      name: "additionalDays",
+      title: "Additional Days",
+      type: "array",
+      description:
+        "Only for multi-day markets. The Event Date above is the first day; add each further day here (e.g. Sunday of a two-day weekend). Each day can have its own opening and closing times — leave them blank to use the first day's. The market stays 'upcoming' until the last day's closing time. Leave this list empty for a single-day market.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "eventDay",
+          title: "Day",
+          fields: [
+            defineField({
+              name: "date",
+              title: "Date",
+              type: "date",
+              description: "The calendar day, in the venue's time zone.",
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "doorsOpenTime",
+              title: "Doors Open Time",
+              type: "string",
+              description: "e.g. '10am'. Optional — leave blank to use the first day's time.",
+            }),
+            defineField({
+              name: "eventEndTime",
+              title: "Event End Time",
+              type: "string",
+              description: "e.g. '4pm'. Optional — leave blank to use the first day's time.",
+            }),
+          ],
+          preview: {
+            select: { date: "date", open: "doorsOpenTime", end: "eventEndTime" },
+            prepare({ date, open, end }) {
+              const title = date
+                ? new Date(`${date as string}T12:00:00Z`).toLocaleDateString("en-AU", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  })
+                : "No date set";
+              return {
+                title,
+                subtitle:
+                  open || end
+                    ? `${open || "first-day open"} – ${end || "first-day close"}`
+                    : "Same times as the first day",
+              };
+            },
+          },
+        }),
+      ],
+      validation: (r) =>
+        r.custom((days, context) => {
+          const doc = context.document as { eventDate?: string; timezone?: string } | undefined;
+          const firstKey = doc?.eventDate
+            ? localDateKey(doc.eventDate, doc.timezone || EVENT_TIME_ZONE)
+            : null;
+          const seen = new Set<string>();
+          for (const day of (days as { date?: string }[] | undefined) ?? []) {
+            if (!day?.date) continue;
+            if (firstKey && day.date <= firstKey) {
+              return `Each additional day must be after the first day (${firstKey}).`;
+            }
+            if (seen.has(day.date)) return "Each additional day must be a different date.";
+            seen.add(day.date);
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "timezone",
@@ -133,6 +207,53 @@ export const event = defineType({
         "Powers the 'Buy Tickets' button — tickets open in a pop-up over the site. Just paste your event's Humanitix link (e.g. https://events.humanitix.com/your-event); the site automatically formats it for the pop-up, so the exact shape of the link you paste doesn't matter. The event must be published on Humanitix. Leave blank to show 'Tickets coming soon'.",
     }),
     defineField({
+      name: "ticketSalesCloseMode",
+      title: "Online Ticket Sales Stop",
+      type: "string",
+      description:
+        "When the 'Buy Tickets' button changes to 'Ticket sales closed'. 'When the market ends' keeps tickets on sale for the whole market (the last day's closing time, for a multi-day market). This only controls this website — also set the matching sales window on Humanitix.",
+      options: {
+        list: [
+          { title: "When doors open", value: "doors" },
+          { title: "When the market ends", value: "end" },
+          { title: "At a custom time", value: "custom" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "doors",
+    }),
+    defineField({
+      name: "ticketSalesCloseDate",
+      title: "Ticket Sales Close — Date",
+      type: "date",
+      description: "The day online ticket sales stop, in the market's time zone (set above).",
+      hidden: ({ document }) => document?.ticketSalesCloseMode !== "custom",
+      validation: (r) =>
+        r.custom((value, context) => {
+          const doc = context.document as { ticketSalesCloseMode?: string } | undefined;
+          return doc?.ticketSalesCloseMode === "custom" && !value
+            ? "Choose the day ticket sales stop."
+            : true;
+        }),
+    }),
+    defineField({
+      name: "ticketSalesCloseTime",
+      title: "Ticket Sales Close — Time",
+      type: "string",
+      description:
+        "The time online ticket sales stop, e.g. '3pm' or '2.30pm'. Read in the market's time zone (set above), not your computer's.",
+      hidden: ({ document }) => document?.ticketSalesCloseMode !== "custom",
+      validation: (r) =>
+        r.custom((value, context) => {
+          const doc = context.document as { ticketSalesCloseMode?: string } | undefined;
+          if (doc?.ticketSalesCloseMode !== "custom") return true;
+          if (!value) return "Enter the time ticket sales stop, e.g. '3pm'.";
+          return parseTimeOfDay(value as string) == null
+            ? "Use a time like '3pm' or '2.30pm'."
+            : true;
+        }),
+    }),
+    defineField({
       name: "applyUrl",
       title: "Stallholder Application URL",
       type: "url",
@@ -152,8 +273,9 @@ export const event = defineType({
       title: "eventName",
       date: "eventDate",
       location: "location",
+      additionalDays: "additionalDays",
     },
-    prepare({ title, date, location }) {
+    prepare({ title, date, location, additionalDays }) {
       const formattedDate = date
         ? new Date(date as string).toLocaleDateString("en-AU", {
             weekday: "short",
@@ -163,9 +285,10 @@ export const event = defineType({
             timeZone: "Australia/Melbourne",
           })
         : "No date set";
+      const extraDays = Array.isArray(additionalDays) ? additionalDays.length : 0;
       return {
         title: title ?? "Untitled event",
-        subtitle: `${formattedDate}${location ? ` — ${location}` : ""}`,
+        subtitle: `${formattedDate}${extraDays ? ` +${extraDays} more day${extraDays > 1 ? "s" : ""}` : ""}${location ? ` — ${location}` : ""}`,
       };
     },
   },

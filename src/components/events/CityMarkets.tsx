@@ -15,7 +15,7 @@ import type { City } from "@/lib/cities";
  * (getCityEventsView reads "now"), so callers wrap it in <Suspense>.
  */
 export async function CityMarkets({ city }: { city: City }) {
-  const { upcoming, past } = await getCityEventsView(city);
+  const { upcoming, underway, past } = await getCityEventsView(city);
 
   return (
     <>
@@ -45,6 +45,18 @@ export async function CityMarkets({ city }: { city: City }) {
         {/* City filter — switch cities (or back to all) without the home page. */}
         <CityFilter active={city} />
 
+        {/* Markets on right now in this city */}
+        {underway.length > 0 && (
+          <div className={upcoming.length > 0 ? "mb-16" : undefined}>
+            <SectionHeading title="Happening Now" />
+            <div className="space-y-8">
+              {underway.map((event) => (
+                <EventCard key={event._id} event={event} variant="featured" badge="Happening now" />
+              ))}
+            </div>
+          </div>
+        )}
+
         {upcoming.length > 0 ? (
           /* Upcoming markets in this city */
           <div>
@@ -55,7 +67,7 @@ export async function CityMarkets({ city }: { city: City }) {
               ))}
             </div>
           </div>
-        ) : (
+        ) : underway.length > 0 ? null : (
           /* No upcoming markets → urge the visitor to subscribe for updates
              (no Stallholder CTA, since there's nothing to apply for yet). */
           <div className="mx-auto max-w-xl rounded-2xl bg-brand-50 p-8 text-center ring-1 ring-brand-100 sm:p-12">

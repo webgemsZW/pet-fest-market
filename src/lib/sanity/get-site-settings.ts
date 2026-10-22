@@ -19,6 +19,8 @@ export interface CurrentEvent {
   showCountdown?: boolean | null;
   doorsOpenTime?: string | null;
   eventEndTime?: string | null;
+  /** Further days of a multi-day market (the fields above describe the first day). */
+  additionalDays?: { date?: string | null; doorsOpenTime?: string | null; eventEndTime?: string | null }[] | null;
   timezone?: string | null;
   city?: string | null;
   location: string;
@@ -26,6 +28,9 @@ export interface CurrentEvent {
   image?: SanityImage | null;
   ticketPrice?: number | null;
   ticketUrl?: string | null;
+  ticketSalesCloseMode?: string | null;
+  ticketSalesCloseDate?: string | null;
+  ticketSalesCloseTime?: string | null;
   applyUrl?: string | null;
   applyDeadline?: string | null;
 }

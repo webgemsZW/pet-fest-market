@@ -18,21 +18,20 @@ import { cn } from "@/lib/utils";
   as markets roll over, without forcing the whole site to render dynamically.
 */
 
-type NavEvent = { eventDate: string };
+// `ticketsCloseAt` is when online sales stop for that market (its ticket
+// sales deadline, else the moment it opens).
+type NavEvent = { ticketsCloseAt: number | null };
 
 function hasUpcomingEvent(events: NavEvent[], now: number): boolean {
-  return events.some((e) => new Date(e.eventDate).getTime() >= now);
+  return events.some((e) => e.ticketsCloseAt != null && e.ticketsCloseAt >= now);
 }
 
-// TODO(content): "/sponsors" link is intentionally omitted while no
-// sponsors are signed (per @/lib/sponsors-data). Restore the entry below
-// once the client confirms the first sponsor.
-//   { href: "/sponsors", label: "Sponsors" },
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/stall-holders", label: "Stallholders" },
+  { href: "/sponsors", label: "Sponsors" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
