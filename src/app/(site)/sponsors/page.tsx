@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   The page leads with the sponsor enquiry form. While there are no signed
   sponsors the tiered list is simply omitted — add Sponsor documents in
-  Studio and it appears below the form automatically.
+  Studio and it appears above the form automatically.
   The homepage <SponsorPreviewSection /> stays off until there are sponsors.
 */
 export default async function SponsorsPage() {
@@ -50,12 +50,9 @@ export default async function SponsorsPage() {
         </div>
       </section>
 
-      {/* Sponsor enquiry */}
-      <SponsorEnquirySection />
-
       {/* Sponsors list — only when at least one sponsor is published */}
       {hasSponsors && (
-        <SectionWrapper className="bg-brand-50">
+        <SectionWrapper>
           <div className="space-y-16">
             {tierOrder.map((tier) => {
               const tierSponsors = sponsors.filter((s) => s.tier === tier);
@@ -129,6 +126,8 @@ export default async function SponsorsPage() {
         </SectionWrapper>
       )}
 
+      {/* Sponsor enquiry */}
+      <SponsorEnquirySection className={hasSponsors ? "bg-brand-50" : undefined} />
     </>
   );
 }
