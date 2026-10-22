@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "seed:events": "node --env-file=.env.local scripts/seed-events.mjs",
+    "seed:sponsors": "node --env-file=.env.local scripts/seed-sponsors.mjs",
     "unset:orphaned": "node --env-file=.env.local scripts/unset-orphaned-fields.mjs"
   },
   "dependencies": {
