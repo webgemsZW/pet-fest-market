@@ -101,8 +101,8 @@ async function EventDetail({ slug }: { slug: string }) {
     event.additionalDays,
   );
   const phase = eventPhase(event.eventDate, Date.now(), endsAt);
-  // Tickets are only sold until the sales deadline (default: the moment the
-  // market opens). After that, an unfinished market shows "Ticket sales
+  // Tickets are only sold until the event's "Online Ticket Sales Stop" setting
+  // (default: the moment the market opens). After that, an unfinished market shows "Ticket sales
   // closed"; a finished one shows no ticket button at all. "Coming soon" is
   // only for a market that hasn't started and has no ticket link yet.
   const closeAt = resolveTicketSalesCloseMs(event);

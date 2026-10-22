@@ -29,7 +29,9 @@ const EVENT_PROJECTION = `
   image,
   ticketPrice,
   ticketUrl,
-  ticketSalesDeadline,
+  ticketSalesCloseMode,
+  ticketSalesCloseDate,
+  ticketSalesCloseTime,
   applyUrl,
   applyDeadline
 `;

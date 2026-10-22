@@ -28,7 +28,9 @@ export interface CurrentEvent {
   image?: SanityImage | null;
   ticketPrice?: number | null;
   ticketUrl?: string | null;
-  ticketSalesDeadline?: string | null;
+  ticketSalesCloseMode?: string | null;
+  ticketSalesCloseDate?: string | null;
+  ticketSalesCloseTime?: string | null;
   applyUrl?: string | null;
   applyDeadline?: string | null;
 }

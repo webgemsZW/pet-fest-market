@@ -66,7 +66,7 @@ export const EVENT_UNDERWAY_WINDOW_MS = 8 * 60 * 60 * 1000;
 export type EventPhase = "upcoming" | "underway" | "finished";
 
 /** Parse a free-text time-of-day like "3pm", "3.00pm", "15:30" → minutes since midnight. */
-function parseTimeOfDay(text: string | null | undefined): number | null {
+export function parseTimeOfDay(text: string | null | undefined): number | null {
   if (!text) return null;
   const m = text.trim().toLowerCase().match(/^(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)?$/);
   if (!m) return null;
@@ -255,20 +255,42 @@ export function eventFinishMs(event: EventScheduleInput): number | null {
   );
 }
 
+/** When online ticket sales stop. Absent/unknown means "doors". */
+export type TicketSalesCloseMode = "doors" | "end" | "custom";
+
+export interface TicketSalesInput extends EventScheduleInput {
+  ticketSalesCloseMode?: string | null;
+  /** Custom mode only: calendar day, "YYYY-MM-DD", in the event's time zone. */
+  ticketSalesCloseDate?: string | null;
+  /** Custom mode only: free-text time of day, e.g. "3pm", in the event's time zone. */
+  ticketSalesCloseTime?: string | null;
+}
+
 /**
- * The instant online ticket sales stop: the event's `ticketSalesDeadline`
- * when set, otherwise the moment the first day opens (`eventDate`) — we don't
- * sell tickets while a market is on unless an editor explicitly allows it.
- * Null only when there's neither a valid deadline nor a valid start.
+ * The instant online ticket sales stop, per the event's "Ticket Sales Close"
+ * setting:
+ *   - "doors" (default / unset): the moment the first day opens (`eventDate`)
+ *   - "end": the moment the market finishes (see eventFinishMs)
+ *   - "custom": the chosen date + time, read in the EVENT's time zone — never
+ *     the editor's computer's — so a Brisbane market's "3pm" is Brisbane 3pm.
+ * An incomplete custom setting falls back to the doors time. Null only when
+ * the event has no valid start.
  */
-export function resolveTicketSalesCloseMs(event: {
-  eventDate: string;
-  ticketSalesDeadline?: string | null;
-}): number | null {
-  const deadline = event.ticketSalesDeadline ? new Date(event.ticketSalesDeadline).getTime() : NaN;
-  if (!Number.isNaN(deadline)) return deadline;
+export function resolveTicketSalesCloseMs(event: TicketSalesInput): number | null {
   const start = new Date(event.eventDate).getTime();
-  return Number.isNaN(start) ? null : start;
+  if (Number.isNaN(start)) return null;
+
+  if (event.ticketSalesCloseMode === "end") return eventFinishMs(event);
+
+  if (event.ticketSalesCloseMode === "custom") {
+    const dateKey = event.ticketSalesCloseDate?.trim();
+    const minutes = parseTimeOfDay(event.ticketSalesCloseTime);
+    if (dateKey && minutes != null) {
+      const custom = zonedWallTimeToMs(dateKey, minutes, zoneOf(event.timezone));
+      if (custom != null) return custom;
+    }
+  }
+  return start;
 }
 
 function dayParts(dateKey: string, style: "long" | "short") {

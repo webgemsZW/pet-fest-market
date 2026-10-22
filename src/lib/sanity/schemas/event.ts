@@ -1,6 +1,6 @@
 import { defineType, defineField, defineArrayMember } from "sanity";
 import { CITY_OPTIONS } from "../../cities";
-import { EVENT_TIME_ZONE, localDateKey } from "../../format-event-date";
+import { EVENT_TIME_ZONE, localDateKey, parseTimeOfDay } from "../../format-event-date";
 
 /**
  * An event run by PetFest Market.
@@ -207,11 +207,51 @@ export const event = defineType({
         "Powers the 'Buy Tickets' button — tickets open in a pop-up over the site. Just paste your event's Humanitix link (e.g. https://events.humanitix.com/your-event); the site automatically formats it for the pop-up, so the exact shape of the link you paste doesn't matter. The event must be published on Humanitix. Leave blank to show 'Tickets coming soon'.",
     }),
     defineField({
-      name: "ticketSalesDeadline",
-      title: "Ticket Sales Close",
-      type: "datetime",
+      name: "ticketSalesCloseMode",
+      title: "Online Ticket Sales Stop",
+      type: "string",
       description:
-        "Optional. The last moment tickets can be bought online. After this, the 'Buy Tickets' button changes to 'Ticket sales closed'. Leave blank to stop selling the moment the market opens. Set a later time only if you want to keep selling after the doors open (e.g. until the end of the first day of a multi-day market).",
+        "When the 'Buy Tickets' button changes to 'Ticket sales closed'. 'When the market ends' keeps tickets on sale for the whole market (the last day's closing time, for a multi-day market). This only controls this website — also set the matching sales window on Humanitix.",
+      options: {
+        list: [
+          { title: "When doors open", value: "doors" },
+          { title: "When the market ends", value: "end" },
+          { title: "At a custom time", value: "custom" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "doors",
+    }),
+    defineField({
+      name: "ticketSalesCloseDate",
+      title: "Ticket Sales Close — Date",
+      type: "date",
+      description: "The day online ticket sales stop, in the market's time zone (set above).",
+      hidden: ({ document }) => document?.ticketSalesCloseMode !== "custom",
+      validation: (r) =>
+        r.custom((value, context) => {
+          const doc = context.document as { ticketSalesCloseMode?: string } | undefined;
+          return doc?.ticketSalesCloseMode === "custom" && !value
+            ? "Choose the day ticket sales stop."
+            : true;
+        }),
+    }),
+    defineField({
+      name: "ticketSalesCloseTime",
+      title: "Ticket Sales Close — Time",
+      type: "string",
+      description:
+        "The time online ticket sales stop, e.g. '3pm' or '2.30pm'. Read in the market's time zone (set above), not your computer's.",
+      hidden: ({ document }) => document?.ticketSalesCloseMode !== "custom",
+      validation: (r) =>
+        r.custom((value, context) => {
+          const doc = context.document as { ticketSalesCloseMode?: string } | undefined;
+          if (doc?.ticketSalesCloseMode !== "custom") return true;
+          if (!value) return "Enter the time ticket sales stop, e.g. '3pm'.";
+          return parseTimeOfDay(value as string) == null
+            ? "Use a time like '3pm' or '2.30pm'."
+            : true;
+        }),
     }),
     defineField({
       name: "applyUrl",
